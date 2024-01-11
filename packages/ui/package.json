@@ -6,13 +6,13 @@
   ],
   "exports": {
     "./styles.css": "./dist/index.css",
-    "./src/button": "./src/button.tsx"
+    "./src": "./src/index.ts"
   },
   "license": "MIT",
   "scripts": {
-    "build": "tailwindcss -i ./styles/styles.css -o dist/index.css",
+    "build": "tailwindcss -i ./styles/globals.css -o dist/index.css",
     "lint": "eslint src/",
-    "dev": "tailwindcss -i ./styles/styles.css -o ./dist/index.css --watch",
+    "dev": "tailwindcss -i ./styles/globals.css -o ./dist/index.css --watch",
     "type-check": "tsc --noEmit"
   },
   "peerDependencies": {
@@ -29,5 +29,14 @@
     "tailwindcss": "^3.4.0",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.309.0",
+    "next": "^14.0.4",
+    "tailwind-merge": "^2.2.0",
+    "tailwindcss-animate": "^1.0.7"
   }
 }
