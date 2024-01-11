@@ -133,6 +133,15 @@ importers:
 
   packages/config-typescript: {}
 
+  packages/libs:
+    dependencies:
+      clsx:
+        specifier: ^2.1.0
+        version: 2.1.0
+      tailwind-merge:
+        specifier: ^2.2.0
+        version: 2.2.0
+
   packages/tailwind-config:
     devDependencies:
       '@repo/typescript-config':
@@ -147,6 +156,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.2.46)(react@18.2.0)
+      '@repo/libs':
+        specifier: workspace:*
+        version: link:../libs
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0

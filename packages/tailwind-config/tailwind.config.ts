@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
   theme: {
+    darkMode: ["class"],
     container: {
       center: true,
       padding: "2rem",
@@ -53,12 +54,12 @@ const config: Omit<Config, "content"> = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" },
         },
       },
       animation: {
