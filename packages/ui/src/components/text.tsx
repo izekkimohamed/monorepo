@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@repo/libs/src";
+import { cn } from "@repo/libs/utils";
 
 export const Test = () => {
   const active = true;
