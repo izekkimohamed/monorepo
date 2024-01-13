@@ -1,11 +1,11 @@
 import React from "react";
 
-import { Calendar } from "@repo/ui/src/components/ui/Calendar";
+import Categories from "./categories-list";
 
 function Tabs() {
   return (
-    <div className="col-span-2 bg-red-500 row-span-1 bg">
-      <Calendar />
+    <div className="col-span-6 max-w-full row-span-1 bg">
+      <Categories />
     </div>
   );
 }
