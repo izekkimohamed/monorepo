@@ -1,28 +1,29 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "dev": "dotenv -- turbo dev",
-    "lint": "turbo lint",
-    "type-check": "turbo type-check",
-    "clean": "turbo clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "dotenv": "^16.3.1",
-    "dotenv-cli": "^7.3.0",
-    "eslint": "^8.56.0",
-    "prettier": "^3.1.1",
-    "prettier-plugin-tailwindcss": "^0.5.11",
-    "turbo": "latest"
-  },
-  "packageManager": "pnpm@8.9.0",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "engines": {
-    "node": ">=18"
-  }
+	"private": true,
+	"scripts": {
+		"build": "turbo build",
+		"dev": "dotenv -- turbo dev",
+		"lint": "turbo lint",
+		"type-check": "turbo type-check",
+		"clean": "turbo clean",
+		"studio": "pnpm --filter prisma run prisma:studio",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\""
+	},
+	"devDependencies": {
+		"@repo/typescript-config": "workspace:*",
+		"dotenv": "^16.3.1",
+		"dotenv-cli": "^7.3.0",
+		"eslint": "^8.56.0",
+		"prettier": "^3.1.1",
+		"prettier-plugin-tailwindcss": "^0.5.11",
+		"turbo": "latest"
+	},
+	"packageManager": "pnpm@8.9.0",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"engines": {
+		"node": ">=18"
+	}
 }
