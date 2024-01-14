@@ -7,13 +7,32 @@ export const waittingTicketsRouter = router({
   createWaittingTickets: publicProcedure
     .input(
       z.object({
-        number: z.number().optional(),
         total: z.number(),
+        products: z.array(
+          z.object({
+            libelle: z.string(),
+            code: z.string(),
+            price: z.number(),
+            pvht: z.number(),
+            quantity: z.number(),
+            total: z.number(),
+            date: z.coerce.date(),
+            tva_code: z.number().nullable(),
+            famille_code: z.number().nullable(),
+          }),
+        ),
       }),
     )
     .mutation(async ({ input, ctx }) => {
       const ticket = await prisma.waittingTickets.create({
-        data: input,
+        data: {
+          total: input.total,
+          products: {
+            createMany: {
+              data: input.products,
+            },
+          },
+        },
         include: {
           products: true,
         },

@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@repo/ui/src/components/ui/button";
 import {
   Sheet,
@@ -13,6 +14,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@repo/ui/src/components/ui/tabs";
+import { useStore } from "@/store";
 
 // import { trpc } from "@/trpc/client";
 // import ListClients from "../clients/ListClients";
@@ -21,6 +23,7 @@ import {
 
 function Setting() {
   // const { data: tabsProducts } = trpc.listRayonTab.useQuery();
+  const inputRef = useStore((state) => state.inputRef);
 
   return (
     <Sheet>
@@ -29,6 +32,7 @@ function Setting() {
           Settings
         </Button>
       </SheetTrigger>
+
       <SheetContent className="px-2 py-4">
         <SheetHeader>
           <SheetTitle className="text-center text-4xl font-bold text-primary font-sans">

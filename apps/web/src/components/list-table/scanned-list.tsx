@@ -4,14 +4,16 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableRow,
 } from "@repo/ui/src/components/ui/table";
 import { Trash2 } from "lucide-react";
 import { cn } from "@repo/libs/utils";
+import { useStore, selectProduct } from "@/store";
 
 function ScannedList() {
-  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  const products = useStore((state) => state.products);
+  const selectedProduct = useStore((state) => state.selectedProduct);
+
   const ticketMethods = [];
   const [selectedItem, setSelectedItem] = React.useState(1);
   const [qty, setQty] = React.useState(1);
@@ -22,18 +24,17 @@ function ScannedList() {
   return (
     <Table className="bg-gray-50 h-full">
       <TableBody className="h-full">
-        {data.map((item, i) => (
+        {products.map((item, i) => (
           <TableRow
             key={i}
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedItem(item);
+            onClick={() => {
+              selectProduct(item);
             }}
             className={cn(
               i % 2 === 0 ? "bg-gray-300" : "bg-gray-100",
               "font-bold text-lg grid  grid-cols-8 hover:bg-blue-200",
-              // selectedItem?.code === item.code &&
-              //   "bg-blue-200 hover:bg-blue-200",
+              selectedProduct?.code === item.code &&
+                "bg-blue-200 hover:bg-blue-200",
             )}
           >
             <TableCell className="col-span-1 text-center">
@@ -47,19 +48,16 @@ function ScannedList() {
               />
             </TableCell>
             <TableCell className="truncate col-span-4 text-start ">
-              {/* {item.libelle} */}
-              libelle
+              {item.libelle}
             </TableCell>
             <TableCell className="col-span-1 text-center">
-              {/* {item.price} */}
-              2.00
+              {item.price}
             </TableCell>
             <TableCell className="col-span-1 text-center">
-              {/* {item.quantity} */}3
+              {item.quantity}
             </TableCell>
             <TableCell className="col-span-1 text-center">
-              {/* {item.total} */}
-              6.00
+              {item.total}
             </TableCell>
           </TableRow>
         ))}

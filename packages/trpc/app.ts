@@ -6,7 +6,6 @@ import { dataRouter } from "./routes/data";
 import { ticketsRouter } from "./routes/tickets";
 import { clientsRouter } from "./routes/client";
 import { rayonRouter } from "./routes/rayon";
-import { createTRPCReact } from "@trpc/react-query";
 export const appRouter = mergeRouters(
   paymentMethods,
   waittingTicketsRouter,

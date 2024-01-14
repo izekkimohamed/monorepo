@@ -5,7 +5,7 @@ import ScannedList from "./scanned-list";
 
 function ListTable() {
   return (
-    <div className=" overflow-auto col-span-4">
+    <div className="bg-gray-50 overflow-auto col-span-4">
       <div className="sticky z-10 top-0 left-0 w-full">
         <TableHeader />
         <TotalDiplay />

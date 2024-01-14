@@ -1,6 +1,53 @@
+"use client";
 import React from "react";
 
+import {
+  useStore,
+  setScannedCode,
+  addProduct,
+  updateProduct,
+  Product,
+  resetQty,
+} from "@/store";
+import { Input } from "@ui/components/ui/input";
+import { getProduct } from "@/actions/getProduct";
+
 function TotalDiplay() {
+  const { products, scannedCode, qty } = useStore();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (scannedCode === "") return;
+    const product = await getProduct(scannedCode);
+    if (product) {
+      if (products.find((p) => p.code === product.code)) {
+        updateProduct(product.code!);
+      } else {
+        const tempData: Product = {
+          libelle: product.libelle!,
+          code: product.code!,
+          famille_code: product.famille_code!,
+          tva_code: product.tva_code!,
+          pvht: product.pvht!,
+          price: product.pvttc!,
+          totalPvht: qty * product.pvht!,
+          total: qty * product.pvttc!,
+          quantity: qty,
+          ticketNumber: 2,
+          date: new Date(),
+          waittingTicketsNumber: null,
+        };
+
+        addProduct(tempData);
+        resetQty();
+      }
+    } else {
+      alert("Product not found");
+    }
+
+    setScannedCode("");
+  };
+
   return (
     <div className="bg-primary py-3 px-4 text-gray-50 text-lg font-semibold">
       <div className="flex justify-between items-center">
@@ -8,20 +55,18 @@ function TotalDiplay() {
           <div className="flex gap-3">
             <span className="text-right">Total:</span>
             <span className="text-right">
-              {/* {data &&
-                data.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2)} */}
-              3.00€s
+              {products &&
+                products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2)}
             </span>
           </div>
           <div className="flex gap-3">
             <span>PVHT:</span>
             <span>
-              {/* {data &&
-                data.reduce(
+              {products &&
+                products.reduce(
                   (acc, curr) => Number((acc + +curr.totalPvht!).toFixed(2)),
                   0,
-                )} */}
-              3.00€
+                )}
             </span>
           </div>
         </div>
@@ -29,41 +74,41 @@ function TotalDiplay() {
           <div className="flex gap-2">
             <span>TVA 20%:</span>
             <span>
-              {/* {data
-                .filter((item) => item.tva_code === "2")
+              {products
+                .filter((item) => item.tva_code === 2)
                 .map((item) => {
                   return item.total * (20 / 100);
                 })
-                .reduce((acc, curr) => Number((acc + +curr).toFixed(2)), 0)} */}
-              2.0€
+                .reduce((acc, curr) => Number((acc + +curr).toFixed(2)), 0)}
             </span>
           </div>
           <div className="flex gap-2">
             <span>TVA 5.5%:</span>
             <span>
-              {/* {data
-                .filter((item) => item.tva_code === "1")
+              {products
+                .filter((item) => item.tva_code === 1)
                 .map((item) => {
                   return item.total * (5.5 / 100);
                 })
-                .reduce((acc, curr) => Number((acc + +curr).toFixed(2)), 0)} */}
-              3.1€
+                .reduce((acc, curr) => Number((acc + +curr).toFixed(2)), 0)}
             </span>
           </div>
         </div>
-        {/* <form className="flex gap-1 " onSubmit={(e) => handleSubmit(e)}>
+        <form className="flex gap-1 " onSubmit={(e) => handleSubmit(e)}>
           <Input
             type="text"
             placeholder=""
-            disabled={ticketMethods.length > 0 ? true : false}
-            ref={inputRef}
+            autoFocus
+            onBlur={(e) => {
+              e.target.focus();
+            }}
             className="w-[50px] text-gray-950 font-bold text-lg"
-            value={code}
+            value={scannedCode}
             onChange={(e) => {
-              setCode(e.target.value);
+              setScannedCode(e.target.value);
             }}
           />
-        </form> */}
+        </form>
       </div>
     </div>
   );

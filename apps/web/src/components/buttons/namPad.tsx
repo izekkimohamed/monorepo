@@ -3,8 +3,14 @@ import React, { Dispatch, SetStateAction, useEffect } from "react";
 
 import { Button } from "@repo/ui/src/components/ui/button";
 
-// import { useGlobalStore, useNamPadStore } from "@/store";
-// import { TData } from "@/types";
+import {
+  useStore,
+  setQty,
+  setNamPad,
+  deselectProduct,
+  updateProduct,
+  resetNamPad,
+} from "@/store";
 
 const NamPadButtons = [
   "1",
@@ -21,62 +27,37 @@ const NamPadButtons = [
   "X",
 ];
 function NamPad() {
-  //   const {
-  //     inputRef,
-  //     updateData,
-  //     setQty,
-  //     selectedItem,
-  //     setSelectedItem,
-  //     clearSelectItem,
-  //   } = useGlobalStore();
-  //   const { tempNamPad, setTempNamPad, clearNamPad } = useNamPadStore();
+  const qty = useStore((state) => state.qty);
+  const namPad = useStore((state) => state.namPad);
+  const selectedProduct = useStore((state) => state.selectedProduct);
 
-  //   useEffect(() => {
-  //     const handleFocus = () => {
-  //       inputRef.current?.focus();
-  //     };
-
-  //     window.addEventListener("focus", handleFocus);
-
-  //     inputRef.current?.focus();
-
-  //     return () => {
-  //       window.removeEventListener("focus", handleFocus);
-  //     };
-  //   }, [inputRef]);
   return (
     <div className="col-span-2  grid gap-1 grid-cols-3 ">
       {NamPadButtons.map((button, index) => (
         <Button
           size="full"
           key={index}
-          //   clickHandler={() => {
-          //     if (button === "X") {
-          //       if (
-          //         tempNamPad === "." ||
-          //         tempNamPad === "0" ||
-          //         tempNamPad === ""
-          //       ) {
-          //         return;
-          //       }
-          //       if (!selectedItem) {
-          //         setQty(parseFloat(tempNamPad));
-          //         inputRef.current?.focus();
-          //         // clearNamPad();
-          //         return;
-          //       } else {
-          //         // updateData(selectedItem.code, parseFloat(tempNamPad));
+          onClick={() => {
+            if (button === "X") {
+              if (namPad === "." || namPad === "0" || namPad === "") {
+                return;
+              }
+              if (!selectedProduct) {
+                setQty(parseFloat(namPad));
 
-          //         // inputRef.current?.focus();
-          //         // clearNamPad();
-          //       }
+                resetNamPad();
+                return;
+              } else {
+                updateProduct(selectedProduct.code, parseInt(namPad));
+                //
+                resetNamPad();
+              }
 
-          //     //   inputRef.current?.focus();
-          //     //   clearSelectItem();
-          //     } else {
-          //     //   setTempNamPad(button);
-          //     }
-          //   }}
+              deselectProduct();
+            } else {
+              setNamPad(button);
+            }
+          }}
           className={` text-gray-50 font-semibold rounded-md
             ${button === "X" ? "bg-red-400 " : "bg-primary "}`}
         >
