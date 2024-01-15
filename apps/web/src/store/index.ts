@@ -3,12 +3,13 @@ import type { Data } from "@repo/prisma/client";
 import { RefObject, createRef } from "react";
 export type Product = Omit<Data, "id"> & {
   totalPvht: number;
+  id: number | undefined;
 };
 export type Store = {
   products: Product[];
   qty: number;
   scannedCode: string;
-  selectedProduct: Data | null;
+  selectedProduct: Product | null;
   inputRef: RefObject<HTMLInputElement>;
   namPad: string;
 };
@@ -58,7 +59,7 @@ export const resetList = () => {
     products: [],
   }));
 };
-export const selectProduct = (product: Data) => {
+export const selectProduct = (product: Product) => {
   useStore.setState((state) => ({
     selectedProduct: product,
   }));

@@ -33,7 +33,7 @@ function TotalDiplay() {
           totalPvht: qty * product.pvht!,
           total: qty * product.pvttc!,
           quantity: qty,
-          ticketNumber: 2,
+          ticketNumber: null,
           date: new Date(),
           waittingTicketsNumber: null,
         };

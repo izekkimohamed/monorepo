@@ -8,18 +8,19 @@ import {
 } from "@repo/ui/src/components/ui/table";
 import { Trash2 } from "lucide-react";
 import { cn } from "@repo/libs/utils";
-import { useStore, selectProduct } from "@/store";
+import { useStore, selectProduct, removeProduct } from "@/store";
+import { trpc } from "@repo/trpc/client";
 
 function ScannedList() {
+  const { mutate: deleteProduct } = trpc.deleteData.useMutation();
+  const { mutate: deletewaittingTicket } =
+    trpc.deleteWaittingTickets.useMutation();
   const products = useStore((state) => state.products);
   const selectedProduct = useStore((state) => state.selectedProduct);
 
-  const ticketMethods = [];
-  const [selectedItem, setSelectedItem] = React.useState(1);
-  const [qty, setQty] = React.useState(1);
-  const deleteData = (code: string) => "";
-  const deleteFromList = (code: string) => "";
-  const remaining = 100;
+  const wattingTickets = products.filter(
+    (p) => p.waittingTicketsNumber !== undefined,
+  );
 
   return (
     <Table className="bg-gray-50 h-full">
@@ -40,8 +41,14 @@ function ScannedList() {
             <TableCell className="col-span-1 text-center">
               <Trash2
                 onClick={() => {
-                  deleteData(item.code);
-                  setQty(1);
+                  if (item.id) {
+                    if (wattingTickets.length <= 1) {
+                      deletewaittingTicket(item.waittingTicketsNumber!);
+                    }
+                    deleteProduct(item.id);
+                    removeProduct(item);
+                    // setQty(1);}
+                  }
                 }}
                 className="text-red-500 cursor-pointer"
                 size={20}

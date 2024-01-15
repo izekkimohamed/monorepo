@@ -68,7 +68,7 @@ model Data {
   famille               Famille?         @relation(fields: [famille_code], references: [code])
   ticket                Ticket?          @relation(fields: [ticketNumber], references: [number])
   tva                   Tva?             @relation(fields: [tva_code], references: [code])
-  WaittingTickets       WaittingTickets? @relation(fields: [waittingTicketsNumber], references: [number])
+  WaittingTickets       WaittingTickets? @relation(fields: [waittingTicketsNumber], references: [number], onDelete: Cascade)
 }
 
 model Ticket {
