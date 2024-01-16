@@ -9,6 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@repo/ui/src/components/ui/select";
+import { trpc } from "@repo/trpc/client";
+import { Button } from "@ui/components/ui/button";
+import { Rayon } from "@repo/prisma/client";
+import { XCircle } from "lucide-react";
+import { DataList } from "./dataList";
 // import { trpc } from "@/trpc/client";
 // import { Input } from "../ui/input";
 
@@ -19,37 +24,62 @@ import {
 // import { XCircle } from "lucide-react";
 
 export function CategorySettings() {
-  // const { data: tabs } = trpc.listRayonTab.useQuery();
-  // const [items, setItems] = React.useState<string[]>([]);
-  // const [valueId, setValueId] = React.useState<string | null>(null);
-  // const utils = trpc.useUtils();
-  // const { mutate: updateTabs } = trpc.updateRayonTab.useMutation({
-  //   onSuccess: () => {
-  //     utils.listRayonTab.invalidate();
-  //   },
-  // });
+  const { data: tabs } = trpc.listRayonTab.useQuery();
+  const [items, setItems] = React.useState<string[]>([]);
+  const [selectedRayons, setSelectedRayons] = React.useState<Rayon>();
+  const [valueId, setValueId] = React.useState<string | null>(null);
+  const utils = trpc.useUtils();
+  const { mutate: updateTabs } = trpc.updateRayonTab.useMutation({
+    onSuccess: () => {
+      utils.listRayonTab.invalidate();
+    },
+  });
+  const { data: categories } = trpc.listRayonTab.useQuery();
+  const { mutate: createRayon } = trpc.createRayonTab.useMutation();
+  const { mutate: updateRayon } = trpc.updateRayonTab.useMutation();
 
-  // async function handleUpdate() {
-  //   if (!valueId || !items.length) return;
+  async function createTab(libelle: string, code: string) {
+    // first check if the tab already exists
+    const existingTab = categories?.find((tab) => tab.code === code);
+    if (existingTab) {
+      return existingTab;
+    }
+    return await createRayon({ libelle, code });
+  }
+  async function updateTab(id: number, products: string[]) {
+    return await updateRayon({ id, products });
+  }
+  const { data: rayonsList } = trpc.listRayons.useQuery();
 
-  //   updateTabs({
-  //     id: +valueId,
-  //     products: items,
-  //   });
-  //   setItems([]);
-  //   setValueId(null);
-  // }
+  async function handleTabsUpdate() {
+    if (!selectedRayons) return;
+    const tab = await createTab(
+      selectedRayons.libelle!,
+      selectedRayons.code.toLocaleString(),
+    );
+    setSelectedRayons(undefined);
+  }
+
+  async function handleUpdate() {
+    if (!valueId || !items.length) return;
+
+    updateTabs({
+      id: +valueId,
+      products: items,
+    });
+    setItems([]);
+    setValueId(null);
+  }
   // const inputRef = React.useRef<HTMLInputElement>(null);
 
   return (
     <div className="w-full">
-      {/* <>
+      <>
         <div className="grid grid-cols-2 items-center gap-2 w-full">
           <Select
             onValueChange={(v) => {
               setItems([]);
               setValueId(v);
-              inputRef.current?.focus();
             }}
           >
             <SelectTrigger className="border-2 bg-muted border-gray-300 font-bold ring-0">
@@ -105,7 +135,7 @@ export function CategorySettings() {
         >
           Add
         </Button>
-      </> */}
+      </>
     </div>
   );
 }

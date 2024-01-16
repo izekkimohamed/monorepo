@@ -7,6 +7,7 @@ import { resetList, updateProduct, useStore } from "@/store";
 import { addToWaittingList } from "@/actions/addToWaittingList";
 import { useToast } from "@repo/ui/src/components/ui/use-toast";
 import { trpc } from "@repo/trpc/client";
+import Link from "next/link";
 
 function ActionButtons() {
   const { mutate: deleteTicket } = trpc.deleteWaittingTickets.useMutation();
@@ -18,7 +19,6 @@ function ActionButtons() {
   const { toast } = useToast();
   const handleAttentButton = async () => {
     if (products.length < 1) {
-      console.log("no data");
       toast({
         title: "Error",
         description: "No data found",

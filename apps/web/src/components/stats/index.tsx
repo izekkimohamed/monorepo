@@ -131,136 +131,138 @@ function Stats() {
   // }
 
   return (
-    <Dialog>
-      <DialogTrigger className="" asChild>
-        <Button
-          variant={"outline"}
-          className="w-full h-16 text-primary font-bold text-3xl hover:text-primary/90"
-        >
-          Status
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="">
-        <DialogHeader>
-          <div className="flex mt-3 gap-2">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  id="date"
-                  variant={"outline"}
-                  className={cn(
-                    "w-[300px] justify-start text-left font-normal border-2 border-gray-400",
-                    !date && "text-muted-foreground",
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date?.from ? (
-                    date.to ? (
-                      <>
-                        {format(date.from, "LLL dd, y")} -{" "}
-                        {format(date.to, "LLL dd, y")}
-                      </>
-                    ) : (
-                      format(date.from, "LLL dd, y")
-                    )
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent
-                align="start"
-                className="flex w-auto flex-col space-y-2 p-2"
-              >
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <Calendar
-                    initialFocus
-                    mode="range"
-                    defaultMonth={date?.from}
-                    selected={date}
-                    onSelect={setDate}
-                    numberOfMonths={2}
-                    className="bg-white rounded-md"
-                  />
-                </div>
-              </PopoverContent>
-            </Popover>
-            <Select
-              defaultValue="today"
-              onValueChange={(value) => setValue(value)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem key={"today"} value="today">
-                    Today
-                  </SelectItem>
-                  <SelectItem key={"yesterday"} value="yesterday">
-                    Yesterday
-                  </SelectItem>
-                  <SelectItem key={"lastWeek"} value="lastWeek">
-                    Last Week
-                  </SelectItem>
-                  <SelectItem key={"lastMonth"} value="lastMonth">
-                    Last Month
-                  </SelectItem>
-                  <SelectItem key={"lastYear"} value="lastYear">
-                    Last Year
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        </DialogHeader>
-        {data && (
-          <div className="flex flex-col  gap-2">
-            <div className="flex justify-between gap-2">
-              <span className="font-bold text-2xl ">Total:</span>
-              <span className="font-semibold text-2xl">
-                {/* {totalPayment().toLocaleString("fr-FR", {
-                  style: "currency",
-                  currency: "EUR",
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })} */}
-              </span>
-            </div>
-            <div className="w-full gap-2">
-              {/* {modes.map((mode, index) => {
-                return (
-                  <div key={index} className="flex justify-between gap-2">
-                    <span className="font-bold text-2xl ">{mode.mode}:</span>
-                    <span className="font-semibold text-2xl">
-                      {Number(mode.amount).toLocaleString("fr-FR", {
-                        style: "currency",
-                        currency: "EUR",
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </span>
-                  </div>
-                );
-              })} */}
-            </div>
-          </div>
-        )}
-        <DialogFooter>
+    <div>
+      <Dialog>
+        <DialogTrigger className="" asChild>
           <Button
-            variant={"default"}
-            size={"sm"}
-            // onClick={getSatus}
+            variant={"outline"}
+            className="w-full h-16 text-primary font-bold text-3xl hover:text-primary/90"
           >
-            Calculate
+            Status
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </DialogTrigger>
+        <DialogContent className="">
+          <DialogHeader>
+            <div className="flex mt-3 gap-2">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    id="date"
+                    variant={"outline"}
+                    className={cn(
+                      "w-[300px] justify-start text-left font-normal border-2 border-gray-400",
+                      !date && "text-muted-foreground",
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date?.from ? (
+                      date.to ? (
+                        <>
+                          {format(date.from, "LLL dd, y")} -{" "}
+                          {format(date.to, "LLL dd, y")}
+                        </>
+                      ) : (
+                        format(date.from, "LLL dd, y")
+                      )
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="start"
+                  className="flex w-auto flex-col space-y-2 p-2"
+                >
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    <Calendar
+                      initialFocus
+                      mode="range"
+                      defaultMonth={date?.from}
+                      selected={date}
+                      onSelect={setDate}
+                      numberOfMonths={2}
+                      className="bg-white rounded-md"
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <Select
+                defaultValue="today"
+                onValueChange={(value) => setValue(value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem key={"today"} value="today">
+                      Today
+                    </SelectItem>
+                    <SelectItem key={"yesterday"} value="yesterday">
+                      Yesterday
+                    </SelectItem>
+                    <SelectItem key={"lastWeek"} value="lastWeek">
+                      Last Week
+                    </SelectItem>
+                    <SelectItem key={"lastMonth"} value="lastMonth">
+                      Last Month
+                    </SelectItem>
+                    <SelectItem key={"lastYear"} value="lastYear">
+                      Last Year
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </DialogHeader>
+          {data && (
+            <div className="flex flex-col  gap-2">
+              <div className="flex justify-between gap-2">
+                <span className="font-bold text-2xl ">Total:</span>
+                <span className="font-semibold text-2xl">
+                  {/* {totalPayment().toLocaleString("fr-FR", {
+                    style: "currency",
+                    currency: "EUR",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })} */}
+                </span>
+              </div>
+              <div className="w-full gap-2">
+                {/* {modes.map((mode, index) => {
+                  return (
+                    <div key={index} className="flex justify-between gap-2">
+                      <span className="font-bold text-2xl ">{mode.mode}:</span>
+                      <span className="font-semibold text-2xl">
+                        {Number(mode.amount).toLocaleString("fr-FR", {
+                          style: "currency",
+                          currency: "EUR",
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </div>
+                  );
+                })} */}
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button
+              variant={"default"}
+              size={"sm"}
+              // onClick={getSatus}
+            >
+              Calculate
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }
 

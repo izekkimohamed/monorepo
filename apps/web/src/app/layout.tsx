@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "@repo/ui/dist/index.css";
 import { Providers } from "@repo/ui/src/components/providers";
-import { Toaster } from "@ui/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,14 +13,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }): JSX.Element {
   return (
     <Providers>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
-        {/* <Toaster /> */}
+        <body className={inter.className}>
+          {children}
+          {modal}
+        </body>
       </html>
     </Providers>
   );

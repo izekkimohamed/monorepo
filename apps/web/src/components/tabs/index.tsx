@@ -1,5 +1,3 @@
-import React from "react";
-
 import Categories from "./categories-list";
 import { useStore } from "@/store";
 

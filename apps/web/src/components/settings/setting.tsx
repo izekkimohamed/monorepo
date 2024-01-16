@@ -15,6 +15,8 @@ import {
   TabsTrigger,
 } from "@repo/ui/src/components/ui/tabs";
 import { useStore } from "@/store";
+import { useSettingsStore } from "@/store/settings";
+import { CategorySettings } from "./select";
 
 // import { trpc } from "@/trpc/client";
 // import ListClients from "../clients/ListClients";
@@ -23,17 +25,18 @@ import { useStore } from "@/store";
 
 function Setting() {
   // const { data: tabsProducts } = trpc.listRayonTab.useQuery();
-  const inputRef = useStore((state) => state.inputRef);
+
+  const setActive = useSettingsStore((state) => state.toggle);
 
   return (
-    <Sheet>
+    <Sheet onOpenChange={setActive}>
       <SheetTrigger asChild>
         <Button className="h-full row-span-1 bg-[#009f55] rounded">
           Settings
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="px-2 py-4">
+      <SheetContent className="px-2 py-4" side={"right"}>
         <SheetHeader>
           <SheetTitle className="text-center text-4xl font-bold text-primary font-sans">
             Settings
@@ -71,7 +74,7 @@ function Setting() {
             {/* <ListClients /> */}
           </TabsContent>
           <TabsContent value="tabs" className="w-full">
-            {/* <CategorySettings /> */}
+            <CategorySettings />
           </TabsContent>
         </Tabs>
       </SheetContent>

@@ -19,31 +19,9 @@ import { ChevronDown, SortAscIcon } from "lucide-react";
 
 import { Checkbox } from "@repo/ui/src/components/ui/checkbox";
 // import getProductsByRayon from "@/actions/getProductsByRayon";
-// import { Products } from "@prisma/client";
 import { ScrollArea } from "@repo/ui/src/components/ui/scroll-area";
-
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+import { Products } from "@repo/prisma/client";
+import getProductsByRayon from "@/actions/getProductsByRayon";
 
 export function DataList({
   setItems,
@@ -58,16 +36,16 @@ export function DataList({
   const [value, setValue] = React.useState("");
   const [products, setProducts] = React.useState<Products[]>([]);
 
-  // async function getProducts() {
-  //   if (!code) return;
+  async function getProducts() {
+    if (!code) return;
 
-  //   const products = await getProductsByRayon(+code);
-  //   setProducts(products);
-  // }
+    const products = await getProductsByRayon(+code);
+    setProducts(products);
+  }
 
-  // React.useEffect(() => {
-  //   getProducts();
-  // }, [code]);
+  React.useEffect(() => {
+    getProducts();
+  }, [code]);
 
   return (
     <div className="w-full col-span-1">

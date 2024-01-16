@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   useStore,
@@ -11,9 +11,11 @@ import {
 } from "@/store";
 import { Input } from "@ui/components/ui/input";
 import { getProduct } from "@/actions/getProduct";
+import { useSettingsStore } from "@/store/settings";
 
 function TotalDiplay() {
-  const { products, scannedCode, qty } = useStore();
+  const { products, scannedCode, qty, inputRef } = useStore();
+  const settingsActive = useSettingsStore((state) => state.active);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,6 +26,7 @@ function TotalDiplay() {
         updateProduct(product.code!);
       } else {
         const tempData: Product = {
+          id: undefined,
           libelle: product.libelle!,
           code: product.code!,
           famille_code: product.famille_code!,
@@ -47,9 +50,17 @@ function TotalDiplay() {
 
     setScannedCode("");
   };
+  useEffect(() => {
+    if (!settingsActive) {
+      inputRef.current?.focus();
+    }
+  }, [settingsActive]);
 
   return (
-    <div className="bg-primary py-3 px-4 text-gray-50 text-lg font-semibold">
+    <div
+      className="bg-primary py-3 px-4 text-gray-50 text-lg font-semibold"
+      onClick={() => inputRef.current?.focus()}
+    >
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-y-2">
           <div className="flex gap-3">
@@ -97,11 +108,16 @@ function TotalDiplay() {
         <form className="flex gap-1 " onSubmit={(e) => handleSubmit(e)}>
           <Input
             type="text"
-            placeholder=""
-            autoFocus
+            ref={inputRef}
             onBlur={(e) => {
-              e.target.focus();
+              if (settingsActive) {
+                inputRef.current?.blur();
+              } else {
+                inputRef.current?.focus();
+              }
             }}
+            autoFocus
+            disabled={settingsActive}
             className="w-[50px] text-gray-950 font-bold text-lg"
             value={scannedCode}
             onChange={(e) => {
