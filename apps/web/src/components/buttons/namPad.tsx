@@ -1,15 +1,14 @@
 "use client";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
 
 import { Button } from "@repo/ui/src/components/ui/button";
 
 import {
-  useStore,
-  setQty,
-  setNamPad,
   deselectProduct,
-  updateProduct,
   resetNamPad,
+  setNamPad,
+  setQty,
+  updateProduct,
+  useStore,
 } from "@/store";
 
 const NamPadButtons = [

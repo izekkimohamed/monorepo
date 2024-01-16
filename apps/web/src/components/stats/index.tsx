@@ -131,12 +131,12 @@ function Stats() {
   // }
 
   return (
-    <div>
+    <div className="border-l-2 border-gray-800 col-span-2">
       <Dialog>
         <DialogTrigger className="" asChild>
           <Button
             variant={"outline"}
-            className="w-full h-16 text-primary font-bold text-3xl hover:text-primary/90"
+            className="w-full rounded-none h-16 text-primary font-bold text-3xl hover:text-primary/90"
           >
             Status
           </Button>

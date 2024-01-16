@@ -1,17 +1,17 @@
 "use client";
 import React, { useEffect } from "react";
 
-import {
-  useStore,
-  setScannedCode,
-  addProduct,
-  updateProduct,
-  Product,
-  resetQty,
-} from "@/store";
-import { Input } from "@ui/components/ui/input";
 import { getProduct } from "@/actions/getProduct";
+import {
+  Product,
+  addProduct,
+  resetQty,
+  setScannedCode,
+  updateProduct,
+  useStore,
+} from "@/store";
 import { useSettingsStore } from "@/store/settings";
+import { Input } from "@ui/components/ui/input";
 
 function TotalDiplay() {
   const { products, scannedCode, qty, inputRef } = useStore();
@@ -20,8 +20,9 @@ function TotalDiplay() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (scannedCode === "") return;
-    const product = await getProduct(scannedCode);
-    if (product) {
+    const data = await getProduct(scannedCode);
+    if (data.success) {
+      const { product } = data;
       if (products.find((p) => p.code === product.code)) {
         updateProduct(product.code!);
       } else {

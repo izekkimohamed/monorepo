@@ -8,24 +8,17 @@ import {
   SheetTrigger,
 } from "@repo/ui/src/components/ui/sheet";
 
+import { useSettingsStore } from "@/store/settings";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@repo/ui/src/components/ui/tabs";
-import { useStore } from "@/store";
-import { useSettingsStore } from "@/store/settings";
+import ProductForm from "./productSettings";
 import { CategorySettings } from "./select";
 
-// import { trpc } from "@/trpc/client";
-// import ListClients from "../clients/ListClients";
-// import ProductForm from "./productSettings";
-// import { CategorySettings } from "./select";
-
 function Setting() {
-  // const { data: tabsProducts } = trpc.listRayonTab.useQuery();
-
   const setActive = useSettingsStore((state) => state.toggle);
 
   return (
@@ -48,30 +41,33 @@ function Setting() {
           <TabsList className="font-semibold flex my-3 rounded-md border-2 border-gray-200 p-1 gap-2 items-start bg-muted ">
             <TabsTrigger
               value="tabs"
-              className="px-3 py-2 data-[state=active]:text-white  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
+              className="px-3 py-2 data-[state=active]:text-white border-none  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
             >
               tabs
             </TabsTrigger>
             <TabsTrigger
               value="products"
-              className="px-3 py-2 data-[state=active]:text-white  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
+              className="px-3 py-2 data-[state=active]:text-white border-none  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
             >
               products
             </TabsTrigger>
             <TabsTrigger
               value="clients"
-              className="px-3 py-2 data-[state=active]:text-white  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
+              className="px-3 py-2 data-[state=active]:text-white border-none  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
             >
               Clients
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="products" className="w-full h-full">
-            {/* <ProductForm /> */}
+          <TabsContent
+            value="products"
+            className="w-full block relative h-full"
+          >
+            <ProductForm />
           </TabsContent>
-          <TabsContent value="clients" className="w-full">
+          <TabsContent value="clients" className="w-full block relative">
             {/* <ListClients /> */}
           </TabsContent>
-          <TabsContent value="tabs" className="w-full flex">
+          <TabsContent value="tabs" className="w-full flex relative h-full">
             <CategorySettings />
           </TabsContent>
         </Tabs>

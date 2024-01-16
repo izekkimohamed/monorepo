@@ -1,9 +1,4 @@
 import Categories from "./categories-list";
-import { useStore } from "@/store";
-
-import dynamic from "next/dynamic";
-
-const NoSSR = dynamic(() => import("../tabs/categories-list"), { ssr: false });
 
 function Tabs() {
   return (

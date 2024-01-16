@@ -1,7 +1,7 @@
 "use client";
 
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@repo/ui/src/components/ui/button";
@@ -21,11 +21,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@repo/ui/src/components/ui/select";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-// import { getProduct } from "@/actions/getProduct";
-// import { trpc } from "@/trpc/client";
-// import { useToast } from "../ui/use-toast";
+import { getProduct } from "@/actions/getProduct";
+import { trpc } from "@repo/trpc/client";
+import { useToast } from "@repo/ui/src/components/ui/use-toast";
 
 const formSchema = z.object({
   code: z.string().optional(),
@@ -38,80 +38,81 @@ const formSchema = z.object({
   famille_code: z.string(),
 });
 
-function ProductForm() {
-  // const { data, isLoading } = trpc.listProductsSettings.useQuery();
-  // const { mutate: updateProduct } = trpc.updateProduct.useMutation({
-  //   onSuccess: (data) => {
-  //     toast({
-  //       title: "Product updated",
-  //       description: data.libelle,
-  //       variant: "default",
-  //       duration: 5000,
-  //     });
-  //   },
-  // });
-  // const [productId, setProductId] = useState<number | undefined>();
+const ProductForm = () => {
+  const { data } = trpc.listProductsSettings.useQuery();
+  const { mutate: updateProduct } = trpc.updateProduct.useMutation({
+    onSuccess: (data) => {
+      toast({
+        title: "Product updated",
+        description: data.libelle,
+        variant: "default",
+        duration: 5000,
+      });
+    },
+  });
+  const [productId, setProductId] = useState<number | undefined>();
+  const [codeBar, setCodeBar] = useState("");
+  const inputRef = useRef();
+  const { toast } = useToast();
+  const handleCodeSubmite = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("first");
+    const newProduct = await getProduct(codeBar);
+    if (newProduct.success) {
+      setProductId(newProduct.product?.id);
+      form.setValue("code", newProduct.product?.code!);
+      form.setValue("code_interne", newProduct.product?.code_interne!);
+      form.setValue("libelle", newProduct.product?.libelle!);
+      form.setValue("pvttc", newProduct.product?.pvttc!.toString());
+      form.setValue("pvht", newProduct.product?.pvht!.toString());
+      form.setValue("tva_code", newProduct.product?.tva_code!.toString());
+      form.setValue("rayon_code", newProduct.product?.rayon_code!.toString());
+      form.setValue(
+        "famille_code",
+        newProduct.product?.famille_code!.toString(),
+      );
+    } else {
+      toast({
+        title: "Product not found",
+        description: "Product not found",
+        variant: "destructive",
+        duration: 5000,
+      });
+    }
+  };
 
-  // const [codeBar, setCodeBar] = useState("");
-  // const { toast } = useToast();
-  // const handleCodeSubmite = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const newProduct = await getProduct(codeBar);
-  //   if (newProduct.success) {
-  //     setProductId(newProduct.product?.id);
-  //     form.setValue("code", newProduct.product?.code!);
-  //     form.setValue("code_interne", newProduct.product?.code_interne!);
-  //     form.setValue("libelle", newProduct.product?.libelle!);
-  //     form.setValue("pvttc", newProduct.product?.pvttc!.toString());
-  //     form.setValue("pvht", newProduct.product?.pvht!.toString());
-  //     form.setValue("tva_code", newProduct.product?.tva_code!.toString());
-  //     form.setValue("rayon_code", newProduct.product?.rayon_code!.toString());
-  //     form.setValue(
-  //       "famille_code",
-  //       newProduct.product?.famille_code!.toString(),
-  //     );
-  //     console.log(newProduct);
-  //   } else {
-  //     toast({
-  //       title: "Product not found",
-  //       description: "Product not found",
-  //       variant: "destructive",
-  //       duration: 5000,
-  //     });
-  //   }
-  // };
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
 
-  // const form = useForm<z.infer<typeof formSchema>>({
-  //   resolver: zodResolver(formSchema),
-  // });
-
-  // function onSubmit(values: z.infer<typeof formSchema>) {
-  //   let tva_taux = data?.tva.find((tva) => tva.code === +values.tva_code)
-  //     ?.taux!;
-  //   let newValues = {
-  //     id: productId!,
-  //     libelle: values.libelle,
-  //     pvttc: +values.pvttc,
-  //     pvht: +(+values.pvttc / (1 + tva_taux / 100)).toFixed(2),
-  //     tva_code: +values.tva_code,
-  //     rayon_code: +values.rayon_code,
-  //     famille_code: +values.famille_code,
-  //   };
-  //   updateProduct(newValues);
-  //   form.reset();
-  //   setProductId(undefined);
-  //   setCodeBar("");
-  // }
-
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    let tva_taux = data?.tva.find(
+      (tva) => tva.code === +values.tva_code,
+    )?.taux!;
+    let newValues = {
+      id: productId!,
+      libelle: values.libelle,
+      pvttc: +values.pvttc,
+      pvht: +(+values.pvttc / (1 + tva_taux / 100)).toFixed(2),
+      tva_code: +values.tva_code,
+      rayon_code: +values.rayon_code,
+      famille_code: +values.famille_code,
+    };
+    updateProduct(newValues);
+    form.reset();
+    setProductId(undefined);
+    setCodeBar("");
+  }
   return (
     <>
-      {/* <form onSubmit={handleCodeSubmite}>
+      <form autoFocus className="z-20" onSubmit={handleCodeSubmite}>
         <Input
           placeholder="Enter a product codeBar"
           className="bg-muted border-2 border-gray-300"
           value={codeBar}
           onChange={(e) => setCodeBar(e.target.value)}
         />
+        <Button type="submit">Search</Button>
       </form>
       {productId && (
         <Form {...form}>
@@ -311,9 +312,9 @@ function ProductForm() {
             <Button type="submit">Edit</Button>
           </form>
         </Form>
-      )} */}
+      )}
     </>
   );
-}
+};
 
 export default ProductForm;

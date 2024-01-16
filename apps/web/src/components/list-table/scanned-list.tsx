@@ -1,5 +1,7 @@
 "use client";
-import React from "react";
+import { removeProduct, selectProduct, useStore } from "@/store";
+import { cn } from "@repo/libs/utils";
+import { trpc } from "@repo/trpc/client";
 import {
   Table,
   TableBody,
@@ -7,9 +9,6 @@ import {
   TableRow,
 } from "@repo/ui/src/components/ui/table";
 import { Trash2 } from "lucide-react";
-import { cn } from "@repo/libs/utils";
-import { useStore, selectProduct, removeProduct } from "@/store";
-import { trpc } from "@repo/trpc/client";
 
 function ScannedList() {
   const { mutate: deleteProduct } = trpc.deleteData.useMutation();

@@ -2,7 +2,17 @@
 
 import { serverClient } from "@repo/trpc/server";
 
-export async function getProduct(code: string) {
+export const getProduct = async (code: string) => {
   const product = await serverClient.scannedProduct({ code });
-  return product;
-}
+
+  if (product == null) {
+    return {
+      error: "Product Not Found",
+    };
+  } else {
+    return {
+      success: true,
+      product,
+    };
+  }
+};

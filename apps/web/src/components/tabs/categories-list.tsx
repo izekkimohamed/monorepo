@@ -1,23 +1,15 @@
 "use client";
+import { useTabsStore } from "@/store/tabs";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@repo/ui/src/components/ui/tabs";
-import { serverClient } from "@repo/trpc/server";
-import ItemButton from "./items-buttons";
-import { useTabsStore } from "@/store/tabs";
-import { Button } from "@ui/components/ui/button";
 import { useEffect, useState } from "react";
-import { Input } from "@ui/components/ui/input";
-import { useStore } from "@/store";
-// import TabButton from "./tabButton";
+import ItemButton from "./items-buttons";
 
 const Categories = () => {
-  // const categories = await serverClient.listRayonTab();
-
-  // const sortedCategories = categories.toSorted((a, b) => a.id - b.id);
   const { tabs } = useTabsStore();
   const [mount, setMount] = useState(false);
 
@@ -27,9 +19,9 @@ const Categories = () => {
   }, []);
 
   return (
-    <>
+    <div className="relative h-full">
       {mount && (
-        <Tabs defaultValue={tabs[0].name} className="w-full relative h-full">
+        <Tabs defaultValue={tabs[0]?.name} className="w-full  h-full">
           <TabsList className="flex  justify-between h-16 sticky top-0 w-full bg-primary mb-1 ">
             {tabs &&
               tabs?.map((category, i) => (
@@ -47,7 +39,7 @@ const Categories = () => {
               <TabsContent
                 value={category?.name!}
                 key={i}
-                className="px-0 grid grid-cols-4 gap-1 "
+                className="px-0 py-1 grid grid-cols-5 gap-1 "
               >
                 {category.products.map((item, i) => (
                   <div key={i} className="w-full">
@@ -58,7 +50,7 @@ const Categories = () => {
             ))}
         </Tabs>
       )}
-    </>
+    </div>
   );
 };
 

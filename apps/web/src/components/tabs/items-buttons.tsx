@@ -1,17 +1,14 @@
 "use client";
-import { trpc } from "@repo/trpc/client";
 
 import {
   Product,
   addProduct,
-  useStore,
   resetQty,
   updateProduct,
+  useStore,
 } from "@/store";
+import { Products } from "@repo/prisma/client";
 import { Button } from "@repo/ui/src/components/ui/button";
-import { Data, Products } from "@repo/prisma/client";
-import { useEffect } from "react";
-import { useTabsStore } from "@/store/tabs";
 
 const ItemButton = ({ item }: { item: Products }) => {
   const { qty, products } = useStore();
@@ -48,9 +45,9 @@ const ItemButton = ({ item }: { item: Products }) => {
       <Button
         variant={"secondary"}
         onClick={handleSubmit}
-        className="text-balance rounded-md border-2 border-primary text-primary h-16 w-full font-bold "
+        className="truncate whitespace-pre-wrap rounded-md border-2 border-primary  text-primary px-1 text-center text-xs h-20 w-full font-bold "
       >
-        <span>{item?.libelle}</span>
+        {item?.libelle}
       </Button>
     )
   );

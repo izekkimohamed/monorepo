@@ -47,7 +47,6 @@ function ReprandeDialog() {
                   ticket.products.map((product) => {
                     //@ts-expect-error
                     addProduct(product);
-                    // deleteProduct(product.id);
                   });
                 }}
               >
