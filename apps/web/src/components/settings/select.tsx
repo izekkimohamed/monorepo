@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 
 import {
@@ -11,9 +12,11 @@ import {
 } from "@repo/ui/src/components/ui/select";
 import { trpc } from "@repo/trpc/client";
 import { Button } from "@ui/components/ui/button";
-import { Rayon } from "@repo/prisma/client";
+import { Data, Products, Rayon } from "@repo/prisma/client";
 import { XCircle } from "lucide-react";
 import { DataList } from "./dataList";
+import { useTabsStore } from "@/store/tabs";
+import { Input } from "@ui/components/ui/input";
 // import { trpc } from "@/trpc/client";
 // import { Input } from "../ui/input";
 
@@ -24,56 +27,78 @@ import { DataList } from "./dataList";
 // import { XCircle } from "lucide-react";
 
 export function CategorySettings() {
-  const { data: tabs } = trpc.listRayonTab.useQuery();
-  const [items, setItems] = React.useState<string[]>([]);
-  const [selectedRayons, setSelectedRayons] = React.useState<Rayon>();
+  const { tabs, addTab, addToTabProducts } = useTabsStore();
+  const [input, setInput] = React.useState("");
+  // const { data: tabs } = trpc.listRayonTab.useQuery();
+  // const [selectedRayons, setSelectedRayons] = React.useState<Rayon>();
+  const [items, setItems] = React.useState<Products[]>([]);
   const [valueId, setValueId] = React.useState<string | null>(null);
-  const utils = trpc.useUtils();
-  const { mutate: updateTabs } = trpc.updateRayonTab.useMutation({
-    onSuccess: () => {
-      utils.listRayonTab.invalidate();
-    },
-  });
-  const { data: categories } = trpc.listRayonTab.useQuery();
-  const { mutate: createRayon } = trpc.createRayonTab.useMutation();
-  const { mutate: updateRayon } = trpc.updateRayonTab.useMutation();
+  // const utils = trpc.useUtils();
+  // const { mutate: updateTabs } = trpc.updateRayonTab.useMutation({
+  //   onSuccess: () => {
+  //     utils.listRayonTab.invalidate();
+  //   },
+  // });
+  // const { data: categories } = trpc.listRayonTab.useQuery();
+  // const { mutate: createRayon } = trpc.createRayonTab.useMutation();
+  // const { mutate: updateRayon } = trpc.updateRayonTab.useMutation();
 
-  async function createTab(libelle: string, code: string) {
-    // first check if the tab already exists
-    const existingTab = categories?.find((tab) => tab.code === code);
-    if (existingTab) {
-      return existingTab;
-    }
-    return await createRayon({ libelle, code });
-  }
-  async function updateTab(id: number, products: string[]) {
-    return await updateRayon({ id, products });
-  }
-  const { data: rayonsList } = trpc.listRayons.useQuery();
+  // async function createTab(libelle: string, code: string) {
+  //   // first check if the tab already exists
+  //   const existingTab = categories?.find((tab) => tab.code === code);
+  //   if (existingTab) {
+  //     return existingTab;
+  //   }
+  //   return await createRayon({ libelle, code });
+  // }
+  // async function updateTab(id: number, products: string[]) {
+  //   return await updateRayon({ id, products });
+  // }
+  // const { data: rayonsList } = trpc.listRayons.useQuery();
 
-  async function handleTabsUpdate() {
-    if (!selectedRayons) return;
-    const tab = await createTab(
-      selectedRayons.libelle!,
-      selectedRayons.code.toLocaleString(),
-    );
-    setSelectedRayons(undefined);
-  }
+  // async function handleTabsUpdate() {
+  //   if (!selectedRayons) return;
+  //   const tab = await createTab(
+  //     selectedRayons.libelle!,
+  //     selectedRayons.code.toLocaleString(),
+  //   );
+  //   setSelectedRayons(undefined);
+  // }
 
-  async function handleUpdate() {
-    if (!valueId || !items.length) return;
+  // async function handleUpdate() {
+  //   if (!valueId || !items.length) return;
 
-    updateTabs({
-      id: +valueId,
-      products: items,
-    });
-    setItems([]);
-    setValueId(null);
-  }
+  //   updateTabs({
+  //     id: +valueId,
+  //     products: items,
+  //   });
+  //   setItems([]);
+  //   setValueId(null);
+  // }
   // const inputRef = React.useRef<HTMLInputElement>(null);
-
+  React.useEffect(() => {
+    useTabsStore.persist.rehydrate();
+  }, []);
   return (
     <div className="w-full">
+      <div className="w-full px-6">
+        <form
+          className="w-full flex gap-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            addTab(input.toUpperCase());
+            setInput("");
+          }}
+        >
+          <Input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className=" border-2 w-full"
+          />
+          <Button type="submit">Ajouter</Button>
+        </form>
+      </div>
       <>
         <div className="grid grid-cols-2 items-center gap-2 w-full">
           <Select
@@ -93,7 +118,7 @@ export function CategorySettings() {
                     value={tab.id.toLocaleString()}
                     className="cursor-pointer"
                   >
-                    {tab.libelle}
+                    {tab.name}
                   </SelectItem>
                 ))}
               </SelectGroup>
@@ -102,11 +127,7 @@ export function CategorySettings() {
 
           {valueId && (
             <>
-              <DataList
-                setItems={setItems}
-                items={items}
-                code={tabs?.find((t) => t.id == +valueId)?.code!}
-              />
+              <DataList setItems={setItems} items={items} />
             </>
           )}
         </div>
@@ -116,7 +137,7 @@ export function CategorySettings() {
               key={i}
               className="group p-2 rounded-md border-2 font-bold cursor-pointer bg-primary hover:bg-primary/90 text-gray-100 relative "
             >
-              <p>{item}</p>
+              <p>{item.libelle}</p>
               <XCircle
                 className="w-5 h-5 -top-2 -right-2 absolute rounded-full bg-red-500 hidden group-hover:block transition-all "
                 onClick={() => {
@@ -128,13 +149,16 @@ export function CategorySettings() {
             </div>
           ))}{" "}
         </div>
-        <Button
-          onClick={handleUpdate}
-          disabled={!valueId || !items.length}
-          className="border"
-        >
-          Add
-        </Button>
+        {items && valueId && (
+          <Button
+            onClick={() => {
+              addToTabProducts(+valueId, items);
+              setItems([]);
+            }}
+          >
+            Add
+          </Button>
+        )}
       </>
     </div>
   );

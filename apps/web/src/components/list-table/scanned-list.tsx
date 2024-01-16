@@ -48,6 +48,8 @@ function ScannedList() {
                     deleteProduct(item.id);
                     removeProduct(item);
                     // setQty(1);}
+                  } else {
+                    removeProduct(item);
                   }
                 }}
                 className="text-red-500 cursor-pointer"

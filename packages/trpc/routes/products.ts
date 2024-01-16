@@ -4,6 +4,9 @@ import { publicProcedure, router } from "../trpc";
 import { prisma } from "@repo/prisma/db";
 
 export const productsRouter = router({
+  listProducts: publicProcedure.query(async () => {
+    return await prisma.products.findMany();
+  }),
   scannedProduct: publicProcedure
     .input(
       z.object({

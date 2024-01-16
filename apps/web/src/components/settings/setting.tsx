@@ -31,9 +31,7 @@ function Setting() {
   return (
     <Sheet onOpenChange={setActive}>
       <SheetTrigger asChild>
-        <Button className="h-full row-span-1 bg-[#009f55] rounded">
-          Settings
-        </Button>
+        <Button className="h-full  bg-[#009f55] rounded">Settings</Button>
       </SheetTrigger>
 
       <SheetContent className="px-2 py-4" side={"right"}>
@@ -73,7 +71,7 @@ function Setting() {
           <TabsContent value="clients" className="w-full">
             {/* <ListClients /> */}
           </TabsContent>
-          <TabsContent value="tabs" className="w-full">
+          <TabsContent value="tabs" className="w-full flex">
             <CategorySettings />
           </TabsContent>
         </Tabs>

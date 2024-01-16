@@ -20,32 +20,20 @@ import { ChevronDown, SortAscIcon } from "lucide-react";
 import { Checkbox } from "@repo/ui/src/components/ui/checkbox";
 // import getProductsByRayon from "@/actions/getProductsByRayon";
 import { ScrollArea } from "@repo/ui/src/components/ui/scroll-area";
-import { Products } from "@repo/prisma/client";
+import { Data, Products } from "@repo/prisma/client";
 import getProductsByRayon from "@/actions/getProductsByRayon";
+import { trpc } from "@repo/trpc/client";
 
 export function DataList({
   setItems,
   items,
-  code,
 }: {
-  setItems: React.Dispatch<React.SetStateAction<string[]>>;
-  items: string[];
-  code: string | null;
+  setItems: React.Dispatch<React.SetStateAction<Products[]>>;
+  items: Products[];
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
-  const [products, setProducts] = React.useState<Products[]>([]);
-
-  async function getProducts() {
-    if (!code) return;
-
-    const products = await getProductsByRayon(+code);
-    setProducts(products);
-  }
-
-  React.useEffect(() => {
-    getProducts();
-  }, [code]);
+  const { data: products } = trpc.listProducts.useQuery();
 
   return (
     <div className="w-full col-span-1">
@@ -67,21 +55,25 @@ export function DataList({
             <CommandEmpty>No framework found.</CommandEmpty>
             <ScrollArea className="h-[300px] relative">
               <CommandGroup className="">
-                {products.map((product) => (
+                {products?.map((product) => (
                   <CommandItem
-                    key={product.code}
+                    key={product.id}
                     value={product.libelle!}
                     className="text-gray-950 cursor-pointer"
                   >
                     <div className="flex gap-2 items-center ">
                       <Checkbox
-                        checked={items?.includes(product.code!)}
+                        checked={
+                          items?.find((value) => value.id === product.id)?.id
+                            ? true
+                            : false
+                        }
                         onCheckedChange={(checked) => {
                           return checked
-                            ? setItems([...items, product.code!])
+                            ? setItems([...items!, product!])
                             : setItems(
                                 items?.filter(
-                                  (value) => value !== product.code,
+                                  (value) => value.code !== product.code,
                                 ),
                               );
                         }}
