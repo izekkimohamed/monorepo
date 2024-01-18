@@ -12,10 +12,23 @@ import {
 } from "@/store";
 import { useSettingsStore } from "@/store/settings";
 import { Input } from "@ui/components/ui/input";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 function TotalDiplay() {
   const { products, scannedCode, qty, inputRef } = useStore();
   const settingsActive = useSettingsStore((state) => state.active);
+  const tva_2 = products
+    .filter((item) => item.tva_code === 2)
+    .map((item) => {
+      return item.total * (20 / 100);
+    })
+    .reduce((acc, curr) => Number(acc + +curr), 0);
+  const tva_1 = products
+    .filter((item) => item.tva_code === 1)
+    .map((item) => {
+      return item.total * (5.5 / 100);
+    })
+    .reduce((acc, curr) => Number(acc + +curr), 0);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,6 +64,7 @@ function TotalDiplay() {
 
     setScannedCode("");
   };
+
   useEffect(() => {
     if (!settingsActive) {
       inputRef.current?.focus();
@@ -65,44 +79,40 @@ function TotalDiplay() {
       <div className="flex items-center justify-around gap-10">
         <div className="flex flex-col gap-y-2">
           <div className="flex gap-3">
-            <span className="text-right">Total:</span>
+            <span className="text-right text-gray-400">Total :</span>
             <span className="text-right">
               {products &&
-                products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2)}
+                formatCurrency(
+                  products.reduce((acc, curr) => acc + +curr.total, 0),
+                )}
             </span>
           </div>
           <div className="flex gap-3">
-            <span>PVHT:</span>
+            <span className="text-gray-400">PVHT :</span>
             <span>
               {products &&
-                products
-                  .reduce((acc, curr) => acc + +curr.totalPvht, 0)
-                  .toFixed(2)}
+                formatCurrency(
+                  products.reduce((acc, curr) => acc + +curr.totalPvht, 0),
+                )}
             </span>
           </div>
         </div>
         <div className="flex flex-col gap-y-2">
           <div className="flex gap-2">
-            <span>TVA 20%:</span>
-            <span>
-              {products
-                .filter((item) => item.tva_code === 2)
-                .map((item) => {
-                  return item.total * (20 / 100);
-                })
-                .reduce((acc, curr) => Number((acc + +curr).toFixed(2)), 0)}
-            </span>
+            {tva_2 > 0 && (
+              <>
+                <span className="text-gray-400">TVA 20% :</span>
+                <span>{formatCurrency(tva_2)}</span>
+              </>
+            )}
           </div>
           <div className="flex gap-2">
-            <span>TVA 5.5%:</span>
-            <span>
-              {products
-                .filter((item) => item.tva_code === 1)
-                .map((item) => {
-                  return item.total * (5.5 / 100);
-                })
-                .reduce((acc, curr) => Number((acc + +curr).toFixed(2)), 0)}
-            </span>
+            {tva_1 > 0 && (
+              <>
+                <span className="text-gray-400">TVA 5.5% :</span>
+                <span>{formatCurrency(tva_1)}</span>
+              </>
+            )}
           </div>
         </div>
         <form className="flex gap-1 " onSubmit={(e) => handleSubmit(e)}>
@@ -125,12 +135,6 @@ function TotalDiplay() {
             }}
           />
         </form>
-        {/* <Input
-          type="text"
-          disabled
-          className="w-[50px] text-gray-950 opacity-0 font-bold text-lg"
-          value={scannedCode}
-        /> */}
       </div>
     </div>
   );

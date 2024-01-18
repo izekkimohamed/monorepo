@@ -24,17 +24,14 @@ export default function ClientsDialog() {
     <Dialog>
       {products.length ? (
         <DialogTrigger asChild>
-          <Button
-            className="h-full  text-gray-50 bg-[#009f55] rounded font-semibold text-2xl w-full border-0 hover:bg-[#009f55] hover:text-gray-50"
-            variant="outline"
-          >
+          <Button variant="action" size={"full"}>
             Client
           </Button>
         </DialogTrigger>
       ) : (
         <Button
-          className="h-full  text-gray-50 bg-[#009f55] rounded font-semibold text-2xl w-full border-0 hover:bg-[#009f55] hover:text-gray-50"
-          variant="outline"
+          variant="action"
+          size={"full"}
           onClick={() => {
             toast({
               title: "Ticket reprande",

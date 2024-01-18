@@ -84,9 +84,14 @@ function ActionButtons() {
     }
   };
   return (
-    <div className="col-span-1  grid grid-rows-4 gap-y-1">
+    <div className="grid col-span-1 grid-rows-4 gap-y-1">
       <Setting />
-      <Button variant={"action"} size={"full"} onClick={handleAttentButton}>
+      <Button
+        className=""
+        variant={"action"}
+        size={"full"}
+        onClick={handleAttentButton}
+      >
         Attent
       </Button>
 

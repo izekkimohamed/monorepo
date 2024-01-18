@@ -1,6 +1,7 @@
 "use client";
 import { removeProduct, selectProduct, useStore } from "@/store";
 import usePaymentStore from "@/store/paymentsMethods";
+import { formatCurrency } from "@/utils/formatCurrency";
 import { cn } from "@repo/libs/utils";
 import { PaymentEnum } from "@repo/prisma/client";
 import { trpc } from "@repo/trpc/client";
@@ -79,12 +80,7 @@ function ScannedList() {
             Remaining
           </TableCell>
           <TableCell className="sticky bottom-0 text-2xl font-bold text-right ">
-            {remaining.toLocaleString("fr-FR", {
-              style: "currency",
-              currency: "EUR",
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            {formatCurrency(remaining)}
           </TableCell>
         </TableRow>
       </TableFooter>
@@ -100,7 +96,7 @@ function ScannedList() {
             }}
             className={cn(
               i % 2 === 0 ? "bg-gray-300" : "bg-gray-100",
-              "font-bold text-lg grid  grid-cols-8 hover:bg-blue-200",
+              "font-bold  grid  grid-cols-8 hover:bg-blue-200",
               selectedProduct?.code === item.code &&
                 "bg-blue-200 hover:bg-blue-200",
             )}
@@ -119,7 +115,7 @@ function ScannedList() {
                     removeProduct(item);
                   }
                 }}
-                className="text-red-500 cursor-pointer"
+                className="text-red-700 cursor-pointer hover:text-red-500 "
                 size={20}
               />
             </TableCell>
@@ -127,13 +123,13 @@ function ScannedList() {
               {item.libelle}
             </TableCell>
             <TableCell className="col-span-1 text-center">
-              {item.price}
+              {formatCurrency(item.price)}
             </TableCell>
             <TableCell className="col-span-1 text-center">
               {item.quantity}
             </TableCell>
             <TableCell className="col-span-1 text-center">
-              {item.total}
+              {formatCurrency(item.total)}
             </TableCell>
           </TableRow>
         ))}

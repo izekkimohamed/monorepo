@@ -25,7 +25,9 @@ function Setting() {
   return (
     <Sheet onOpenChange={setActive}>
       <SheetTrigger asChild>
-        <Button className="h-full  bg-[#009f55] rounded">Settings</Button>
+        <Button variant={"action"} size={"full"}>
+          Settings
+        </Button>
       </SheetTrigger>
 
       <SheetContent className="px-2 py-4" side={"right"}>
