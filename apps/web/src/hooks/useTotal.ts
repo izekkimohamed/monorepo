@@ -1,20 +1,22 @@
-import { useStore, resetNamPad } from "@/store";
+import { useStore, resetNamPad, setRemaining } from "@/store";
 
 import { useToast } from "@repo/ui/src/components/ui/use-toast";
 import { PaymentEnum } from "@repo/prisma/client";
 
+import usePaymentStore from "@/store/paymentsMethods";
+
 export const useTotal = () => {
   const products = useStore.getState().products;
   const namPad = useStore.getState().namPad;
+  const { handlePaymentMethods } = usePaymentStore();
 
   const { toast } = useToast();
 
   return async (
     remaining: number,
     setIsTotal: (isTotal: boolean) => void,
-
+    ticketNumber: number,
     mode: PaymentEnum,
-    handlePaymentMethods: (mode: PaymentEnum, amount: number) => void,
   ) => {
     if (products.length < 1) {
       toast({
@@ -33,7 +35,7 @@ export const useTotal = () => {
     const amount = namPad !== "" ? Number(namPad) : 0;
     if (amount === 0 && !remaining) {
       let t = products.reduce((acc, curr) => acc + +curr.total, 0);
-      handlePaymentMethods(mode, t);
+      handlePaymentMethods(mode, t, ticketNumber);
 
       toast({
         title: "Change",
@@ -48,11 +50,11 @@ export const useTotal = () => {
     }
     if (remaining > 0) {
       if (remaining > amount && amount > 0) {
-        handlePaymentMethods(mode, amount);
+        handlePaymentMethods(mode, amount, ticketNumber);
         resetNamPad();
         return;
       } else {
-        handlePaymentMethods(mode, Number(remaining.toFixed(2)));
+        handlePaymentMethods(mode, Number(remaining.toFixed(2)), ticketNumber);
         resetNamPad();
         toast({
           title: "Change",
@@ -66,7 +68,7 @@ export const useTotal = () => {
     }
 
     if (amount < total) {
-      handlePaymentMethods(mode, amount);
+      handlePaymentMethods(mode, amount, ticketNumber);
       resetNamPad();
       return;
     }

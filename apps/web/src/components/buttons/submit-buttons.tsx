@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import ClientsDialog from "../clients/ClientDialog";
 import { useTicketSubmission } from "@/hooks/useTickitSubmission";
 import { useTotal } from "@/hooks/useTotal";
-import { usePaymentMethod } from "@/hooks/usePaymentMethod";
-import { useStore, resetList } from "@/store";
+
+import { useStore, resetList, setRemaining } from "@/store";
 import { PaymentEnum } from "@repo/prisma/client";
 import { trpc } from "@repo/trpc/client";
+import usePaymentStore from "@/store/paymentsMethods";
 
 const SubmitButtons = () => {
   const [isTotal, setIsTotal] = useState<boolean>(false);
@@ -21,18 +22,17 @@ const SubmitButtons = () => {
   });
   const handelTickitSubmission = useTicketSubmission();
   const handleTotal = useTotal();
-  const [ticketMethods, setPaymentMethods, handlePaymentMethods] =
-    usePaymentMethod();
+  const { paymentMethods, setPaymentMethods } = usePaymentStore();
   const t = products.reduce((acc, curr) => {
     return acc + curr.total;
   }, 0);
-  const r = ticketMethods.reduce((acc, curr) => {
+  const r = paymentMethods.reduce((acc, curr) => {
     return acc + curr.amount;
   }, 0);
 
   const remaining = t - r;
   function submitTotal(mode: PaymentEnum) {
-    handleTotal(remaining, setIsTotal, mode, handlePaymentMethods);
+    handleTotal(remaining, setIsTotal, ticketNumber?.number!, mode);
   }
 
   const create = async () => {
@@ -43,7 +43,7 @@ const SubmitButtons = () => {
 
   if (isTotal) {
     try {
-      handelTickitSubmission(products, ticketNumber?.number!, ticketMethods);
+      handelTickitSubmission(products, ticketNumber?.number!, paymentMethods);
     } catch (error) {
     } finally {
       create();

@@ -1,16 +1,21 @@
 "use client";
 import { removeProduct, selectProduct, useStore } from "@/store";
+import usePaymentStore from "@/store/paymentsMethods";
 import { cn } from "@repo/libs/utils";
+import { PaymentEnum } from "@repo/prisma/client";
 import { trpc } from "@repo/trpc/client";
 import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableRow,
 } from "@repo/ui/src/components/ui/table";
 import { Trash2 } from "lucide-react";
 
 function ScannedList() {
+  const { paymentMethods, setPaymentMethods } = usePaymentStore();
+  // const remaining = useStore((state) => state.remaining);
   const { mutate: deleteProduct } = trpc.deleteData.useMutation();
   const { mutate: deletewaittingTicket } =
     trpc.deleteWaittingTickets.useMutation();
@@ -20,9 +25,72 @@ function ScannedList() {
   const wattingTickets = products.filter(
     (p) => p.waittingTicketsNumber !== undefined,
   );
+  const deleteFromList = (mode: PaymentEnum) => {
+    setPaymentMethods(paymentMethods.filter((item) => item.mode !== mode));
+  };
 
-  return (
-    <Table className="bg-gray-50 h-full">
+  const t = products.reduce((acc, curr) => {
+    return acc + curr.total;
+  }, 0);
+  const r = paymentMethods.reduce((acc, curr) => {
+    return acc + curr.amount;
+  }, 0);
+
+  const remaining = t - r;
+
+  return paymentMethods.length > 0 ? (
+    <Table className="h-full ">
+      <TableBody className="w-full h-full">
+        {paymentMethods.map((item, i) => (
+          <TableRow
+            key={i}
+            className={cn(
+              i % 2 === 0 ? "bg-gray-300" : "bg-gray-100",
+              "font-bold text-lg w-full",
+            )}
+          >
+            <TableCell className="">
+              <Trash2
+                onClick={() => {
+                  deleteFromList(item.mode);
+                  // setQty(1);
+                }}
+                className="text-red-500 cursor-pointer"
+                size={20}
+              />
+            </TableCell>
+
+            <TableCell colSpan={3}>{item.mode}</TableCell>
+            <TableCell className="text-right">
+              {item.amount.toLocaleString("fr-FR", {
+                style: "currency",
+                currency: "EUR",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+
+      <TableFooter className="bg-primary hover:bg-primary text-gray-50">
+        <TableRow className="h-full">
+          <TableCell colSpan={4} className="text-lg font-semibold">
+            Remaining
+          </TableCell>
+          <TableCell className="sticky bottom-0 text-2xl font-bold text-right ">
+            {remaining.toLocaleString("fr-FR", {
+              style: "currency",
+              currency: "EUR",
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
+  ) : (
+    <Table className="h-full bg-gray-50">
       <TableBody className="h-full">
         {products.map((item, i) => (
           <TableRow
@@ -55,7 +123,7 @@ function ScannedList() {
                 size={20}
               />
             </TableCell>
-            <TableCell className="truncate col-span-4 text-start ">
+            <TableCell className="col-span-4 truncate text-start ">
               {item.libelle}
             </TableCell>
             <TableCell className="col-span-1 text-center">

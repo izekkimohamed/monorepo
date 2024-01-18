@@ -1,9 +1,13 @@
 import { trpc } from "@repo/trpc/client";
-import { TPayment } from "./usePaymentMethod";
-import { Product } from "@/store";
 
+import { Product } from "@/store";
+import { PaymentEnum } from "@repo/prisma/client";
+export type TPayment = {
+  mode: PaymentEnum;
+  amount: number;
+  ticketNumber: number;
+};
 export const useTicketSubmission = () => {
-  const { mutate: createData } = trpc.createData.useMutation();
   const { mutate: updateData } = trpc.updateData.useMutation();
   const { mutate: deleteWaittingTickets } =
     trpc.deleteWaittingTickets.useMutation();

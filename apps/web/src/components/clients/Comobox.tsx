@@ -48,7 +48,6 @@ type TClient = {
 
 export function ComboboxDemo({ client }: TClient) {
   const [open, setOpen] = useState<number | null>(null);
-  console.log(client.tickets);
   return (
     <div className="w-full h-auto border rounded-md border-primary/50">
       <div className="flex p-2 text-lg font-semibold text-gray-500 gap-x-2 rounded-t-md bg-primary/20">

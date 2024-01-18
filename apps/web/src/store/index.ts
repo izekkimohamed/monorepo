@@ -12,7 +12,7 @@ export type Store = {
   selectedProduct: Product | null;
   inputRef: RefObject<HTMLInputElement>;
   namPad: string;
-  remainig: number;
+  remaining: number;
 };
 
 export const useStore = create<Store>(() => ({
@@ -22,12 +22,18 @@ export const useStore = create<Store>(() => ({
   selectedProduct: null,
   inputRef: createRef(),
   namPad: "",
-  remainig: 0,
+  remaining: 0,
 }));
 
 export const addProduct = (product: Product) => {
   useStore.setState((state) => ({
     products: [...state.products, product],
+  }));
+};
+
+export const setRemaining = (remaining: number) => {
+  useStore.setState((state) => ({
+    remaining,
   }));
 };
 
