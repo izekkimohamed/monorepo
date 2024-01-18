@@ -24,11 +24,11 @@ export function CategorySettings() {
   const [valueId, setValueId] = React.useState<string | null>(null);
 
   return (
-    <div className="w-full  px-6 space-y-3">
-      <div className="w-full py-4 space-y-2 px-1  bg-muted border border-gray-300 rounded-md ">
-        <h2 className="font-bold text-gray-900  ">Create Tab</h2>
+    <div className="w-full px-6 space-y-3">
+      <div className="w-full px-1 py-4 space-y-2 border border-gray-300 rounded-md bg-muted ">
+        <h2 className="font-bold text-gray-900 ">Create Tab</h2>
         <form
-          className="w-full flex gap-2"
+          className="flex w-full gap-2"
           onSubmit={(e) => {
             e.preventDefault();
             addTab(input.toUpperCase());
@@ -39,22 +39,22 @@ export function CategorySettings() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className=" border-2 border-primary w-full"
+            className="w-full border-2  border-primary"
             autoFocus
           />
           <Button type="submit">Ajouter</Button>
         </form>
       </div>
       <div className="flex gap-2">
-        <div className="w-1/2  bg-muted border border-gray-300 space-y-2 gap-2 p-3 rounded-md">
-          <h2 className="font-bold text-gray-900 px-1">Add Products to Tab</h2>
+        <div className="w-1/2 gap-2 p-3 space-y-2 border border-gray-300 rounded-md bg-muted">
+          <h2 className="px-1 font-bold text-gray-900">Add Products to Tab</h2>
           <Select
             onValueChange={(v) => {
               setItems([]);
               setValueId(v);
             }}
           >
-            <SelectTrigger className="border- h-11 border-gray-300  font-bold ring-0">
+            <SelectTrigger className="font-bold border-gray-300 border- h-11 ring-0">
               <SelectValue
                 placeholder="Select a category"
                 className="bg-gray-50"
@@ -82,11 +82,11 @@ export function CategorySettings() {
             {items.map((item, i) => (
               <div
                 key={i}
-                className="p-2 my-1 text-center rounded-md border-2 font-bold cursor-pointer bg-primary hover:bg-primary/90 text-gray-100 flex justify-between "
+                className="flex justify-between p-2 my-1 font-bold text-center text-gray-100 border-2 rounded-md cursor-pointer bg-primary hover:bg-primary/90 "
               >
                 <p>{item.libelle}</p>
                 <XCircle
-                  className="w-7 h-7 hover:text-red-500 transition-all "
+                  className="transition-all w-7 h-7 hover:text-red-500 "
                   onClick={() => {
                     setItems((prev) => {
                       return prev.filter((p) => p !== item);

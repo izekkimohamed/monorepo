@@ -1,73 +1,76 @@
-"use client";
 import { Button } from "@repo/ui/src/components/ui/button";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@repo/ui/src/components/ui/sheet";
-
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@repo/ui/src/components/ui/card";
+import { Input } from "@repo/ui/src/components/ui/input";
+import { Label } from "@repo/ui/src/components/ui/label";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@repo/ui/src/components/ui/tabs";
-import { useStore } from "@/store";
-import { useSettingsStore } from "@/store/settings";
-// import { CategorySettings } from "./select";
-import Link from "next/link";
 
-// import { trpc } from "@/trpc/client";
-// import ListClients from "../clients/ListClients";
-// import ProductForm from "./productSettings";
-// import { CategorySettings } from "./select";
-
-function Setting() {
-  // const { data: tabsProducts } = trpc.listRayonTab.useQuery();
-
-  const setActive = useSettingsStore((state) => state.toggle);
-
+const TabsDemo = () => {
   return (
-    <div className="w-[40vw]">
-      <Tabs
-        defaultValue="tabs"
-        orientation="vertical"
-        className="w-full h-full"
-      >
-        <TabsList className="font-semibold flex my-3 rounded-md border-2 border-gray-200 p-1 gap-2 items-start bg-muted ">
-          <TabsTrigger
-            value="tabs"
-            className="px-3 py-2 data-[state=active]:text-white  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
-          >
-            tabs
-          </TabsTrigger>
-          <TabsTrigger
-            value="products"
-            className="px-3 py-2 data-[state=active]:text-white  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
-          >
-            products
-          </TabsTrigger>
-          <TabsTrigger
-            value="clients"
-            className="px-3 py-2 data-[state=active]:text-white  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
-          >
-            Clients
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="products" className="w-full h-full">
-          {/* <ProductForm /> */}
-        </TabsContent>
-        <TabsContent value="clients" className="w-full">
-          {/* <ListClients /> */}
-        </TabsContent>
-        <TabsContent value="tabs" className="w-full">
-          {/* <CategorySettings /> */}
-        </TabsContent>
-      </Tabs>
-    </div>
+    <Tabs defaultValue="account" className="h-screen ">
+      <TabsList className="grid grid-cols-2">
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">
+        <Card>
+          <CardHeader>
+            <CardTitle>Account</CardTitle>
+            <CardDescription>
+              Make changes to your account here. Click save when you're done.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="space-y-1">
+              <Label htmlFor="name">Name</Label>
+              <Input id="name" defaultValue="Pedro Duarte" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="username">Username</Label>
+              <Input id="username" defaultValue="@peduarte" />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button>Save changes</Button>
+          </CardFooter>
+        </Card>
+      </TabsContent>
+      <TabsContent value="password">
+        <Card>
+          <CardHeader>
+            <CardTitle>Password</CardTitle>
+            <CardDescription>
+              Change your password here. After saving, you'll be logged out.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="space-y-1">
+              <Label htmlFor="current">Current password</Label>
+              <Input id="current" type="password" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="new">New password</Label>
+              <Input id="new" type="password" />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button>Save password</Button>
+          </CardFooter>
+        </Card>
+      </TabsContent>
+    </Tabs>
   );
-}
+};
 
-export default Setting;
+export default TabsDemo;

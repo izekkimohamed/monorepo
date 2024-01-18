@@ -69,9 +69,11 @@ export const waittingTicketsRouter = router({
       return await prisma.waittingTickets.delete({
         where: {
           number: input,
-        },
-        include: {
-          products: true,
+          products: {
+            every: {
+              waittingTicketsNumber: input,
+            },
+          },
         },
       });
     }),

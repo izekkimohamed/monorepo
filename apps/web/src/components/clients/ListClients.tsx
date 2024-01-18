@@ -1,30 +1,61 @@
-import { Button } from "@repo/ui/src/components/ui/button";
-// import {
-//   Dialog,
-//   DialogClose,
-//   DialogContent,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogTrigger,
-// } from "@repo/ui/src/components/ui/dialog";
-// import { useGlobalStore } from "@/store";
-// import { trpc } from "@/trpc/client";
-// import { useToast } from "../ui/use-toast";
-// import { ComboboxDemo } from "./Comobox";
+import { trpc } from "@repo/trpc/client";
+import { useToast } from "@ui/components/ui/use-toast";
+import { ComboboxDemo } from "./Comobox";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@ui/components/ui/select";
+import { useState } from "react";
 
 export default function ListClients() {
-  // const { data: clientList } = trpc.listClients.useQuery();
-  // const { toast } = useToast();
+  const { data: clientList } = trpc.listClients.useQuery();
+  const [clientId, setClientId] = useState<number | null>(null);
+  const { toast } = useToast();
+
+  const selectedClientTickets = clientList?.filter(
+    (client) => client.id === clientId,
+  );
 
   return (
     <>
-      {/* <div className="grid gap-2 ">
-        {clientList?.map((client) => (
-          <div key={client.id} className="flex w-full gap-2 ">
-            <ComboboxDemo client={client} />
+      {clientList && clientList?.length > 0 ? (
+        <div className="grid gap-2 ">
+          <div className="w-full gap-2 ">
+            <Select onValueChange={(value) => setClientId(+value)}>
+              <SelectTrigger className="w-1/2 font-bold bg-muted text-primary">
+                <SelectValue placeholder="Select Client" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {clientList &&
+                    clientList?.map((client) => (
+                      <SelectItem
+                        key={client.name}
+                        value={client.id.toLocaleString()}
+                        className="font-bold cursor-pointer text-primary"
+                      >
+                        {client.name}
+                      </SelectItem>
+                    ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
-        ))} */}
-      {/* </div> */}
+
+          {selectedClientTickets &&
+            selectedClientTickets.map((client) => (
+              <ComboboxDemo key={client.id} client={client} />
+            ))}
+        </div>
+      ) : (
+        <p className="text-3xl font-bold text-center text-gray-700">
+          No Clients Yet
+        </p>
+      )}
     </>
   );
 }

@@ -40,7 +40,6 @@ export const dataRouter = router({
         date: z.coerce.date(),
         tva_code: z.number(),
         ticketNumber: z.number().optional(),
-        waittingTicketsNumber: z.number().optional(),
         famille_code: z.number(),
       }),
     )
@@ -59,7 +58,7 @@ export const dataRouter = router({
             date: input.date,
             tva_code: input.tva_code,
             ticketNumber: input.ticketNumber,
-            waittingTicketsNumber: input.waittingTicketsNumber,
+            waittingTicketsNumber: null,
             famille_code: input.famille_code,
           },
         });
@@ -76,7 +75,7 @@ export const dataRouter = router({
             date: input.date,
             tva_code: input.tva_code,
             ticketNumber: input.ticketNumber,
-            waittingTicketsNumber: input.waittingTicketsNumber,
+            waittingTicketsNumber: null,
             famille_code: input.famille_code,
           },
         });

@@ -40,7 +40,6 @@ const DataList = ({
     );
 
     setFilteredProducts(filtered);
-    console.log(filteredProducts);
 
     setSearch("");
   }
@@ -52,11 +51,11 @@ const DataList = ({
   return (
     <div className="col-span-1 ">
       <form onSubmit={(e) => handleSearch(e)}>
-        <Label className="flex items-center border-2 gap-2 bg-gray-50 border-gray-300 rounded-md px-2 ">
+        <Label className="flex items-center gap-2 px-2 border-2 border-gray-300 rounded-md bg-gray-50 ">
           <Search className="w-5 h-5 text-zinc-400" />
           <Input
             placeholder="Search Product..."
-            className="border-none  text-gray-700"
+            className="text-gray-700 border-none"
             value={search}
             onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
           />
@@ -66,7 +65,7 @@ const DataList = ({
         <ScrollArea className="h-[250px] p-2 pb-0 relative">
           {filteredProducts &&
             filteredProducts.map((p) => (
-              <div className="flex gap-2 items-center " key={p.id}>
+              <div className="flex items-center gap-2 " key={p.id}>
                 <Checkbox
                   checked={
                     items?.find((value) => value.id === p.id)?.id ? true : false

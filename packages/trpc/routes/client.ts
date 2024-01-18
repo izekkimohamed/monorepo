@@ -30,10 +30,10 @@ export const clientsRouter = router({
             quantity: z.number(),
             total: z.number(),
             date: z.coerce.date(),
-            tva_code: z.number(),
+            tva_code: z.number().nullable(),
             ticketNumber: z.number(),
             waittingTicketsNumber: z.number().nullable().optional(),
-            famille_code: z.number(),
+            famille_code: z.number().nullable(),
           }),
         ),
       }),
@@ -49,26 +49,35 @@ export const clientsRouter = router({
         },
       });
 
-      // create or update data depend on id
-      const createProducts = await Promise.all(
-        input.data.map(async (product) => {
-          if (product.id) {
-            const deleteWaittingList = await prisma.waittingTickets.delete({
-              where: { number: product.waittingTicketsNumber! },
-            });
-            return await prisma.data.update({
-              where: { id: product.id },
-              data: {
-                ...product,
-                waittingTicketsNumber: null,
+      const deleteWaittingTickets = input.data.map(async (product) => {
+        if (product.id) {
+          return await prisma.waittingTickets.delete({
+            where: {
+              number: product.waittingTicketsNumber!,
+              products: {
+                every: {
+                  waittingTicketsNumber: product.waittingTicketsNumber,
+                },
               },
-            });
-          } else {
-            return await prisma.data.create({ data: product });
-          }
-        }),
-      );
+            },
+          });
+        }
+      });
+      // create or update data depend on id
+      const createProducts = input.data.map(async (product) => {
+        if (product.id) {
+          return await prisma.data.update({
+            where: { id: product.id },
+            data: {
+              ...product,
+              waittingTicketsNumber: null,
+            },
+          });
+        } else {
+          return await prisma.data.create({ data: product });
+        }
+      });
 
-      return { updateTicket, createProducts };
+      return { updateTicket, createProducts, deleteWaittingTickets };
     }),
 });

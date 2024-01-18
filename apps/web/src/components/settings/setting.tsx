@@ -17,6 +17,7 @@ import {
 } from "@repo/ui/src/components/ui/tabs";
 import ProductForm from "./productSettings";
 import { CategorySettings } from "./select";
+import ListClients from "../clients/ListClients";
 
 function Setting() {
   const setActive = useSettingsStore((state) => state.toggle);
@@ -29,7 +30,7 @@ function Setting() {
 
       <SheetContent className="px-2 py-4" side={"right"}>
         <SheetHeader>
-          <SheetTitle className="text-center text-4xl font-bold text-primary font-sans">
+          <SheetTitle className="font-sans text-4xl font-bold text-center text-primary">
             Settings
           </SheetTitle>
         </SheetHeader>
@@ -38,7 +39,10 @@ function Setting() {
           orientation="vertical"
           className="w-full h-full"
         >
-          <TabsList className="font-semibold flex my-3 rounded-md border-2 border-gray-200 p-1 gap-2 items-start bg-muted ">
+          <TabsList
+            aria-orientation="horizontal"
+            className="flex items-start gap-2 p-1 my-3 font-semibold border-2 border-gray-200 rounded-md bg-muted "
+          >
             <TabsTrigger
               value="tabs"
               className="px-3 py-2 data-[state=active]:text-white border-none  text-gray-950 data-[state=active]:bg-black  cursor-pointer w-full rounded-md"
@@ -59,15 +63,16 @@ function Setting() {
             </TabsTrigger>
           </TabsList>
           <TabsContent
+            aria-orientation="horizontal"
             value="products"
-            className="w-full block relative h-full"
+            className="relative block w-full h-full"
           >
             <ProductForm />
           </TabsContent>
-          <TabsContent value="clients" className="w-full block relative">
-            {/* <ListClients /> */}
+          <TabsContent value="clients" className="relative block w-full">
+            <ListClients />
           </TabsContent>
-          <TabsContent value="tabs" className="w-full flex relative h-full">
+          <TabsContent value="tabs" className="relative flex w-full h-full">
             <CategorySettings />
           </TabsContent>
         </Tabs>

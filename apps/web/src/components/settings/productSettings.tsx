@@ -56,7 +56,6 @@ const ProductForm = () => {
   const { toast } = useToast();
   const handleCodeSubmite = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("first");
     const newProduct = await getProduct(codeBar);
     if (newProduct.success) {
       setProductId(newProduct.product?.id);
@@ -104,11 +103,16 @@ const ProductForm = () => {
     setCodeBar("");
   }
   return (
-    <>
-      <form autoFocus className="z-20" onSubmit={handleCodeSubmite}>
+    <div className="max-w-[70%] mx-auto">
+      <h1 className="my-3 text-4xl font-bold text-center ">Edit Product</h1>
+      <form
+        autoFocus
+        className="z-20 flex gap-3 mx-auto"
+        onSubmit={handleCodeSubmite}
+      >
         <Input
           placeholder="Enter a product codeBar"
-          className="bg-muted border-2 border-gray-300"
+          className="mb-3 border-2 border-gray-300 bg-muted"
           value={codeBar}
           onChange={(e) => setCodeBar(e.target.value)}
         />
@@ -116,21 +120,20 @@ const ProductForm = () => {
       </form>
       {productId && (
         <Form {...form}>
-          <h1 className="text-4xl font-bold text-center my-3 ">Edit Product</h1>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-7 max-w-[70%] mx-auto bg-muted border-2 border-gray-300 rounded-md py-4 px-7"
+            className="py-4 border-2 border-gray-300 rounded-md space-y-7 bg-muted px-7"
           >
-            <div className="flex gap-2 justify-between">
+            <div className="flex justify-between gap-2">
               <FormField
                 disabled
                 control={form.control}
                 name="code"
                 render={({ field }) => (
-                  <FormItem className="fontbold text-xl">
+                  <FormItem className="text-xl font-bold">
                     <FormLabel>Code</FormLabel>
                     <FormControl>
-                      <Input disabled placeholder="" {...field} />
+                      <Input placeholder="" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -142,10 +145,10 @@ const ProductForm = () => {
                 control={form.control}
                 name="code_interne"
                 render={({ field }) => (
-                  <FormItem className="fontbold text-xl">
+                  <FormItem className="text-xl font-bold">
                     <FormLabel>code_intern</FormLabel>
                     <FormControl>
-                      <Input disabled placeholder="" {...field} />
+                      <Input placeholder="" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -157,7 +160,7 @@ const ProductForm = () => {
               control={form.control}
               name="libelle"
               render={({ field }) => (
-                <FormItem className="fontbold text-xl">
+                <FormItem className="text-xl font-bold">
                   <FormLabel>libelle</FormLabel>
                   <FormControl>
                     <Input placeholder="" {...field} />
@@ -167,12 +170,12 @@ const ProductForm = () => {
                 </FormItem>
               )}
             />
-            <div className="flex gap-2 justify-between ">
+            <div className="flex justify-between gap-2 ">
               <FormField
                 control={form.control}
                 name="pvttc"
                 render={({ field }) => (
-                  <FormItem className="fontbold text-xl">
+                  <FormItem className="text-xl font-bold">
                     <FormLabel>pvttc</FormLabel>
                     <FormControl>
                       <Input placeholder="" {...field} />
@@ -188,7 +191,7 @@ const ProductForm = () => {
                 control={form.control}
                 name="pvht"
                 render={({ field }) => (
-                  <FormItem className="fontbold text-xl">
+                  <FormItem className="text-xl font-bold">
                     <FormLabel>pvht</FormLabel>
                     <FormControl>
                       <Input
@@ -209,12 +212,12 @@ const ProductForm = () => {
                 )}
               />
             </div>
-            <div className="flex gap-2 justify-between">
+            <div className="flex justify-between gap-2">
               <FormField
                 control={form.control}
                 name="tva_code"
                 render={({ field }) => (
-                  <FormItem className="fontbold text-xl w-full">
+                  <FormItem className="w-full text-xl font-bold">
                     <FormLabel>tva</FormLabel>
                     <Select
                       onValueChange={field.onChange}
@@ -248,7 +251,7 @@ const ProductForm = () => {
                 control={form.control}
                 name="rayon_code"
                 render={({ field }) => (
-                  <FormItem className="fontbold text-xl w-full">
+                  <FormItem className="w-full text-xl font-bold">
                     <FormLabel>rayon</FormLabel>
                     <Select
                       onValueChange={field.onChange}
@@ -280,7 +283,7 @@ const ProductForm = () => {
                 control={form.control}
                 name="famille_code"
                 render={({ field }) => (
-                  <FormItem className="fontbold text-xl w-full">
+                  <FormItem className="w-full text-xl font-bold">
                     <FormLabel>famille</FormLabel>
                     <Select
                       onValueChange={field.onChange}
@@ -313,7 +316,7 @@ const ProductForm = () => {
           </form>
         </Form>
       )}
-    </>
+    </div>
   );
 };
 

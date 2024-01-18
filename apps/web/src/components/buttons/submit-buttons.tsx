@@ -1,26 +1,74 @@
+"use client";
 import { Button } from "@repo/ui/src/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import ClientsDialog from "../clients/ClientDialog";
+import { useTicketSubmission } from "@/hooks/useTickitSubmission";
+import { useTotal } from "@/hooks/useTotal";
+import { usePaymentMethod } from "@/hooks/usePaymentMethod";
+import { useStore, resetList } from "@/store";
+import { PaymentEnum } from "@repo/prisma/client";
+import { trpc } from "@repo/trpc/client";
 
-function SubmitButtons() {
+const SubmitButtons = () => {
+  const [isTotal, setIsTotal] = useState<boolean>(false);
+  const { products } = useStore();
+  const { data: ticketNumber } = trpc.getTicket.useQuery();
+  const utils = trpc.useUtils();
+  const { mutate: createTicket } = trpc.createTicket.useMutation({
+    onSuccess: () => {
+      utils.getTicket.invalidate();
+    },
+  });
+  const handelTickitSubmission = useTicketSubmission();
+  const handleTotal = useTotal();
+  const [ticketMethods, setPaymentMethods, handlePaymentMethods] =
+    usePaymentMethod();
+  const t = products.reduce((acc, curr) => {
+    return acc + curr.total;
+  }, 0);
+  const r = ticketMethods.reduce((acc, curr) => {
+    return acc + curr.amount;
+  }, 0);
+
+  const remaining = t - r;
+  function submitTotal(mode: PaymentEnum) {
+    handleTotal(remaining, setIsTotal, mode, handlePaymentMethods);
+  }
+
+  const create = async () => {
+    await createTicket();
+    setPaymentMethods([]);
+    resetList();
+  };
+
+  if (isTotal) {
+    try {
+      handelTickitSubmission(products, ticketNumber?.number!, ticketMethods);
+    } catch (error) {
+    } finally {
+      create();
+      setIsTotal(false);
+    }
+  }
+
   return (
-    <div className="col-span-1  grid grid-rows-4 gap-y-1">
+    <div className="grid col-span-1 grid-rows-4 gap-y-1">
       <Button
-        // clickHandler={() => submitTotal("Cash")}
+        onClick={() => submitTotal("Cash")}
         variant={"action"}
         size={"full"}
       >
         Espece
       </Button>
       <Button
-        // clickHandler={() => submitTotal("Card")}
+        onClick={() => submitTotal("Card")}
         variant={"action"}
         size={"full"}
       >
         Cart
       </Button>
       <Button
-        // clickHandler={() => submitTotal("Cheque")}
+        onClick={() => submitTotal("Cheque")}
         variant={"action"}
         size={"full"}
       >
@@ -29,6 +77,6 @@ function SubmitButtons() {
       <ClientsDialog />
     </div>
   );
-}
+};
 
 export default SubmitButtons;

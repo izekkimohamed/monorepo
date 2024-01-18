@@ -39,9 +39,10 @@ import { useState } from "react";
 import { DateRange } from "@repo/ui/src/components/text";
 import { PaymentEnum } from "@repo/prisma/client";
 import { cn } from "@repo/libs/utils";
+import { getstats } from "@/actions/getStats";
+import { getModes } from "./getModes";
+import { useSettingsStore } from "@/store/settings";
 
-// import { getstatus } from "@/actions/getStatus";
-// import { getModes } from "@/lib/getModes";
 export type PaymentMethods = {
   id: number;
   mode: PaymentEnum;
@@ -53,7 +54,9 @@ export type StatusProps = {
   paymentModes: PaymentMethods[];
 };
 
-function Stats() {
+const Stats = () => {
+  const setActive = useSettingsStore((state) => state.toggle);
+
   let currentDate = new Date(new Date().toLocaleDateString("en-US"));
 
   const [date, setDate] = useState<DateRange | undefined>({
@@ -117,33 +120,33 @@ function Stats() {
     }
   }
 
-  // async function getSatus() {
-  //   const status = await getstatus(date!);
-  //   setData(status);
-  // }
-  // const modes = getModes(data);
-  // // function to reduce on data.paymentModes return total of each mode
-  // function totalPayment() {
-  //   const total = data.reduce((acc, curr) => {
-  //     return acc + curr.total;
-  //   }, 0);
-  //   return total;
-  // }
+  async function getSatus() {
+    const status = await getstats(date!);
+    setData(status);
+  }
+  const modes = getModes(data);
+  // function to reduce on data.paymentModes return total of each mode
+  function totalPayment() {
+    const total = data.reduce((acc, curr) => {
+      return acc + curr.total;
+    }, 0);
+    return total;
+  }
 
   return (
-    <div className="border-l-2 border-gray-800 col-span-2">
-      <Dialog>
+    <div className="col-span-2 border-l-2 border-gray-800">
+      <Dialog onOpenChange={setActive}>
         <DialogTrigger className="" asChild>
           <Button
             variant={"outline"}
-            className="w-full rounded-none h-16 text-primary font-bold text-3xl hover:text-primary/90"
+            className="w-full h-16 text-3xl font-bold rounded-none text-primary hover:text-primary/90"
           >
             Status
           </Button>
         </DialogTrigger>
         <DialogContent className="">
           <DialogHeader>
-            <div className="flex mt-3 gap-2">
+            <div className="flex gap-2 mt-3">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -154,7 +157,7 @@ function Stats() {
                       !date && "text-muted-foreground",
                     )}
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <CalendarIcon className="w-4 h-4 mr-2" />
                     {date?.from ? (
                       date.to ? (
                         <>
@@ -171,23 +174,17 @@ function Stats() {
                 </PopoverTrigger>
                 <PopoverContent
                   align="start"
-                  className="flex w-auto flex-col space-y-2 p-2"
+                  className="flex flex-col w-auto p-2 space-y-2"
                 >
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Calendar
-                      initialFocus
-                      mode="range"
-                      defaultMonth={date?.from}
-                      selected={date}
-                      onSelect={setDate}
-                      numberOfMonths={2}
-                      className="bg-white rounded-md"
-                    />
-                  </div>
+                  <Calendar
+                    initialFocus
+                    mode="range"
+                    defaultMonth={date?.from}
+                    selected={date}
+                    onSelect={setDate}
+                    numberOfMonths={2}
+                    className="bg-white rounded-md"
+                  />
                 </PopoverContent>
               </Popover>
               <Select
@@ -220,24 +217,24 @@ function Stats() {
             </div>
           </DialogHeader>
           {data && (
-            <div className="flex flex-col  gap-2">
+            <div className="flex flex-col gap-2">
               <div className="flex justify-between gap-2">
-                <span className="font-bold text-2xl ">Total:</span>
-                <span className="font-semibold text-2xl">
-                  {/* {totalPayment().toLocaleString("fr-FR", {
+                <span className="text-2xl font-bold ">Total:</span>
+                <span className="text-2xl font-semibold">
+                  {totalPayment().toLocaleString("fr-FR", {
                     style: "currency",
                     currency: "EUR",
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
-                  })} */}
+                  })}
                 </span>
               </div>
               <div className="w-full gap-2">
-                {/* {modes.map((mode, index) => {
+                {modes.map((mode, index) => {
                   return (
                     <div key={index} className="flex justify-between gap-2">
-                      <span className="font-bold text-2xl ">{mode.mode}:</span>
-                      <span className="font-semibold text-2xl">
+                      <span className="text-2xl font-bold ">{mode.mode}:</span>
+                      <span className="text-2xl font-semibold">
                         {Number(mode.amount).toLocaleString("fr-FR", {
                           style: "currency",
                           currency: "EUR",
@@ -247,16 +244,12 @@ function Stats() {
                       </span>
                     </div>
                   );
-                })} */}
+                })}
               </div>
             </div>
           )}
           <DialogFooter>
-            <Button
-              variant={"default"}
-              size={"sm"}
-              // onClick={getSatus}
-            >
+            <Button variant={"default"} size={"sm"} onClick={getSatus}>
               Calculate
             </Button>
           </DialogFooter>
@@ -264,6 +257,6 @@ function Stats() {
       </Dialog>
     </div>
   );
-}
+};
 
 export default Stats;

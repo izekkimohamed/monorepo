@@ -59,10 +59,10 @@ function TotalDiplay() {
 
   return (
     <div
-      className="bg-primary py-3 px-4 text-gray-50 text-lg font-semibold"
+      className="px-4 py-3 text-lg font-semibold bg-primary text-gray-50"
       onClick={() => inputRef.current?.focus()}
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <div className="flex gap-3">
             <span className="text-right">Total:</span>
@@ -75,10 +75,9 @@ function TotalDiplay() {
             <span>PVHT:</span>
             <span>
               {products &&
-                products.reduce(
-                  (acc, curr) => Number((acc + +curr.totalPvht!).toFixed(2)),
-                  0,
-                )}
+                products
+                  .reduce((acc, curr) => acc + +curr.totalPvht, 0)
+                  .toFixed(2)}
             </span>
           </div>
         </div>
