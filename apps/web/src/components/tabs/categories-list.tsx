@@ -21,12 +21,12 @@ const Categories = () => {
   return (
     <div className="relative h-full">
       {mount && (
-        <Tabs defaultValue={tabs[0]?.name} className="w-full  h-full">
-          <TabsList className="flex  justify-between h-16 sticky top-0 w-full bg-primary mb-1 ">
+        <Tabs defaultValue={tabs[0]?.name} className="w-full h-full">
+          <TabsList className="sticky top-0 flex justify-between w-full h-16 mb-1 bg-primary ">
             {tabs &&
               tabs?.map((category, i) => (
                 <TabsTrigger
-                  className="font-bold text-lg text-primary border-x border-primary "
+                  className="text-base font-bold text-primary border-x border-primary "
                   value={category?.name!}
                   key={i}
                 >
@@ -39,7 +39,7 @@ const Categories = () => {
               <TabsContent
                 value={category?.name!}
                 key={i}
-                className="px-0 py-1 grid grid-cols-5 gap-1 "
+                className="grid grid-cols-5 gap-1 px-0 py-1 "
               >
                 {category.products.map((item, i) => (
                   <div key={i} className="w-full">

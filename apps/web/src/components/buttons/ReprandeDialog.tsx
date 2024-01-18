@@ -42,7 +42,7 @@ function ReprandeDialog() {
           waittingTickets.map((ticket) => (
             <DialogClose asChild key={ticket.number}>
               <div
-                className="flex justify-between items-center p-3 font-semibold rounded-md bg-indigo-300 hover:bg-indigo-400 cursor-pointer"
+                className="flex items-center justify-between p-3 font-semibold text-gray-200 rounded-md cursor-pointer bg-primary hover:bg-primary/90"
                 onClick={() => {
                   ticket.products.map((product) => {
                     //@ts-expect-error
@@ -50,15 +50,12 @@ function ReprandeDialog() {
                   });
                 }}
               >
-                <span className="text-gray-950">
+                <span className="">
                   {" "}
                   {ticket.products.length}
-                  <span className="text-sm ml-2 font-normal">Product(s)</span>
+                  <span className="ml-2 text-sm font-normal">Product(s)</span>
                 </span>
-                <span className="text-gray-950">
-                  {" "}
-                  {ticket.total.toFixed(2)}€
-                </span>
+                <span className=""> {ticket.total.toFixed(2)}€</span>
               </div>
             </DialogClose>
           ))

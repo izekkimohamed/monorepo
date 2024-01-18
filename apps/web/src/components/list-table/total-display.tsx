@@ -62,7 +62,7 @@ function TotalDiplay() {
       className="px-4 py-3 text-lg font-semibold bg-primary text-gray-50"
       onClick={() => inputRef.current?.focus()}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-around gap-10">
         <div className="flex flex-col gap-y-2">
           <div className="flex gap-3">
             <span className="text-right">Total:</span>
@@ -118,13 +118,19 @@ function TotalDiplay() {
             }}
             autoFocus
             disabled={settingsActive}
-            className="w-[50px] text-gray-950 font-bold text-lg"
+            className="w-[100px] text-gray-950 font-bold text-lg"
             value={scannedCode}
             onChange={(e) => {
               setScannedCode(e.target.value);
             }}
           />
         </form>
+        {/* <Input
+          type="text"
+          disabled
+          className="w-[50px] text-gray-950 opacity-0 font-bold text-lg"
+          value={scannedCode}
+        /> */}
       </div>
     </div>
   );
