@@ -174,7 +174,7 @@ const Stats = () => {
                 </PopoverTrigger>
                 <PopoverContent
                   align="start"
-                  className="flex flex-col w-auto p-2 space-y-2"
+                  className="flex flex-col p-2 space-y-2"
                 >
                   <Calendar
                     initialFocus
@@ -183,7 +183,7 @@ const Stats = () => {
                     selected={date}
                     onSelect={setDate}
                     numberOfMonths={2}
-                    className="bg-white rounded-md"
+                    className="bg-white absolute -left-[15%] rounded-md"
                   />
                 </PopoverContent>
               </Popover>

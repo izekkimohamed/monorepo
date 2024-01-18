@@ -109,18 +109,18 @@ export function ComboboxDemo({ client }: TClient) {
             </div>
             <div
               className={cn(
-                "transition-all mx-4 pb-2 rounded-md border border-primary ease-in-out delay-100",
+                "transition-all mx-4 pb-1 rounded-md border border-primary ease-in-out delay-100",
                 open === ticket.number ? "visible" : "hidden",
               )}
             >
-              <div className="grid grid-cols-12 gap-1 px-4 py-2 font-bold place-items-end bg-primary/50">
+              <div className="grid grid-cols-12 gap-2 px-4 py-2 font-bold place-items-end bg-primary/50">
                 <div className="col-span-4 justify-self-center">Code</div>
                 <div className="col-span-4 justify-self-start">Libelle</div>
                 <div className="col-span-1 justify-self-center">Price</div>
-                <div className="col-span-1 text-center justify-self-center">
+                <div className="col-span-2 text-center justify-self-center">
                   Quantity
                 </div>
-                <div className="col-span-2">Total</div>
+                <div className="col-span-1 justify-self-center">Total</div>
               </div>
               {ticket.products?.map((p, i) => (
                 <div
@@ -133,13 +133,13 @@ export function ComboboxDemo({ client }: TClient) {
                   <div className="col-span-4 font-bold justify-self-center">
                     {p.code}
                   </div>
-                  <div className="col-span-4 truncate justify-self-start">
+                  <div className="col-span-4 w-[90%] truncate justify-self-start">
                     {p.libelle}
                   </div>
                   <div className="col-span-1 justify-self-center">
                     {p.price}
                   </div>
-                  <div className="col-span-1 justify-self-center">
+                  <div className="col-span-1 justify-self-end">
                     {p.quantity}
                   </div>
                   <div className="col-span-2 pr-2 text-base font-bold">
