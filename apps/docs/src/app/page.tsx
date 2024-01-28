@@ -1,10 +1,8 @@
-"use client";
-import { Button } from "@repo/ui/src/components/ui/button";
-
 export default function Page(): JSX.Element {
   return (
-    <div className=" h-screen grid  bg-primary text-3xl place-items-center">
-      <Button className="bg-green-400">Hellow</Button>
-    </div>
+    <>
+      <div className="col-span-1 ">dashboard</div>
+      <div className="col-span-1 "> table</div>
+    </>
   );
 }

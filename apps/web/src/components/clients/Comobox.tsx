@@ -49,7 +49,7 @@ type TClient = {
 export function ComboboxDemo({ client }: TClient) {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <div className="w-full h-auto border rounded-md border-primary/50">
+    <div className="w-full h-auto border rounded-md border-primary">
       <div className="flex p-2 text-lg font-semibold text-gray-500 gap-x-2 rounded-t-md bg-primary/20">
         <div className="w-[100px] text-center">Invoice</div>
         <div className="flex-auto">Date</div>

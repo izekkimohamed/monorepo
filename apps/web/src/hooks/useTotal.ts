@@ -23,6 +23,7 @@ export const useTotal = () => {
         title: "Error",
         description: "No data found",
         variant: "destructive",
+        duration: 1000,
       });
       return;
     }
@@ -32,7 +33,8 @@ export const useTotal = () => {
       resetNamPad();
       return;
     }
-    const amount = namPad !== "" ? Number(namPad) : 0;
+    const amount = Number(namPad);
+
     if (amount === 0 && !remaining) {
       let t = products.reduce((acc, curr) => acc + +curr.total, 0);
       handlePaymentMethods(mode, t, ticketNumber);
@@ -41,6 +43,7 @@ export const useTotal = () => {
         title: "Change",
         description: `${total.toFixed(2)} $`,
         variant: "default",
+        duration: 1000,
       });
 
       setIsTotal(true);
@@ -60,6 +63,7 @@ export const useTotal = () => {
           title: "Change",
           description: `${(amount - remaining).toFixed(2)} $`,
           variant: "default",
+          duration: 1000,
         });
 
         setIsTotal(true);
@@ -77,6 +81,7 @@ export const useTotal = () => {
         title: "Change",
         description: `${(amount - total).toFixed(2)} $`,
         variant: "default",
+        duration: 1000,
       });
       resetNamPad();
       setIsTotal(true);

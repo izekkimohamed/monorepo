@@ -9,29 +9,40 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@repo/ui/src/components/ui/dialog";
-import { addProduct } from "@/store";
+import { addProduct, useStore } from "@/store";
 import { trpc } from "@repo/trpc/client";
 
 import { useToast } from "@repo/ui/src/components/ui/use-toast";
 
 function ReprandeDialog() {
   const { data: waittingTickets, refetch } = trpc.getWaittingTickets.useQuery();
-  const { mutate: deleteProduct } = trpc.deleteData.useMutation();
+  const { products } = useStore();
 
   const { toast } = useToast();
-  const data = [1];
+
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          size={"full"}
-          variant="action"
-          onClick={() => {
-            refetch().then(({ data }) => data);
+      <DialogTrigger className="text-gray-300 rounded-md bg-emerald-700">
+        <div
+          className="flex items-center justify-center w-full h-full text-xl font-bold "
+          // variant="action"
+          onClick={(e) => {
+            if (products.length > 0) {
+              e.stopPropagation();
+              toast({
+                title: "Error",
+                description: "Product Elready exist",
+                variant: "destructive",
+                duration: 1000,
+              });
+              return;
+            } else {
+              refetch().then(({ data }) => data);
+            }
           }}
         >
           Reprande Ticket
-        </Button>
+        </div>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">

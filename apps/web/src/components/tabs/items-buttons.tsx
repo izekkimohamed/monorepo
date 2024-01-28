@@ -45,7 +45,7 @@ const ItemButton = ({ item }: { item: Products }) => {
       <Button
         variant={"secondary"}
         onClick={handleSubmit}
-        className="w-full h-20 px-1 text-sm font-bold text-center truncate whitespace-pre-wrap border-2 rounded-md border-primary text-primary "
+        className="w-full h-20 px-1 text-sm font-bold text-center truncate whitespace-pre-wrap bg-gray-200 border-2 rounded-md border-primary text-primary "
       >
         {item?.libelle}
       </Button>

@@ -39,4 +39,11 @@ export const ticketsRouter = router({
       },
     });
   }),
+  listTickets: publicProcedure.query(async () => {
+    return await prisma.paymentMode.findMany({
+      include: {
+        Ticket: true,
+      },
+    });
+  }),
 });

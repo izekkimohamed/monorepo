@@ -21,16 +21,6 @@ const ToastViewport = React.forwardRef<
   />
 ));
 
-/*
-{
-    position: "fixed",
-    width: "40%",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%,-50%)",
-  }
-*/
-
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
 const toastVariants = cva(
@@ -92,7 +82,7 @@ const ToastClose = React.forwardRef<
     toast-close=""
     {...props}
   >
-    <X className="h-10 w-10" />
+    <X className="w-10 h-10" />
   </ToastPrimitives.Close>
 ));
 ToastClose.displayName = ToastPrimitives.Close.displayName;

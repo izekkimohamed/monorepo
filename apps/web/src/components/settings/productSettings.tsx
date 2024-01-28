@@ -46,7 +46,7 @@ const ProductForm = () => {
         title: "Product updated",
         description: data.libelle,
         variant: "default",
-        duration: 5000,
+        duration: 1000,
       });
     },
   });
@@ -75,7 +75,7 @@ const ProductForm = () => {
         title: "Product not found",
         description: "Product not found",
         variant: "destructive",
-        duration: 5000,
+        duration: 1000,
       });
     }
   };
@@ -237,7 +237,7 @@ const ProductForm = () => {
                               form.setValue("tva_code", tva.code.toString());
                             }}
                           >
-                            {tva.code}
+                            {tva.libelle}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -269,7 +269,7 @@ const ProductForm = () => {
                             key={rayon.code}
                             value={rayon.code.toString()}
                           >
-                            {rayon.code}
+                            {rayon.libelle}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -295,14 +295,20 @@ const ProductForm = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {data?.familles?.map((famille) => (
-                          <SelectItem
-                            key={famille.code}
-                            value={famille.code.toString()}
-                          >
-                            {famille.code}
-                          </SelectItem>
-                        ))}
+                        {data?.familles
+                          ?.filter((f) => {
+                            return (
+                              f.rayon_code === +form.getValues().rayon_code
+                            );
+                          })
+                          .map((famille) => (
+                            <SelectItem
+                              key={famille.code}
+                              value={famille.code.toString()}
+                            >
+                              {famille.libelle}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
 

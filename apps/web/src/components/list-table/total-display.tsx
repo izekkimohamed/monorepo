@@ -20,13 +20,13 @@ function TotalDiplay() {
   const tva_2 = products
     .filter((item) => item.tva_code === 2)
     .map((item) => {
-      return item.total * (20 / 100);
+      return item.totalPvht * (20 / 100);
     })
     .reduce((acc, curr) => Number(acc + +curr), 0);
   const tva_1 = products
     .filter((item) => item.tva_code === 1)
     .map((item) => {
-      return item.total * (5.5 / 100);
+      return item.totalPvht * (5.5 / 100);
     })
     .reduce((acc, curr) => Number(acc + +curr), 0);
 
@@ -76,46 +76,52 @@ function TotalDiplay() {
       className="px-4 py-3 text-lg font-semibold bg-primary text-gray-50"
       onClick={() => inputRef.current?.focus()}
     >
-      <div className="flex items-center justify-around gap-10">
-        <div className="flex flex-col gap-y-2">
-          <div className="flex gap-3">
-            <span className="text-right text-gray-400">Total :</span>
-            <span className="text-right">
-              {products &&
-                formatCurrency(
-                  products.reduce((acc, curr) => acc + +curr.total, 0),
-                )}
-            </span>
-          </div>
-          <div className="flex gap-3">
-            <span className="text-gray-400">PVHT :</span>
-            <span>
-              {products &&
-                formatCurrency(
-                  products.reduce((acc, curr) => acc + +curr.totalPvht, 0),
-                )}
-            </span>
-          </div>
+      <div className="flex flex-col items-center gap-y-2">
+        <div className="flex items-center gap-3">
+          <span className="text-lg text-right text-gray-400">Total :</span>
+          <span className="text-3xl text-right">
+            {products &&
+              formatCurrency(
+                products.reduce((acc, curr) => acc + +curr.total, 0),
+              )}
+          </span>
         </div>
-        <div className="flex flex-col gap-y-2">
-          <div className="flex gap-2">
+      </div>
+      <div className="flex items-end justify-around gap-3">
+        <div className="flex justify-between ml-auto gap-x-4">
+          {products.length > 0 && (
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-gray-400">PVHT :</span>
+              <span className="text-base font-semibold">
+                {products &&
+                  formatCurrency(
+                    products.reduce((acc, curr) => acc + +curr.totalPvht, 0),
+                  )}
+              </span>
+            </div>
+          )}
+          <div className="flex items-center gap-2">
             {tva_2 > 0 && (
               <>
-                <span className="text-gray-400">TVA 20% :</span>
-                <span>{formatCurrency(tva_2)}</span>
+                <span className="text-xs text-gray-400">TVA 20% :</span>
+                <span className="text-base font-semibold">
+                  {formatCurrency(tva_2)}
+                </span>
               </>
             )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             {tva_1 > 0 && (
               <>
-                <span className="text-gray-400">TVA 5.5% :</span>
-                <span>{formatCurrency(tva_1)}</span>
+                <span className="text-xs text-gray-400">TVA 5.5% :</span>
+                <span className="text-base font-semibold">
+                  {formatCurrency(tva_1)}
+                </span>
               </>
             )}
           </div>
         </div>
-        <form className="flex gap-1 " onSubmit={(e) => handleSubmit(e)}>
+        <form className="ml-auto " onSubmit={(e) => handleSubmit(e)}>
           <Input
             type="text"
             ref={inputRef}
@@ -128,7 +134,7 @@ function TotalDiplay() {
             }}
             autoFocus
             disabled={settingsActive}
-            className="w-[100px] text-gray-950 font-bold text-lg"
+            className="w-[80px] text-gray-950 opacity-0 font-bold text-lg"
             value={scannedCode}
             onChange={(e) => {
               setScannedCode(e.target.value);

@@ -52,7 +52,7 @@ const SubmitButtons = () => {
   }
 
   return (
-    <div className="grid col-span-1 grid-rows-4 gap-y-1">
+    <div className="grid col-span-4 grid-cols-4 grid-rows-1 gap-1">
       <Button
         onClick={() => submitTotal("Cash")}
         variant={"action"}

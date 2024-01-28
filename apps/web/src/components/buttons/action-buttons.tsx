@@ -1,13 +1,13 @@
 "use client";
-import { Button } from "@repo/ui/src/components/ui/button";
-import React from "react";
-import Setting from "../settings/setting";
-import ReprandeDialog from "./ReprandeDialog";
-import { resetList, updateProduct, useStore } from "@/store";
 import { addToWaittingList } from "@/actions/addToWaittingList";
-import { useToast } from "@repo/ui/src/components/ui/use-toast";
+import { resetList, useStore } from "@/store";
 import { trpc } from "@repo/trpc/client";
-import Link from "next/link";
+import { Button } from "@repo/ui/src/components/ui/button";
+import { useToast } from "@repo/ui/src/components/ui/use-toast";
+import Setting from "../settings/setting";
+import Stats from "../stats";
+import ReprandeDialog from "./ReprandeDialog";
+import TiketsList from "../tickets/tickets-list";
 
 function ActionButtons() {
   const { mutate: deleteTicket } = trpc.deleteWaittingTickets.useMutation();
@@ -17,12 +17,14 @@ function ActionButtons() {
   const products = useStore((state) => state.products);
   const total = products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2);
   const { toast } = useToast();
+
   const handleAttentButton = async () => {
     if (products.length < 1) {
       toast({
         title: "Error",
         description: "No data found",
         variant: "destructive",
+        duration: 1000,
       });
 
       return;
@@ -34,6 +36,7 @@ function ActionButtons() {
         const total = Number(
           products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2),
         );
+
         const alredyExist = products
           .filter((p) => p.waittingTicketsNumber)
           .map((r) => {
@@ -84,43 +87,44 @@ function ActionButtons() {
     }
   };
   return (
-    <div className="grid col-span-1 grid-rows-4 gap-y-1">
-      <Setting />
-      <Button
-        className=""
-        variant={"action"}
-        size={"full"}
-        onClick={handleAttentButton}
-      >
-        Attent
-      </Button>
-
-      <ReprandeDialog />
-
-      <Button
-        onClick={() => {
-          if (products.length < 1) {
-            toast({
-              title: "Error",
-              description: "No data found",
-              variant: "destructive",
-            });
-            return;
-          }
-          products
-            .filter((item) => item.waittingTicketsNumber)
-            .map((item) => {
-              deleteTicket(item.waittingTicketsNumber!);
-
+    <div className="grid grid-cols-2 col-span-2 row-span-4 gap-1 ">
+      <div className="grid col-span-1 grid-rows-4 gap-1">
+        <Setting />
+        <Button variant={"action"} size={"full"} onClick={handleAttentButton}>
+          Attent
+        </Button>
+        <ReprandeDialog />
+        <Button
+          onClick={() => {
+            if (products.length < 1) {
+              toast({
+                title: "Error",
+                description: "No data found",
+                variant: "destructive",
+                duration: 1000,
+              });
               return;
-            });
-          resetList();
-        }}
-        variant={"action"}
-        size={"full"}
-      >
-        Annul
-      </Button>
+            }
+            products
+              .filter((item) => item.waittingTicketsNumber)
+              .map((item) => {
+                deleteTicket(item.waittingTicketsNumber!);
+                return;
+              });
+            resetList();
+          }}
+          variant={"action"}
+          size={"full"}
+        >
+          Annul
+        </Button>
+      </div>
+      <div className="grid col-span-1 grid-rows-4 gap-1">
+        <TiketsList />
+        <Button variant={"action"} size={"full"}></Button>
+        <Button variant={"action"} size={"full"}></Button>
+        <Stats />
+      </div>
     </div>
   );
 }

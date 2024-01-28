@@ -39,7 +39,7 @@ const Categories = () => {
               <TabsContent
                 value={category?.name!}
                 key={i}
-                className="grid grid-cols-5 gap-1 px-0 py-1 "
+                className="grid grid-cols-7 gap-1 px-0 py-1 "
               >
                 {category.products.map((item, i) => (
                   <div key={i} className="w-full">

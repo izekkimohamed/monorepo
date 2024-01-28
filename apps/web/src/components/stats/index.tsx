@@ -134,13 +134,10 @@ const Stats = () => {
   }
 
   return (
-    <div className="col-span-2 border-l-2 border-gray-800">
+    <div className="col-span-1 border-l-2 border-gray-800">
       <Dialog onOpenChange={setActive}>
         <DialogTrigger className="" asChild>
-          <Button
-            variant={"outline"}
-            className="w-full h-16 text-3xl font-bold rounded-none text-primary hover:text-primary/90"
-          >
+          <Button variant={"action"} size={"full"}>
             Status
           </Button>
         </DialogTrigger>

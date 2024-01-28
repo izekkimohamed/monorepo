@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "@repo/ui/dist/index.css";
+import { cn } from "@repo/libs/utils";
 import { Providers } from "@repo/ui/src/components/providers";
+import NavrBar from "../components/nav-bar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +21,14 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={cn("h-screen relative bg-gray-950", inter.className)}>
+          <div className="sticky top-0 z-10 ">
+            <NavrBar />
+          </div>
+          <div className="h-screen px-4 py-3 text-gray-200 bg-white/5 backdrop-blur-sm">
+            {children}
+          </div>
+        </body>
       </html>
     </Providers>
   );

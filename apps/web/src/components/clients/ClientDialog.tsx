@@ -37,6 +37,7 @@ export default function ClientsDialog() {
               title: "Ticket reprande",
               description: "List is not Empty",
               variant: "destructive",
+              duration: 1000,
             });
           }}
         >
@@ -48,12 +49,12 @@ export default function ClientsDialog() {
           <DialogTitle className="py-3 text-center">Clients List</DialogTitle>
         </DialogHeader>
 
-        <div className="grid gap-2">
+        <div className="grid gap-2 ">
           {clients &&
             clients.map((client) => (
               <DialogClose key={client.id} asChild>
                 <Button
-                  className="w-full h-full p-3 text-xl font-bold rounded-md cursor-pointer text-gray-950 text-start bg-violet-300 hover:bg-violet-400 "
+                  className="p-2 rounded-md cursor-pointer text-gray-50 "
                   onClick={() => {
                     addToClient({
                       clientId: client.id,
@@ -69,7 +70,7 @@ export default function ClientsDialog() {
                     resetList();
                   }}
                 >
-                  <p className="w-full text-start">{client.name}</p>
+                  <p className="w-full text-center">{client.name}</p>
                 </Button>
               </DialogClose>
             ))}

@@ -29,9 +29,8 @@ function NamPad() {
   const qty = useStore((state) => state.qty);
   const namPad = useStore((state) => state.namPad);
   const selectedProduct = useStore((state) => state.selectedProduct);
-
   return (
-    <div className="col-span-2  grid gap-1 grid-cols-3 ">
+    <div className="grid grid-cols-3 col-span-2 row-span-4 gap-1 ">
       {NamPadButtons.map((button, index) => (
         <Button
           size="full"
