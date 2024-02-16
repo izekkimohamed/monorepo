@@ -1,25 +1,11 @@
 "use client";
 
+import { cn } from "@repo/libs/utils";
+import { Button } from "@ui/components/ui/button";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import {
-  Table,
-  TableBody,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@repo/ui/src/components/ui/table";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@repo/ui/src/components/ui/tabs";
-import { cn } from "@repo/libs/utils";
-import { useState } from "react";
-import { Button } from "@ui/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 type TClient = {
   client: {
     id: number;
@@ -49,15 +35,15 @@ type TClient = {
 export function ComboboxDemo({ client }: TClient) {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <div className="w-full h-auto border rounded-md border-primary">
-      <div className="flex p-2 text-lg font-semibold text-gray-500 gap-x-2 rounded-t-md bg-primary/20">
+    <div className="relative w-full h-full border rounded-md border-primary ">
+      <div className="flex w-full p-2 text-lg font-semibold text-gray-500 bg-primary/20 gap-x-2 rounded-t-md">
         <div className="w-[100px] text-center">Invoice</div>
         <div className="flex-auto">Date</div>
         <div className="pr-2">Amount</div>
         <div className="w-10"></div>
       </div>
 
-      <div className=" h-[500px] overflow-y-scroll">
+      <div className="h-[600px] overflow-y-auto">
         {client.tickets.map((ticket, i) => (
           <div
             key={ticket.number}
@@ -109,7 +95,7 @@ export function ComboboxDemo({ client }: TClient) {
             </div>
             <div
               className={cn(
-                "transition-all mx-4 pb-1 rounded-md border border-primary ease-in-out delay-100",
+                "transition-all mx-4 pb-1 rounded-md border border-primary ease-in-out delay-100 ",
                 open === ticket.number ? "visible" : "hidden",
               )}
             >
@@ -117,9 +103,7 @@ export function ComboboxDemo({ client }: TClient) {
                 <div className="col-span-4 justify-self-center">Code</div>
                 <div className="col-span-4 justify-self-start">Libelle</div>
                 <div className="col-span-1 justify-self-center">Price</div>
-                <div className="col-span-2 text-center justify-self-center">
-                  Quantity
-                </div>
+                <div className="col-span-2 text-center justify-self-center">Quantity</div>
                 <div className="col-span-1 justify-self-center">Total</div>
               </div>
               {ticket.products?.map((p, i) => (
@@ -130,18 +114,12 @@ export function ComboboxDemo({ client }: TClient) {
                     i % 2 === 0 ? "bg-white" : "bg-gray-200",
                   )}
                 >
-                  <div className="col-span-4 font-bold justify-self-center">
-                    {p.code}
-                  </div>
+                  <div className="col-span-4 font-bold justify-self-center">{p.code}</div>
                   <div className="col-span-4 w-[90%] truncate justify-self-start">
                     {p.libelle}
                   </div>
-                  <div className="col-span-1 justify-self-center">
-                    {p.price}
-                  </div>
-                  <div className="col-span-1 justify-self-end">
-                    {p.quantity}
-                  </div>
+                  <div className="col-span-1 justify-self-center">{p.price}</div>
+                  <div className="col-span-1 justify-self-end">{p.quantity}</div>
                   <div className="col-span-2 pr-2 text-base font-bold">
                     {p.total.toLocaleString("fr-FR", {
                       style: "currency",
@@ -156,21 +134,18 @@ export function ComboboxDemo({ client }: TClient) {
           </div>
         ))}
       </div>
-      <div>
-        <div className="flex p-2 border-gray-300 rounded-b-md bg-primary/20">
-          <div className="sticky bottom-0 flex-auto text-xl font-semibold">
-            Total
-          </div>
-          <div className="text-xl font-bold text-right">
-            {client.tickets
-              .reduce((acc, ticket) => acc + ticket.total, 0)
-              .toLocaleString("fr-FR", {
-                style: "currency",
-                currency: "EUR",
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-          </div>
+
+      <div className="sticky bottom-0 flex p-3 border-gray-300 rounded-b-md bg-violet-300">
+        <div className="sticky bottom-0 flex-auto text-xl font-semibold">Total</div>
+        <div className="text-xl font-bold text-right">
+          {client.tickets
+            .reduce((acc, ticket) => acc + ticket.total, 0)
+            .toLocaleString("fr-FR", {
+              style: "currency",
+              currency: "EUR",
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
         </div>
       </div>
     </div>

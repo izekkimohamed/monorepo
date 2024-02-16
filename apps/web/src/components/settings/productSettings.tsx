@@ -1,9 +1,5 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
 import { Button } from "@repo/ui/src/components/ui/button";
 import {
   Form,
@@ -21,7 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@repo/ui/src/components/ui/select";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 import { getProduct } from "@/actions/getProduct";
 import { trpc } from "@repo/trpc/client";
@@ -52,7 +50,6 @@ const ProductForm = () => {
   });
   const [productId, setProductId] = useState<number | undefined>();
   const [codeBar, setCodeBar] = useState("");
-  const inputRef = useRef();
   const { toast } = useToast();
   const handleCodeSubmite = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,10 +63,7 @@ const ProductForm = () => {
       form.setValue("pvht", newProduct.product?.pvht!.toString());
       form.setValue("tva_code", newProduct.product?.tva_code!.toString());
       form.setValue("rayon_code", newProduct.product?.rayon_code!.toString());
-      form.setValue(
-        "famille_code",
-        newProduct.product?.famille_code!.toString(),
-      );
+      form.setValue("famille_code", newProduct.product?.famille_code!.toString());
     } else {
       toast({
         title: "Product not found",
@@ -83,11 +77,10 @@ const ProductForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+  const rayonWatch = form.watch("rayon_code");
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    let tva_taux = data?.tva.find(
-      (tva) => tva.code === +values.tva_code,
-    )?.taux!;
+    let tva_taux = data?.tva.find((tva) => tva.code === +values.tva_code)?.taux!;
     let newValues = {
       id: productId!,
       libelle: values.libelle,
@@ -102,14 +95,11 @@ const ProductForm = () => {
     setProductId(undefined);
     setCodeBar("");
   }
+
   return (
     <div className="max-w-[70%] mx-auto">
       <h1 className="my-3 text-4xl font-bold text-center ">Edit Product</h1>
-      <form
-        autoFocus
-        className="z-20 flex gap-3 mx-auto"
-        onSubmit={handleCodeSubmite}
-      >
+      <form autoFocus className="z-20 flex gap-3 mx-auto" onSubmit={handleCodeSubmite}>
         <Input
           placeholder="Enter a product codeBar"
           className="mb-3 border-2 border-gray-300 bg-muted"
@@ -199,9 +189,8 @@ const ProductForm = () => {
                         value={(
                           +form.getValues().pvttc /
                           (1 +
-                            data?.tva.find(
-                              (v) => v.code === +form.getValues().tva_code,
-                            )?.taux! /
+                            data?.tva.find((v) => v.code === +form.getValues().tva_code)
+                              ?.taux! /
                               100)
                         ).toFixed(2)}
                       />
@@ -212,17 +201,14 @@ const ProductForm = () => {
                 )}
               />
             </div>
-            <div className="flex justify-between gap-2">
+            <div className="grid grid-cols-5 gap-2">
               <FormField
                 control={form.control}
                 name="tva_code"
                 render={({ field }) => (
-                  <FormItem className="w-full text-xl font-bold">
+                  <FormItem className="col-span-1 text-xl font-bold">
                     <FormLabel>tva</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="" />
@@ -251,12 +237,9 @@ const ProductForm = () => {
                 control={form.control}
                 name="rayon_code"
                 render={({ field }) => (
-                  <FormItem className="w-full text-xl font-bold">
+                  <FormItem className="col-span-2 text-xl font-bold">
                     <FormLabel>rayon</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={field.value} />
@@ -266,6 +249,7 @@ const ProductForm = () => {
                       <SelectContent>
                         {data?.rayons?.map((rayon) => (
                           <SelectItem
+                            className="w-max"
                             key={rayon.code}
                             value={rayon.code.toString()}
                           >
@@ -283,28 +267,24 @@ const ProductForm = () => {
                 control={form.control}
                 name="famille_code"
                 render={({ field }) => (
-                  <FormItem className="w-full text-xl font-bold">
+                  <FormItem className="col-span-2 text-xl font-bold">
                     <FormLabel>famille</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={field.value} />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="w-max">
                         {data?.familles
                           ?.filter((f) => {
-                            return (
-                              f.rayon_code === +form.getValues().rayon_code
-                            );
+                            return f.rayon_code === +rayonWatch;
                           })
                           .map((famille) => (
                             <SelectItem
                               key={famille.code}
                               value={famille.code.toString()}
+                              className="w-max"
                             >
                               {famille.libelle}
                             </SelectItem>

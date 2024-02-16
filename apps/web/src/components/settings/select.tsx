@@ -55,10 +55,7 @@ export function CategorySettings() {
             }}
           >
             <SelectTrigger className="font-bold border-gray-300 border- h-11 ring-0">
-              <SelectValue
-                placeholder="Select a category"
-                className="bg-gray-50"
-              />
+              <SelectValue placeholder="Select a category" className="bg-gray-50" />
             </SelectTrigger>
             <SelectContent className="font-bold ">
               <SelectGroup>
@@ -104,7 +101,6 @@ export function CategorySettings() {
             addToTabProducts(+valueId, items);
             setItems([]);
           }}
-          className="absolute bottom-0 right-0"
         >
           Add
         </Button>

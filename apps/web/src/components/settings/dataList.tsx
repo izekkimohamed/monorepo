@@ -18,11 +18,8 @@ const DataList = ({
   setItems: React.Dispatch<React.SetStateAction<Products[]>>;
   items: Products[];
 }) => {
-  const [open, setOpen] = React.useState(false);
   const [products, setProducts] = React.useState<Products[]>([]);
-  const [filteredProducts, setFilteredProducts] = React.useState<Products[]>(
-    [],
-  );
+  const [filteredProducts, setFilteredProducts] = React.useState<Products[]>([]);
   const [search, setSearch] = React.useState("");
   async function getData() {
     const data = await getProducts();
@@ -67,15 +64,11 @@ const DataList = ({
             filteredProducts.map((p) => (
               <div className="flex items-center gap-2 " key={p.id}>
                 <Checkbox
-                  checked={
-                    items?.find((value) => value.id === p.id)?.id ? true : false
-                  }
+                  checked={items?.find((value) => value.id === p.id)?.id ? true : false}
                   onCheckedChange={(checked) => {
                     return checked
                       ? setItems([...items!, p!])
-                      : setItems(
-                          items?.filter((value) => value.code !== p.code),
-                        );
+                      : setItems(items?.filter((value) => value.code !== p.code));
                   }}
                   id={p.libelle!}
                 />

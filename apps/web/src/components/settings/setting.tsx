@@ -15,9 +15,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "@repo/ui/src/components/ui/tabs";
+import ListClients from "../clients/ListClients";
 import ProductForm from "./productSettings";
 import { CategorySettings } from "./select";
-import ListClients from "../clients/ListClients";
 
 function Setting() {
   const setActive = useSettingsStore((state) => state.toggle);
@@ -30,17 +30,13 @@ function Setting() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="px-2 py-4" side={"right"}>
+      <SheetContent className="h-full px-2" side={"right"}>
         <SheetHeader>
           <SheetTitle className="font-sans text-4xl font-bold text-center text-primary">
             Settings
           </SheetTitle>
         </SheetHeader>
-        <Tabs
-          defaultValue="tabs"
-          orientation="vertical"
-          className="w-full h-full"
-        >
+        <Tabs defaultValue="tabs" orientation="vertical" className="w-full h-full ">
           <TabsList
             aria-orientation="horizontal"
             className="flex items-start gap-2 p-1 my-3 font-semibold border-2 border-gray-200 rounded-md bg-muted "
@@ -64,14 +60,10 @@ function Setting() {
               Clients
             </TabsTrigger>
           </TabsList>
-          <TabsContent
-            aria-orientation="horizontal"
-            value="products"
-            className="relative block w-full h-full"
-          >
+          <TabsContent value="products" className="relative block w-full h-full ">
             <ProductForm />
           </TabsContent>
-          <TabsContent value="clients" className="relative block w-full">
+          <TabsContent value="clients" className="relative block w-full h-full ">
             <ListClients />
           </TabsContent>
           <TabsContent value="tabs" className="relative flex w-full h-full">

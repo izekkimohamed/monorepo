@@ -1,24 +1,20 @@
 import { trpc } from "@repo/trpc/client";
-
 import { Product } from "@/store";
 import { PaymentEnum } from "@repo/prisma/client";
+
 export type TPayment = {
   mode: PaymentEnum;
   amount: number;
   ticketNumber: number;
 };
+
 export const useTicketSubmission = () => {
   const { mutate: updateData } = trpc.updateData.useMutation();
-  const { mutate: deleteWaittingTickets } =
-    trpc.deleteWaittingTickets.useMutation();
+  const { mutate: deleteWaittingTickets } = trpc.deleteWaittingTickets.useMutation();
   const { mutate: updateTicket } = trpc.updateTicket.useMutation();
   const { mutate: createPaymentMode } = trpc.createPaymentMode.useMutation();
 
-  return async (
-    data: Product[],
-    ticketNumber: number,
-    ticketMethods: TPayment[],
-  ) => {
+  return async (data: Product[], ticketNumber: number, ticketMethods: TPayment[]) => {
     const t = data.filter((item) => item.waittingTicketsNumber);
     const waittingTicketsNumber = t.length > 0 && t[0].waittingTicketsNumber;
 
@@ -37,9 +33,7 @@ export const useTicketSubmission = () => {
 
     await updateTicket({
       number: ticketNumber,
-      total: Number(
-        data.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2),
-      ),
+      total: Number(data.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2)),
       date: new Date(),
     });
     await createPaymentMode(ticketMethods);

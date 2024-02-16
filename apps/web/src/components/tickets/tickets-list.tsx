@@ -1,3 +1,4 @@
+import { createSpecificTicket } from "@/store/specificTicket";
 import { trpc } from "@repo/trpc/client";
 import { Button } from "@ui/components/ui/button";
 import {
@@ -7,11 +8,19 @@ import {
   DialogTrigger,
 } from "@ui/components/ui/dialog";
 import { ScrollArea } from "@ui/components/ui/scroll-area";
-import { format } from "date-fns";
+import { PrinterIcon } from "lucide-react";
 
-export default function TiketsList() {
+type UseReactToPrintHookReturn = () => void;
+
+export default function TiketsList({
+  printTicket,
+}: {
+  printTicket: (
+    ticketType: "current" | "last" | "specific" | null,
+  ) => UseReactToPrintHookReturn;
+}) {
   const { data } = trpc.listTickets.useQuery();
-  console.log(data);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -22,23 +31,53 @@ export default function TiketsList() {
 
       <DialogContent className="">
         <DialogHeader>List of Tickets</DialogHeader>
-        <ScrollArea className="h-[550px] p-2  pb-0 relative">
-          {/* <div className="space-y-2">
-            {data
-              ?.filter((d) => d.clientId == null)
-              .map((d) => (
+        <ScrollArea className="h-[550px] relative">
+          <div className="px-8 space-y-2">
+            {data &&
+              data.map((p) => (
                 <div
-                  key={d.number}
-                  className="flex justify-between gap-2 px-4 py-2 rounded-lg cursor-pointer bg-violet-400"
+                  key={p.number}
+                  className="flex items-center justify-between px-3 rounded-lg bg-primary text-gray-50"
                 >
-                  <p>{d.number}</p>
-                  <p>{format(d.date, "dd/MMMM/yyyy/hh:mm")}</p>
-                  <p>{d.total}</p>
+                  <div className="flex gap-3">
+                    <span className="">{p.number}</span>
+                    <span className="">{p.total}</span>
+                  </div>
+                  <ButtonTicket p={p} prinTicket={printTicket} />
                 </div>
               ))}
-          </div> */}
+          </div>
         </ScrollArea>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function ButtonTicket({
+  p,
+  prinTicket,
+}: {
+  p: { number: number; total: number };
+
+  prinTicket: (
+    ticketType: "current" | "last" | "specific" | null,
+  ) => UseReactToPrintHookReturn;
+}) {
+  const utils = trpc.useUtils();
+
+  const printSpecific = prinTicket("specific");
+  return (
+    <Button
+      size={"icon"}
+      onClick={async () => {
+        const t = await utils.getTicketById.fetch(p.number);
+        if (t) {
+          createSpecificTicket(t);
+          printSpecific();
+        }
+      }}
+    >
+      <PrinterIcon className="w-5 h-5 " />
+    </Button>
   );
 }

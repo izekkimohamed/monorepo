@@ -1,8 +1,7 @@
-import { useStore, resetNamPad, setRemaining } from "@/store";
-
-import { useToast } from "@repo/ui/src/components/ui/use-toast";
 import { PaymentEnum } from "@repo/prisma/client";
+import { useToast } from "@repo/ui/src/components/ui/use-toast";
 
+import { resetNamPad, useStore } from "@/store";
 import usePaymentStore from "@/store/paymentsMethods";
 
 export const useTotal = () => {
@@ -60,8 +59,8 @@ export const useTotal = () => {
         handlePaymentMethods(mode, Number(remaining.toFixed(2)), ticketNumber);
         resetNamPad();
         toast({
-          title: "Change",
-          description: `${(amount - remaining).toFixed(2)} $`,
+          title: "Total",
+          description: `Ticket completed `,
           variant: "default",
           duration: 1000,
         });

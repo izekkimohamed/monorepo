@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { publicProcedure, router } from "../trpc";
 import { prisma } from "@repo/prisma/db";
+import { publicProcedure, router } from "../trpc";
 
 export const ticketsRouter = router({
   createTicket: publicProcedure.mutation(async () => {
@@ -40,9 +40,41 @@ export const ticketsRouter = router({
     });
   }),
   listTickets: publicProcedure.query(async () => {
-    return await prisma.paymentMode.findMany({
+    return await prisma.ticket.findMany({
+      where: {
+        clientId: null,
+      },
+      orderBy: {
+        number: "desc",
+      },
+      skip: 1,
+    });
+  }),
+  getLastTicket: publicProcedure.query(async () => {
+    return await prisma.ticket.findFirst({
+      orderBy: {
+        number: "desc",
+      },
+      where: {
+        clientId: null,
+      },
+      take: 1,
+      skip: 1,
       include: {
-        Ticket: true,
+        products: true,
+        paymentModes: true,
+      },
+    });
+  }),
+  getTicketById: publicProcedure.input(z.number()).query(async ({ input }) => {
+    if (input === undefined) return;
+    return await prisma.ticket.findFirst({
+      where: {
+        number: input,
+      },
+      include: {
+        products: true,
+        paymentModes: true,
       },
     });
   }),

@@ -4,10 +4,17 @@ import { resetList, useStore } from "@/store";
 import { trpc } from "@repo/trpc/client";
 import { Button } from "@repo/ui/src/components/ui/button";
 import { useToast } from "@repo/ui/src/components/ui/use-toast";
+
+import { useRef, useState } from "react";
+
+import { useReactToPrint } from "react-to-print";
+import ComponentToPrint from "../print/ComponentToPrint";
 import Setting from "../settings/setting";
 import Stats from "../stats";
-import ReprandeDialog from "./ReprandeDialog";
+
+import { deleteSpecificTicket } from "@/store/specificTicket";
 import TiketsList from "../tickets/tickets-list";
+import ReprandeDialog from "./ReprandeDialog";
 
 function ActionButtons() {
   const { mutate: deleteTicket } = trpc.deleteWaittingTickets.useMutation();
@@ -15,8 +22,35 @@ function ActionButtons() {
   const { mutate: updateData } = trpc.updateData.useMutation();
   const { mutate: createData } = trpc.createData.useMutation();
   const products = useStore((state) => state.products);
+
   const total = products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2);
   const { toast } = useToast();
+
+  const componentRef = useRef<HTMLDivElement | null>(null);
+  const [ticket, setTicket] = useState<"current" | "last" | "specific" | null>(null);
+
+  const printTicket = (ticketType: "current" | "last" | "specific" | null) => {
+    return useReactToPrint({
+      content: () => componentRef.current,
+      pageStyle() {
+        return `@page { size: 160mm 248mm; margin: 1; }`;
+      },
+      documentTitle: `${ticketType === "current" ? "Current" : "Last"} Ticket`,
+      removeAfterPrint: true,
+
+      onBeforeGetContent: async () => {
+        setTicket(ticketType);
+      },
+      onAfterPrint: () => {
+        setTicket(null);
+
+        deleteSpecificTicket();
+      },
+    });
+  };
+
+  const printCurrent = printTicket("current");
+  const printLast = printTicket("last");
 
   const handleAttentButton = async () => {
     if (products.length < 1) {
@@ -86,8 +120,17 @@ function ActionButtons() {
       }
     }
   };
+
   return (
     <div className="grid grid-cols-2 col-span-2 row-span-4 gap-1 ">
+      <div
+        style={{
+          display: "none",
+          fontSize: "1rem",
+        }}
+      >
+        <ComponentToPrint ref={componentRef} ticket={ticket} />
+      </div>
       <div className="grid col-span-1 grid-rows-4 gap-1">
         <Setting />
         <Button variant={"action"} size={"full"} onClick={handleAttentButton}>
@@ -120,9 +163,29 @@ function ActionButtons() {
         </Button>
       </div>
       <div className="grid col-span-1 grid-rows-4 gap-1">
-        <TiketsList />
-        <Button variant={"action"} size={"full"}></Button>
-        <Button variant={"action"} size={"full"}></Button>
+        <TiketsList printTicket={printTicket} />
+
+        <Button
+          variant={"action"}
+          size={"full"}
+          onClick={() => {
+            if (products.length < 1) {
+              toast({
+                title: "Error",
+                description: "No product Yet",
+                duration: 1000,
+                variant: "destructive",
+              });
+              return;
+            }
+            printCurrent();
+          }}
+        >
+          Print Current
+        </Button>
+        <Button variant={"action"} size={"full"} onClick={() => printLast()}>
+          Print Last
+        </Button>
         <Stats />
       </div>
     </div>
