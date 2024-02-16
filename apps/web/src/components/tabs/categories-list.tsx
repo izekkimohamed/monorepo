@@ -22,7 +22,7 @@ const Categories = () => {
     <div className="relative h-full">
       {mount && (
         <Tabs defaultValue={tabs[0]?.name} className="w-full h-full">
-          <TabsList className="sticky top-0 flex justify-between w-full h-16 mb-1 bg-primary ">
+          <TabsList className="sticky top-0 z-20 flex justify-between w-full h-16 mb-1 border-b-2 border-primary bg-primary ">
             {tabs &&
               tabs?.map((category, i) => (
                 <TabsTrigger
