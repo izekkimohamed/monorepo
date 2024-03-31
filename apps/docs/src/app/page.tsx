@@ -1,7 +1,9 @@
-import { prisma } from "@repo/prisma/db";
+"use client";
 
-export default async function Page() {
-  const data = await prisma.data.findMany();
+import { trpc } from "@repo/trpc/client";
+
+export default function Page() {
+  const data = trpc.api.ticket.list.useQuery();
   return (
     <>
       <div className="col-span-1 ">dashboard</div>
