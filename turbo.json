@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": ["**/.env.*local", ".env"],
   "globalEnv": ["DATABASE_URL"],
   "pipeline": {
     "build": {
@@ -14,9 +14,6 @@
       "persistent": true,
       "env": ["DATABASE_URL"],
       "dotEnv": [".env.local", ".env"]
-    },
-    "generate": {
-      "dependsOn": ["^generate"]
     },
     "clean": {
       "cache": false
