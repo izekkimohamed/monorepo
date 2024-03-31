@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@repo/prisma/db";
+import { prisma } from "@repo/prisma";
 import { DateRange } from "@ui/components/text";
 
 export const getstats = async (date: DateRange) => {

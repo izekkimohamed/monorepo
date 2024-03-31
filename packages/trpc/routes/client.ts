@@ -1,4 +1,4 @@
-import { prisma } from "@repo/prisma/db";
+import { prisma } from "@repo/prisma";
 import { ClientSchema } from "../schema";
 import { publicProcedure, router } from "../trpc";
 

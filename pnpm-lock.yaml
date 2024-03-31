@@ -286,9 +286,6 @@ importers:
       '@repo/libs':
         specifier: '*'
         version: link:../libs
-      '@repo/prisma':
-        specifier: '*'
-        version: link:../prisma
       '@tanstack/react-query':
         specifier: ^4.36.1
         version: 4.36.1(react-dom@18.2.0)(react@18.2.0)
@@ -307,6 +304,10 @@ importers:
       zod:
         specifier: ^3.22.4
         version: 3.22.4
+    devDependencies:
+      '@repo/prisma':
+        specifier: '*'
+        version: link:../prisma
 
   packages/ui:
     dependencies:
