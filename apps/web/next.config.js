@@ -8,11 +8,11 @@ module.exports = {
     "@repo/trpc",
     "@repo/ui",
   ],
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.plugins = [...config.plugins, new PrismaPlugin()];
-    }
+  // webpack: (config, { isServer }) => {
+  //   if (isServer) {
+  //     config.plugins = [...config.plugins, new PrismaPlugin()];
+  //   }
 
-    return config;
-  },
+  //   return config;
+  // },
 };

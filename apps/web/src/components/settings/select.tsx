@@ -2,7 +2,7 @@
 import * as React from "react";
 
 import { useTabsStore } from "@/store/tabs";
-import { Product } from "@repo/prisma/client";
+import { Product } from "@repo/prisma";
 import {
   Select,
   SelectContent,

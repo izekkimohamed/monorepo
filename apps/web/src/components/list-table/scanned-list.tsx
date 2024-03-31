@@ -3,7 +3,7 @@ import { removeProduct, selectProduct, useStore } from "@/store";
 import usePaymentStore from "@/store/paymentsMethods";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { cn } from "@repo/libs/utils";
-import { PaymentEnum } from "@repo/prisma/client";
+import { PaymentEnum } from "@repo/prisma";
 import { trpc } from "@repo/trpc/client";
 import {
   Table,
