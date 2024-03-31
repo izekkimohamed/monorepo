@@ -1,21 +1,10 @@
-// /** @type {import('next').NextConfig} */
-// module.exports = {
-//   reactStrictMode: true,
-//   transpilePackages: ["@repo/ui"],
-// };
+const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
 
-import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
-
-// IMPORTANT: Initialize it here before to avoid race condition!!!
-const prismaPlugin = new PrismaPlugin();
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   reactStrictMode: true,
-  transpilePackages: ["@repo/ui"],
+  transpilePackages: ["@repo/ui", "@repo/prisma", "@repo/trpc", "@repo/libs"],
   webpack: (config, { isServer }) => {
-    if (isServer) config.plugins = [...config.plugins, prismaPlugin];
+    if (isServer) config.plugins = [...config.plugins, new PrismaPlugin()];
     return config;
   },
-  // ...
 };

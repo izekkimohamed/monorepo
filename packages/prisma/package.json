@@ -1,8 +1,9 @@
 {
   "name": "@repo/prisma",
   "version": "0.0.0",
-  "main": "./index.ts",
-  ".": "./src/client.ts",
+  "exports": {
+    ".": "./src/client.ts"
+  },
   "types": "./index.ts",
   "scripts": {
     "build": "prisma generate",
