@@ -15,6 +15,9 @@
       "env": ["DATABASE_URL"],
       "dotEnv": [".env.local", ".env"]
     },
+    "generate": {
+      "dependsOn": ["^generate"]
+    },
     "clean": {
       "cache": false
     }
