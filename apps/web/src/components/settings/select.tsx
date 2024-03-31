@@ -2,7 +2,7 @@
 import * as React from "react";
 
 import { useTabsStore } from "@/store/tabs";
-import { Products } from "@repo/prisma/client";
+import { Product } from "@repo/prisma/client";
 import {
   Select,
   SelectContent,
@@ -20,12 +20,12 @@ import DataList from "./dataList";
 export function CategorySettings() {
   const { tabs, addTab, addToTabProducts } = useTabsStore();
   const [input, setInput] = React.useState("");
-  const [items, setItems] = React.useState<Products[]>([]);
+  const [items, setItems] = React.useState<Product[]>([]);
   const [valueId, setValueId] = React.useState<string | null>(null);
 
   return (
-    <div className="w-full px-6 space-y-3">
-      <div className="w-full px-1 py-4 space-y-2 border border-gray-300 rounded-md bg-muted ">
+    <div className="w-full space-y-3">
+      <div className="w-full px-2 py-4 space-y-2 border border-gray-300 rounded-md bg-muted ">
         <h2 className="font-bold text-gray-900 ">Create Tab</h2>
         <form
           className="flex w-full gap-2"
@@ -39,10 +39,10 @@ export function CategorySettings() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="w-full border-2  border-primary"
+            className="w-full border-2 border-primary"
             autoFocus
           />
-          <Button type="submit">Ajouter</Button>
+          <Button type="submit">Add Tab</Button>
         </form>
       </div>
       <div className="flex gap-2">
@@ -74,7 +74,7 @@ export function CategorySettings() {
 
           {valueId && <DataList setItems={setItems} items={items} />}
         </div>
-        <ScrollArea className="h-[400px] w-1/2 bg-muted rounded-md border-gray-300 border-2 relative">
+        <ScrollArea className="relative w-1/2 h-auto border-2 border-gray-300 rounded-md bg-muted">
           <div className="p-3">
             {items.map((item, i) => (
               <div
@@ -97,6 +97,8 @@ export function CategorySettings() {
       </div>
       {items && valueId && (
         <Button
+          className="float-right"
+          size={"lg"}
           onClick={() => {
             addToTabProducts(+valueId, items);
             setItems([]);

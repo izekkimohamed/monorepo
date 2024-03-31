@@ -7,84 +7,76 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Products {
+model Product {
   id           Int      @id @default(autoincrement())
-  code         String?
-  code_interne String?
-  libelle      String?
-  pvttc        Float?
-  pvht         Float?
+  code         String
+  code_interne String
+  libelle      String
+  price        Float
+  pvht         Float
   rayon_code   Int?
-  famille_code Int?
-  tva_code     Int?
-  famille      Famille? @relation(fields: [famille_code], references: [code])
   rayon        Rayon?   @relation(fields: [rayon_code], references: [code])
+  famille_code Int?
+  famille      Famille? @relation(fields: [famille_code], references: [code])
+  tva_code     Int?
   tva          Tva?     @relation(fields: [tva_code], references: [code])
-}
-
-model WaittingTickets {
-  number   Int    @id @default(autoincrement())
-  total    Float
-  products Data[]
-}
-
-model Famille {
-  code       Int        @id
-  libelle    String?
-  rayon_code Int?
-  data       Data[]
-  Rayon      Rayon?     @relation(fields: [rayon_code], references: [code])
-  Products   Products[]
-}
-
-model Rayon {
-  code     Int        @id
-  libelle  String?
-  Famille  Famille[]
-  products Products[]
-}
-
-model Tva {
-  libelle  String?
-  taux     Float?
-  code     Int        @id
-  data     Data[]
-  products Products[]
 }
 
 model Data {
   id                    Int              @id @default(autoincrement())
-  libelle               String
   code                  String
+  code_interne          String
+  libelle               String
   price                 Float
-  pvht                  Float
   quantity              Int
+  pvht                  Float
+  total_pvht            Float
   total                 Float
-  date                  DateTime         @default(now())
   ticketNumber          Int?
-  waittingTicketsNumber Int?
-  famille_code          Int?
-  tva_code              Int?
-  famille               Famille?         @relation(fields: [famille_code], references: [code])
   ticket                Ticket?          @relation(fields: [ticketNumber], references: [number])
-  tva                   Tva?             @relation(fields: [tva_code], references: [code])
+  waittingTicketsNumber Int?
   WaittingTickets       WaittingTickets? @relation(fields: [waittingTicketsNumber], references: [number], onDelete: Cascade)
+  famille_code          Int?
+  famille               Famille?         @relation(fields: [famille_code], references: [code])
+  tva_code              Int?
+  tva                   Tva?             @relation(fields: [tva_code], references: [code])
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @default(now()) @updatedAt
+}
+
+model WaittingTickets {
+  number    Int      @id @default(autoincrement())
+  total     Float
+  products  Data[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Ticket {
   number       Int           @id @default(autoincrement())
   total        Float
-  date         DateTime      @default(now()) @db.Timestamp(6)
-  clientId     Int?
   products     Data[]
   paymentModes PaymentMode[]
-  Client       Client?       @relation(fields: [clientId], references: [id])
+  clientId     Int?
+  client       Client?       @relation(fields: [clientId], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
 }
 
 model Client {
-  id      Int      @id @default(autoincrement())
-  name    String
-  tickets Ticket[]
+  id           Int      @id @default(autoincrement())
+  name         String
+  address      String
+  phone_number String
+  tickets      Ticket[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+}
+
+enum PaymentEnum {
+  Cash
+  Card
+  Cheque
 }
 
 model PaymentMode {
@@ -92,18 +84,29 @@ model PaymentMode {
   mode         PaymentEnum
   amount       Float
   ticketNumber Int?
-  Ticket       Ticket?     @relation(fields: [ticketNumber], references: [number])
+  ticket       Ticket?     @relation(fields: [ticketNumber], references: [number])
 }
 
-model TabsRayon {
-  id       Int      @id @default(autoincrement())
-  libelle  String
-  code     String
-  products String[]
+model Famille {
+  code       Int       @id
+  libelle    String?
+  rayon_code Int?
+  rayon      Rayon?    @relation(fields: [rayon_code], references: [code])
+  products   Product[]
+  Data       Data[]
 }
 
-enum PaymentEnum {
-  Cash
-  Card
-  Cheque
+model Rayon {
+  code     Int       @id
+  libelle  String?
+  famille  Famille[]
+  products Product[]
+}
+
+model Tva {
+  libelle  String?
+  taux     Float?
+  code     Int       @id
+  products Product[]
+  Data     Data[]
 }

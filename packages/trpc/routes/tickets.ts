@@ -1,34 +1,92 @@
 import { z } from "zod";
 
 import { prisma } from "@repo/prisma/db";
+import { DataSchema, PaymentModeSchema } from "../schema";
 import { publicProcedure, router } from "../trpc";
 
 export const ticketsRouter = router({
-  createTicket: publicProcedure.mutation(async () => {
-    const ticket = await prisma.ticket.create({
-      data: {
-        date: new Date(),
-        total: 0,
-      },
-    });
-    return ticket;
-  }),
-  updateTicket: publicProcedure
+  create: publicProcedure
     .input(
       z.object({
-        number: z.number(),
-        date: z.coerce.date(),
-        total: z.number(),
+        clientId: z.number().optional(),
+        products: z.array(DataSchema),
+        paymentModes: z.array(PaymentModeSchema).optional(),
       }),
     )
     .mutation(async ({ input }) => {
+      const total = Number(
+        input.products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2),
+      );
+      return await prisma.ticket.create({
+        data: {
+          total,
+          clientId: input.clientId,
+          products: {
+            createMany: {
+              data: input.products.map((product) => ({
+                ...product,
+                id: undefined,
+                ticketNumber: product.ticketNumber || undefined,
+                waittingTicketsNumber: product.waittingTicketsNumber || undefined,
+              })),
+            },
+          },
+          paymentModes: {
+            createMany: {
+              data: input.paymentModes!.map((product) => ({
+                ...product,
+                ticketNumber: undefined,
+              })),
+            },
+          },
+        },
+      });
+    }),
+  update: publicProcedure
+    .input(
+      z.object({
+        ticketNumber: z.number(),
+        clientId: z.number().optional(),
+
+        products: z.array(DataSchema),
+        paymentModes: z.array(PaymentModeSchema),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const total = Number(
+        input.products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2),
+      );
+      const waitedProducts = input.products.filter(
+        (product) => product.waittingTicketsNumber,
+      );
+      const newProducts = input.products.filter(
+        (product) => !product.waittingTicketsNumber,
+      );
+
       return await prisma.ticket.update({
         where: {
-          number: input.number,
+          number: input.ticketNumber,
         },
         data: {
-          date: input.date!,
-          total: input.total,
+          total,
+          clientId: input.clientId,
+          products: {
+            updateMany: waitedProducts.map((product) => ({
+              where: { id: product.id },
+              data: {
+                total: product.total,
+                total_pvht: product.total_pvht,
+                quantity: product.quantity,
+              },
+            })),
+            createMany: {
+              data: newProducts.map((product) => ({
+                ...product,
+                ticketNumber: null,
+                waittingTicketsNumber: undefined,
+              })),
+            },
+          },
         },
       });
     }),
@@ -39,7 +97,7 @@ export const ticketsRouter = router({
       },
     });
   }),
-  listTickets: publicProcedure.query(async () => {
+  list: publicProcedure.query(async () => {
     return await prisma.ticket.findMany({
       where: {
         clientId: null,
@@ -59,7 +117,6 @@ export const ticketsRouter = router({
         clientId: null,
       },
       take: 1,
-      skip: 1,
       include: {
         products: true,
         paymentModes: true,

@@ -21,12 +21,12 @@ const Categories = () => {
   return (
     <div className="relative h-full">
       {mount && (
-        <Tabs defaultValue={tabs[0]?.name} className="w-full h-full">
+        <Tabs defaultValue={tabs[1]?.name} className="w-full h-full">
           <TabsList className="sticky top-0 z-20 flex justify-between w-full h-16 mb-1 border-b-2 border-primary bg-primary ">
             {tabs &&
               tabs?.map((category, i) => (
                 <TabsTrigger
-                  className="text-base font-bold text-primary border-x border-primary "
+                  className="text-base font-bold border text-primary border-primary "
                   value={category?.name!}
                   key={i}
                 >

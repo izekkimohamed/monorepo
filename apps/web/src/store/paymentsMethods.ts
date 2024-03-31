@@ -4,23 +4,21 @@ import { create } from "zustand";
 export type TPayment = {
   mode: PaymentEnum;
   amount: number;
-  ticketNumber: number;
 };
 
 interface PaymentStore {
   paymentMethods: TPayment[];
   setPaymentMethods: (paymentMethods: TPayment[]) => void;
-  handlePaymentMethods: (
-    mode: PaymentEnum,
-    amount: number,
-    ticketNumber: number,
-  ) => void;
+  resetPaymentMethods: () => void;
+  handlePaymentMethods: (mode: PaymentEnum, amount: number) => void;
 }
 
 const usePaymentStore = create<PaymentStore>((set) => ({
   paymentMethods: [],
   setPaymentMethods: (paymentMethods) => set({ paymentMethods }),
-  handlePaymentMethods: (mode, amount, ticketNumber) => {
+  resetPaymentMethods: () => set({ paymentMethods: [] }),
+
+  handlePaymentMethods: (mode, amount) => {
     set((state) => {
       const modeExist = state.paymentMethods.some((item) => item.mode === mode);
 
@@ -40,7 +38,6 @@ const usePaymentStore = create<PaymentStore>((set) => ({
         const newPaymentMethod = {
           mode: mode,
           amount: amount,
-          ticketNumber,
         };
 
         return { paymentMethods: [...state.paymentMethods, newPaymentMethod] };

@@ -13,14 +13,12 @@ import Setting from "../settings/setting";
 import Stats from "../stats";
 
 import { deleteSpecificTicket } from "@/store/specificTicket";
+import ClientsDialog from "../clients/ClientDialog";
 import TiketsList from "../tickets/tickets-list";
 import ReprandeDialog from "./ReprandeDialog";
 
 function ActionButtons() {
-  const { mutate: deleteTicket } = trpc.deleteWaittingTickets.useMutation();
-  const { mutate: updateTicket } = trpc.updateWaittingTickets.useMutation();
-  const { mutate: updateData } = trpc.updateData.useMutation();
-  const { mutate: createData } = trpc.createData.useMutation();
+  const { mutate: deleteTicket } = trpc.api.waitting.delete.useMutation();
   const products = useStore((state) => state.products);
 
   const total = products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2);
@@ -63,66 +61,12 @@ function ActionButtons() {
 
       return;
     } else {
-      if (products.some((p) => p.waittingTicketsNumber)) {
-        const number = products.find(
-          (p) => p.waittingTicketsNumber,
-        )?.waittingTicketsNumber;
-        const total = Number(
-          products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2),
-        );
-
-        const alredyExist = products
-          .filter((p) => p.waittingTicketsNumber)
-          .map((r) => {
-            const temp = {
-              id: r.id!,
-              libelle: r.libelle!,
-              code: r.code!,
-              famille_code: r.famille_code!,
-              tva_code: r.tva_code!,
-              pvht: r.pvht!,
-              price: r.price!,
-              totalPvht: r.quantity * r.pvht!,
-              total: r.quantity * r.price!,
-              quantity: r.quantity,
-              ticketNumber: undefined,
-              date: new Date(),
-              waittingTicketsNumber: number!,
-            };
-            updateData(temp);
-          });
-        const newProducts = products
-          .filter((p) => p.id === undefined)
-          .map((r) => ({
-            libelle: r.libelle!,
-            code: r.code!,
-            famille_code: r.famille_code!,
-            tva_code: r.tva_code!,
-            pvht: r.pvht!,
-            price: r.price!,
-            totalPvht: r.pvht!,
-            total: r.price!,
-            quantity: r.quantity,
-            ticketNumber: undefined,
-            date: new Date(),
-            waittingTicketsNumber: number!,
-          }));
-        createData(newProducts);
-        number &&
-          updateTicket({
-            number,
-            total,
-          });
-        resetList();
-      } else {
-        addToWaittingList(Number(total), products);
-        resetList();
-      }
+      addToWaittingList(Number(total), products);
+      resetList();
     }
   };
-
   return (
-    <div className="grid grid-cols-2 col-span-2 row-span-4 gap-1 ">
+    <div className="grid grid-cols-2 col-span-2 row-span-5 gap-1 ">
       <div
         style={{
           display: "none",
@@ -131,10 +75,9 @@ function ActionButtons() {
       >
         <ComponentToPrint ref={componentRef} ticket={ticket} />
       </div>
-      <div className="grid col-span-1 grid-rows-4 gap-1">
-        <Setting />
-        <Button variant={"action"} size={"full"} onClick={handleAttentButton}>
-          Attent
+      <div className="grid col-span-1 grid-rows-5 gap-1">
+        <Button variant={"ticket"} size={"full"} onClick={handleAttentButton}>
+          Wait
         </Button>
         <ReprandeDialog />
         <Button
@@ -156,17 +99,20 @@ function ActionButtons() {
               });
             resetList();
           }}
-          variant={"action"}
+          variant={"ticket"}
           size={"full"}
         >
           Annul
         </Button>
+        <Setting />
+
+        <Button disabled size={"full"}></Button>
       </div>
-      <div className="grid col-span-1 grid-rows-4 gap-1">
+      <div className="grid col-span-1 grid-rows-5 gap-1">
         <TiketsList printTicket={printTicket} />
 
         <Button
-          variant={"action"}
+          variant={"print"}
           size={"full"}
           onClick={() => {
             if (products.length < 1) {
@@ -183,10 +129,11 @@ function ActionButtons() {
         >
           Print Current
         </Button>
-        <Button variant={"action"} size={"full"} onClick={() => printLast()}>
+        <Button variant={"print"} size={"full"} onClick={() => printLast()}>
           Print Last
         </Button>
         <Stats />
+        <ClientsDialog />
       </div>
     </div>
   );

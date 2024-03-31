@@ -15,7 +15,7 @@ const ComponentToPrint = React.forwardRef<HTMLDivElement, ComponentToPrintProps>
   (props, ref) => {
     const { ticket } = props;
 
-    const { data: lastTicket } = trpc.getLastTicket.useQuery();
+    const { data: lastTicket } = trpc.api.ticket.getLastTicket.useQuery();
     const ticketData = useSpecificTicket();
 
     return (

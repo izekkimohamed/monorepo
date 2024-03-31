@@ -2,8 +2,8 @@ import type { Data } from "@repo/prisma/client";
 import { RefObject, createRef } from "react";
 import { create } from "zustand";
 
-export type Product = Omit<Data, "id"> & {
-  totalPvht: number;
+export type Product = Omit<Data, "id" | "createdAt" | "updatedAt"> & {
+  total_pvht: number;
   id: number | undefined;
 };
 export type Store = {
@@ -46,8 +46,8 @@ export const updateProduct = (code: string, qty?: number) => {
             ...item,
             quantity: qty ? qty : item.quantity + 1,
             total: qty
-              ? Number((item.price * qty).toFixed(2))
-              : Number((item.price * (item.quantity + 1)).toFixed(2)),
+              ? Number((item.price! * qty).toFixed(2))
+              : Number((item.price! * (item.quantity + 1)).toFixed(2)),
             totalPvht: qty ? item.pvht! * qty : item.pvht! * (item.quantity + 1),
           }
         : item,

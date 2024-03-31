@@ -1,28 +1,30 @@
 "use client";
-import { Button } from "@repo/ui/src/components/ui/button";
-import React, { useState } from "react";
-import ClientsDialog from "../clients/ClientDialog";
-import { useTicketSubmission } from "@/hooks/useTickitSubmission";
 import { useTotal } from "@/hooks/useTotal";
-
-import { useStore, resetList, setRemaining } from "@/store";
+import { resetList, useStore } from "@/store";
+import usePaymentStore from "@/store/paymentsMethods";
 import { PaymentEnum } from "@repo/prisma/client";
 import { trpc } from "@repo/trpc/client";
-import usePaymentStore from "@/store/paymentsMethods";
+import { Button } from "@repo/ui/src/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const SubmitButtons = () => {
-  const [isTotal, setIsTotal] = useState<boolean>(false);
-  const { products } = useStore();
-  const { data: ticketNumber } = trpc.getTicket.useQuery();
-  const utils = trpc.useUtils();
-  const { mutate: createTicket } = trpc.createTicket.useMutation({
+  const router = useRouter();
+
+  const { mutate: createTicket } = trpc.api.ticket.create.useMutation({
     onSuccess: () => {
-      utils.getTicket.invalidate();
+      router.refresh();
+      resetPaymentMethods();
+      resetList();
     },
   });
-  const handelTickitSubmission = useTicketSubmission();
+  const { mutate: deleteWaittingTicket } = trpc.api.waitting.delete.useMutation();
+  const paymentMethods = usePaymentStore((state) => state.paymentMethods);
+  const resetPaymentMethods = usePaymentStore((state) => state.resetPaymentMethods);
+  const products = useStore((state) => state.products);
   const handleTotal = useTotal();
-  const { paymentMethods, setPaymentMethods } = usePaymentStore();
+  const [isTotal, setIsTotal] = useState<boolean>(false);
+
   const t = products.reduce((acc, curr) => {
     return acc + curr.total;
   }, 0);
@@ -31,50 +33,43 @@ const SubmitButtons = () => {
   }, 0);
 
   const remaining = t - r;
+
   function submitTotal(mode: PaymentEnum) {
-    handleTotal(remaining, setIsTotal, ticketNumber?.number!, mode);
+    handleTotal(remaining, setIsTotal, mode);
   }
 
-  const create = async () => {
-    await createTicket();
-    setPaymentMethods([]);
-    resetList();
-  };
-
   if (isTotal) {
+    const waitedTicket = products.some((product) => product.waittingTicketsNumber);
+
     try {
-      handelTickitSubmission(products, ticketNumber?.number!, paymentMethods);
+      if (waitedTicket) {
+        deleteWaittingTicket(products[0].waittingTicketsNumber!);
+      }
+      createTicket({
+        products: products.map((product) => ({
+          ...product,
+          waittingTicketsNumber: null,
+          ticketNumber: null,
+        })),
+        paymentModes: paymentMethods,
+      });
     } catch (error) {
     } finally {
-      create();
       setIsTotal(false);
     }
   }
 
   return (
-    <div className="grid col-span-4 grid-cols-4 grid-rows-1 gap-1">
-      <Button
-        onClick={() => submitTotal("Cash")}
-        variant={"action"}
-        size={"full"}
-      >
+    <div className="grid grid-cols-3 col-span-2 gap-1">
+      <Button onClick={() => submitTotal("Cash")} variant={"cash"} size={"full"}>
         Espece
       </Button>
-      <Button
-        onClick={() => submitTotal("Card")}
-        variant={"action"}
-        size={"full"}
-      >
+      <Button onClick={() => submitTotal("Card")} variant={"card"} size={"full"}>
         Cart
       </Button>
-      <Button
-        onClick={() => submitTotal("Cheque")}
-        variant={"action"}
-        size={"full"}
-      >
+      <Button onClick={() => submitTotal("Cheque")} variant={"cheque"} size={"full"}>
         Cheque
       </Button>
-      <ClientsDialog />
     </div>
   );
 };

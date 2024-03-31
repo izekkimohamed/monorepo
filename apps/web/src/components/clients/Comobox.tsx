@@ -12,11 +12,11 @@ type TClient = {
     name: string;
     tickets: {
       number: number;
-      date: string;
+      createdAt: string;
       total: number;
       products?: {
         code: string;
-        date: string;
+        createdAt: string;
         ticketNumber: number | null;
         total: number;
         id: number;
@@ -35,7 +35,7 @@ type TClient = {
 export function ComboboxDemo({ client }: TClient) {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <div className="relative w-full h-full border rounded-md border-primary ">
+    <div className="relative w-full border rounded-md border-primary ">
       <div className="flex w-full p-2 text-lg font-semibold text-gray-500 bg-primary/20 gap-x-2 rounded-t-md">
         <div className="w-[100px] text-center">Invoice</div>
         <div className="flex-auto">Date</div>
@@ -65,7 +65,7 @@ export function ComboboxDemo({ client }: TClient) {
                 {ticket.number}
               </div>
               <div className="flex-auto font-semibold">
-                {format(ticket.date, "EEEE, d MMMM yyyy", { locale: fr })}
+                {format(ticket.createdAt, "EEEE, d MMMM yyyy", { locale: fr })}
               </div>
               <div className="pr-2 text-base font-bold">
                 {ticket.total.toLocaleString("fr-FR", {

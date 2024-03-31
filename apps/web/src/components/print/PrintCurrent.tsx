@@ -1,30 +1,28 @@
 import { useStore } from "@/store";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { cn } from "@repo/libs/utils";
-import { trpc } from "@repo/trpc/client";
 import { format } from "date-fns";
 
 export default function PrintCurrent() {
   const products = useStore((state) => state.products);
-  const { data: ticketNumber } = trpc.getTicket.useQuery();
 
   const tva_2 = products
     .filter((item) => item.tva_code === 2)
     .map((item) => {
-      return item.totalPvht * (20 / 100);
+      return item.total_pvht * (20 / 100);
     })
     .reduce((acc, curr) => Number(acc + +curr), 0);
 
   const tva_1 = products
     .filter((item) => item.tva_code === 1)
     .map((item) => {
-      return item.totalPvht * (5.5 / 100);
+      return item.total_pvht * (5.5 / 100);
     })
     .reduce((acc, curr) => Number(acc + +curr), 0);
   return (
     <>
       <div className="font-bold text-center">
-        <h1>Ticket # {ticketNumber?.number}</h1>
+        <h1>Ticket # </h1>
         <h1>{format(new Date(), "dd-MM-yyyy hh:mm")}</h1>
       </div>
 
@@ -43,13 +41,6 @@ export default function PrintCurrent() {
         </div>
       ))}
       <div className="px-10 text-lg font-bold text-gray-950">
-        <div className="flex items-center justify-between gap-2 px-4">
-          <span className="">Total :</span>
-          <span className="">
-            {products &&
-              formatCurrency(products.reduce((acc, curr) => acc + +curr.total, 0))}
-          </span>
-        </div>
         <div className="px-4 ">
           <div className="flex items-center justify-between gap-2">
             {products.length > 0 && (
@@ -58,28 +49,39 @@ export default function PrintCurrent() {
                 <span className="">
                   {products &&
                     formatCurrency(
-                      products.reduce((acc, curr) => acc + +curr.totalPvht, 0),
+                      products.reduce((acc, curr) => acc + +curr.total_pvht, 0),
                     )}
                 </span>
               </>
             )}
           </div>
           <div className="flex items-center justify-between gap-2">
-            {tva_2 > 0 && (
+            {tva_2 ? (
               <>
                 <span className="">TVA 20% :</span>
                 <span className="">{formatCurrency(tva_2)}</span>
               </>
+            ) : (
+              <></>
             )}
           </div>
           <div className="flex items-center justify-between gap-2">
-            {tva_1 > 0 && (
+            {tva_1 ? (
               <>
                 <span className="">TVA 5.5% :</span>
                 <span className="">{formatCurrency(tva_1)}</span>
               </>
+            ) : (
+              <></>
             )}
           </div>
+        </div>
+        <div className="flex items-center justify-between gap-2 px-4">
+          <span className="">Total :</span>
+          <span className="">
+            {products &&
+              formatCurrency(products.reduce((acc, curr) => acc + +curr.total, 0))}
+          </span>
         </div>
       </div>
     </>

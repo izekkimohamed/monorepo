@@ -1,13 +1,7 @@
 "use client";
 
-import {
-  Product,
-  addProduct,
-  resetQty,
-  updateProduct,
-  useStore,
-} from "@/store";
-import { Products } from "@repo/prisma/client";
+import { Product, addProduct, resetQty, updateProduct, useStore } from "@/store";
+import { Product as Products } from "@repo/prisma/client";
 import { Button } from "@repo/ui/src/components/ui/button";
 
 const ItemButton = ({ item }: { item: Products }) => {
@@ -22,15 +16,15 @@ const ItemButton = ({ item }: { item: Products }) => {
           id: undefined,
           libelle: item.libelle!,
           code: item.code!,
+          code_interne: item.code_interne!,
           famille_code: item.famille_code!,
           tva_code: item.tva_code!,
           pvht: item.pvht!,
-          price: item.pvttc!,
-          totalPvht: qty * item.pvht!,
-          total: qty * item.pvttc!,
+          price: item.price!,
+          total_pvht: qty * item.pvht!,
+          total: qty * item.price!,
           quantity: qty,
-          ticketNumber: 2,
-          date: new Date(),
+          ticketNumber: null,
           waittingTicketsNumber: null,
         };
 
@@ -43,9 +37,9 @@ const ItemButton = ({ item }: { item: Products }) => {
   return (
     item && (
       <Button
-        variant={"secondary"}
+        variant={"tabs"}
         onClick={handleSubmit}
-        className="w-full h-20 px-1 text-sm font-bold text-center truncate whitespace-pre-wrap bg-gray-200 border-2 rounded-md border-primary text-primary "
+        className="w-full h-20 px-1 text-center truncate whitespace-pre-wrap rounded-lg shadow-md "
       >
         {item?.libelle}
       </Button>

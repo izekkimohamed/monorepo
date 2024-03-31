@@ -19,7 +19,6 @@ module.exports = {
     "@vercel/style-guide/eslint/react",
     "@vercel/style-guide/eslint/next",
     "eslint-config-turbo",
-    "simple-import-sort",
   ].map(require.resolve),
   parserOptions: {
     project,
@@ -44,25 +43,5 @@ module.exports = {
     "import/no-default-export": "off",
 
     "@typescript-eslint/no-unsafe-assignment": "off",
-
-    "simple-import-sort/imports": [
-      "error",
-      {
-        groups: [
-          // Packages `react` related packages come first.
-          ["^react", "^@?\\w"],
-          // Internal packages.
-          ["^(@|components)(/.*|$)"],
-          // Side effect imports.
-          ["^\\u0000"],
-          // Parent imports. Put `..` last.
-          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-          // Other relative imports. Put same-folder imports and `.` last.
-          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-          // Style imports.
-          ["^.+\\.?(css)$"],
-        ],
-      },
-    ],
   },
 };

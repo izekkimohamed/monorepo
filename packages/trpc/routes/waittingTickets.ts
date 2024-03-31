@@ -1,45 +1,30 @@
 import { z } from "zod";
 
-import { publicProcedure, router } from "../trpc";
 import { prisma } from "@repo/prisma/db";
+import { DataSchema } from "../schema";
+import { publicProcedure, router } from "../trpc";
 
 export const waittingTicketsRouter = router({
-  createWaittingTickets: publicProcedure
-    .input(
-      z.object({
-        total: z.number(),
-        products: z.array(
-          z.object({
-            libelle: z.string(),
-            code: z.string(),
-            price: z.number(),
-            pvht: z.number(),
-            quantity: z.number(),
-            total: z.number(),
-            date: z.coerce.date(),
-            tva_code: z.number().nullable(),
-            famille_code: z.number().nullable(),
-          }),
-        ),
-      }),
-    )
+  create: publicProcedure
+    .input(z.object({ products: z.array(DataSchema), total: z.number() }))
     .mutation(async ({ input, ctx }) => {
       const ticket = await prisma.waittingTickets.create({
         data: {
           total: input.total,
           products: {
             createMany: {
-              data: input.products,
+              data: input.products.map((product) => ({
+                ...product,
+                ticketNumber: null,
+                waittingTicketsNumber: undefined,
+              })),
             },
           },
-        },
-        include: {
-          products: true,
         },
       });
       return ticket;
     }),
-  getWaittingTickets: publicProcedure.query(async () => {
+  list: publicProcedure.query(async () => {
     return await prisma.waittingTickets.findMany({
       select: {
         products: true,
@@ -48,33 +33,48 @@ export const waittingTicketsRouter = router({
       },
     });
   }),
-  updateWaittingTickets: publicProcedure
-    .input(
-      z.object({
-        number: z.number().optional(),
-        total: z.number(),
-      }),
-    )
+  update: publicProcedure
+    .input(z.object({ products: z.array(DataSchema), total: z.number() }))
     .mutation(async ({ input }) => {
-      return await prisma.waittingTickets.update({
-        where: { number: input.number },
+      const waittingTicketsNumber = input.products[0].waittingTicketsNumber!;
+
+      const updatedProducts = input.products.filter((product) => product.id);
+      const createdProducts = input.products.filter((product) => !product.id);
+
+      await prisma.waittingTickets.update({
+        where: { number: waittingTicketsNumber },
         data: {
           total: input.total,
-        },
-      });
-    }),
-  deleteWaittingTickets: publicProcedure
-    .input(z.number())
-    .mutation(async ({ input }) => {
-      return await prisma.waittingTickets.delete({
-        where: {
-          number: input,
           products: {
-            every: {
-              waittingTicketsNumber: input,
+            updateMany: updatedProducts.map((product) => ({
+              where: { id: product.id },
+              data: {
+                total: product.total,
+                total_pvht: product.total_pvht,
+                quantity: product.quantity,
+              },
+            })),
+            createMany: {
+              data: createdProducts.map((product) => ({
+                ...product,
+                ticketNumber: null,
+                waittingTicketsNumber: undefined,
+              })),
             },
           },
         },
       });
     }),
+  delete: publicProcedure.input(z.number()).mutation(async ({ input }) => {
+    return await prisma.waittingTickets.delete({
+      where: {
+        number: input,
+        products: {
+          every: {
+            waittingTicketsNumber: input,
+          },
+        },
+      },
+    });
+  }),
 });

@@ -1,12 +1,6 @@
 "use client";
 import { Button } from "@repo/ui/src/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@repo/ui/src/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@repo/ui/src/components/ui/sheet";
 
 import { useSettingsStore } from "@/store/settings";
 import {
@@ -25,21 +19,20 @@ function Setting() {
   return (
     <Sheet onOpenChange={setActive}>
       <SheetTrigger asChild>
-        <Button variant={"action"} size={"full"}>
+        <Button variant={"custome"} size={"full"}>
           Settings
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="h-full px-2" side={"right"}>
-        <SheetHeader>
-          <SheetTitle className="font-sans text-4xl font-bold text-center text-primary">
-            Settings
-          </SheetTitle>
-        </SheetHeader>
-        <Tabs defaultValue="tabs" orientation="vertical" className="w-full h-full ">
+      <SheetContent className="pt-10 " side={"right"}>
+        <Tabs
+          defaultValue="tabs"
+          orientation="vertical"
+          className="relative w-full h-full space-y-2"
+        >
           <TabsList
             aria-orientation="horizontal"
-            className="flex items-start gap-2 p-1 my-3 font-semibold border-2 border-gray-200 rounded-md bg-muted "
+            className="flex items-start h-16 gap-2 font-semibold rounded-md bg-muted "
           >
             <TabsTrigger
               value="tabs"
@@ -60,14 +53,14 @@ function Setting() {
               Clients
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="products" className="relative block w-full h-full ">
+          <TabsContent value="tabs" className="">
+            <CategorySettings />
+          </TabsContent>
+          <TabsContent value="products" className="">
             <ProductForm />
           </TabsContent>
-          <TabsContent value="clients" className="relative block w-full h-full ">
+          <TabsContent value="clients" className="">
             <ListClients />
-          </TabsContent>
-          <TabsContent value="tabs" className="relative flex w-full h-full">
-            <CategorySettings />
           </TabsContent>
         </Tabs>
       </SheetContent>

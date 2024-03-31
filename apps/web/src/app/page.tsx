@@ -1,13 +1,12 @@
 import Buttons from "@/components/buttons";
 import ListTable from "@/components/list-table";
-import Stats from "@/components/stats";
 import Tabs from "@/components/tabs";
 import { Toaster } from "@ui/components/ui/toaster";
 export default function Page() {
   return (
-    <div className="bg-primary max-h-screen h-screen">
+    <div className="h-screen max-h-screen bg-primary">
       <Toaster />
-      <div className="w-full h-full grid grid-cols-8 grid-rows-[65vh,auto] gap-y-1">
+      <div className="w-full h-full grid grid-cols-8 grid-rows-[65vh,auto] ">
         <ListTable />
         <Buttons />
         <Tabs />

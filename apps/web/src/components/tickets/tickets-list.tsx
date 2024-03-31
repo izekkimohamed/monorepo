@@ -12,19 +12,25 @@ import { PrinterIcon } from "lucide-react";
 
 type UseReactToPrintHookReturn = () => void;
 
-export default function TiketsList({
-  printTicket,
-}: {
-  printTicket: (
-    ticketType: "current" | "last" | "specific" | null,
-  ) => UseReactToPrintHookReturn;
-}) {
-  const { data } = trpc.listTickets.useQuery();
+type PrintTicket = (
+  ticketType: "current" | "last" | "specific" | null,
+) => UseReactToPrintHookReturn;
+
+type ButtonTicketProps = {
+  ticket: {
+    number: number;
+    total: number;
+  };
+  prinTicket: PrintTicket;
+};
+
+export default function TiketsList({ printTicket }: { printTicket: PrintTicket }) {
+  const { data: tickets } = trpc.api.ticket.list.useQuery();
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"action"} size={"full"}>
+        <Button variant={"print"} size={"full"}>
           Tickets List
         </Button>
       </DialogTrigger>
@@ -33,17 +39,17 @@ export default function TiketsList({
         <DialogHeader>List of Tickets</DialogHeader>
         <ScrollArea className="h-[550px] relative">
           <div className="px-8 space-y-2">
-            {data &&
-              data.map((p) => (
+            {tickets &&
+              tickets.map((ticket) => (
                 <div
-                  key={p.number}
+                  key={ticket.number}
                   className="flex items-center justify-between px-3 rounded-lg bg-primary text-gray-50"
                 >
                   <div className="flex gap-3">
-                    <span className="">{p.number}</span>
-                    <span className="">{p.total}</span>
+                    <span className="">{ticket.number}</span>
+                    <span className="">{ticket.total}</span>
                   </div>
-                  <ButtonTicket p={p} prinTicket={printTicket} />
+                  <ButtonTicket ticket={ticket} prinTicket={printTicket} />
                 </div>
               ))}
           </div>
@@ -53,16 +59,7 @@ export default function TiketsList({
   );
 }
 
-function ButtonTicket({
-  p,
-  prinTicket,
-}: {
-  p: { number: number; total: number };
-
-  prinTicket: (
-    ticketType: "current" | "last" | "specific" | null,
-  ) => UseReactToPrintHookReturn;
-}) {
+function ButtonTicket({ ticket, prinTicket }: ButtonTicketProps) {
   const utils = trpc.useUtils();
 
   const printSpecific = prinTicket("specific");
@@ -70,7 +67,7 @@ function ButtonTicket({
     <Button
       size={"icon"}
       onClick={async () => {
-        const t = await utils.getTicketById.fetch(p.number);
+        const t = await utils.api.ticket.getTicketById.fetch(ticket.number);
         if (t) {
           createSpecificTicket(t);
           printSpecific();

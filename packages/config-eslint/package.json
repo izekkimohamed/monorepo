@@ -4,9 +4,7 @@
   "private": true,
   "devDependencies": {
     "@vercel/style-guide": "^5.1.0",
-    "eslint-config-turbo": "^1.11.3"
-  },
-  "dependencies": {
+    "eslint-config-turbo": "^1.11.3",
     "eslint-plugin-simple-import-sort": "^10.0.0"
   }
 }

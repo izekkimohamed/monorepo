@@ -8,13 +8,11 @@ export const useTotal = () => {
   const products = useStore.getState().products;
   const namPad = useStore.getState().namPad;
   const { handlePaymentMethods } = usePaymentStore();
-
   const { toast } = useToast();
 
   return async (
     remaining: number,
     setIsTotal: (isTotal: boolean) => void,
-    ticketNumber: number,
     mode: PaymentEnum,
   ) => {
     if (products.length < 1) {
@@ -36,7 +34,7 @@ export const useTotal = () => {
 
     if (amount === 0 && !remaining) {
       let t = products.reduce((acc, curr) => acc + +curr.total, 0);
-      handlePaymentMethods(mode, t, ticketNumber);
+      handlePaymentMethods(mode, t);
 
       toast({
         title: "Change",
@@ -52,11 +50,11 @@ export const useTotal = () => {
     }
     if (remaining > 0) {
       if (remaining > amount && amount > 0) {
-        handlePaymentMethods(mode, amount, ticketNumber);
+        handlePaymentMethods(mode, amount);
         resetNamPad();
         return;
       } else {
-        handlePaymentMethods(mode, Number(remaining.toFixed(2)), ticketNumber);
+        handlePaymentMethods(mode, Number(remaining.toFixed(2)));
         resetNamPad();
         toast({
           title: "Total",
@@ -71,7 +69,7 @@ export const useTotal = () => {
     }
 
     if (amount < total) {
-      handlePaymentMethods(mode, amount, ticketNumber);
+      handlePaymentMethods(mode, amount);
       resetNamPad();
       return;
     }

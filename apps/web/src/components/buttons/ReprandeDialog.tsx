@@ -1,5 +1,6 @@
 "use client";
-import { Button } from "@repo/ui/src/components/ui/button";
+import { addProduct, useStore } from "@/store";
+import { trpc } from "@repo/trpc/client";
 import {
   Dialog,
   DialogClose,
@@ -9,23 +10,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@repo/ui/src/components/ui/dialog";
-import { addProduct, useStore } from "@/store";
-import { trpc } from "@repo/trpc/client";
 
 import { useToast } from "@repo/ui/src/components/ui/use-toast";
+import { Button } from "@ui/components/ui/button";
 
 function ReprandeDialog() {
-  const { data: waittingTickets, refetch } = trpc.getWaittingTickets.useQuery();
+  const { data: waittingTickets, refetch } = trpc.api.waitting.list.useQuery();
   const { products } = useStore();
 
   const { toast } = useToast();
 
   return (
     <Dialog>
-      <DialogTrigger className="text-gray-300 rounded-md bg-emerald-700">
-        <div
-          className="flex items-center justify-center w-full h-full text-xl font-bold "
-          // variant="action"
+      <DialogTrigger asChild>
+        <Button
+          variant="ticket"
+          size="full"
           onClick={(e) => {
             if (products.length > 0) {
               e.stopPropagation();
@@ -42,7 +42,7 @@ function ReprandeDialog() {
           }}
         >
           Reprande Ticket
-        </div>
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
@@ -56,7 +56,6 @@ function ReprandeDialog() {
                 className="flex items-center justify-between p-3 font-semibold text-gray-200 rounded-md cursor-pointer bg-primary hover:bg-primary/90"
                 onClick={() => {
                   ticket.products.map((product) => {
-                    //@ts-expect-error
                     addProduct(product);
                   });
                 }}

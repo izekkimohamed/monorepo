@@ -4,25 +4,26 @@ import * as React from "react";
 
 import { Search } from "lucide-react";
 
-import { getProducts } from "@/actions/getProducts";
-import { Products } from "@repo/prisma/client";
+import { getAllProducts } from "@/actions/getProduct";
+import { Product } from "@repo/prisma/client";
 import { Checkbox } from "@repo/ui/src/components/ui/checkbox";
 import { ScrollArea } from "@repo/ui/src/components/ui/scroll-area";
 import { Input } from "@ui/components/ui/input";
 import { Label } from "@ui/components/ui/label";
+// import { Product } from "@/store";
 
 const DataList = ({
   setItems,
   items,
 }: {
-  setItems: React.Dispatch<React.SetStateAction<Products[]>>;
-  items: Products[];
+  setItems: React.Dispatch<React.SetStateAction<Product[]>>;
+  items: Product[];
 }) => {
-  const [products, setProducts] = React.useState<Products[]>([]);
-  const [filteredProducts, setFilteredProducts] = React.useState<Products[]>([]);
+  const [products, setProducts] = React.useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = React.useState<Product[]>([]);
   const [search, setSearch] = React.useState("");
   async function getData() {
-    const data = await getProducts();
+    const data = await getAllProducts();
     setProducts(data);
   }
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
@@ -46,7 +47,7 @@ const DataList = ({
   }, []);
 
   return (
-    <div className="col-span-1 ">
+    <div className="col-span-1">
       <form onSubmit={(e) => handleSearch(e)}>
         <Label className="flex items-center gap-2 px-2 border-2 border-gray-300 rounded-md bg-gray-50 ">
           <Search className="w-5 h-5 text-zinc-400" />
@@ -58,8 +59,9 @@ const DataList = ({
           />
         </Label>
       </form>
-      <div>
-        <ScrollArea className="h-[250px] p-2 pb-0 relative">
+
+      <ScrollArea className="relative h-[400px]">
+        <div>
           {filteredProducts &&
             filteredProducts.map((p) => (
               <div className="flex items-center gap-2 " key={p.id}>
@@ -77,8 +79,8 @@ const DataList = ({
                 </label>
               </div>
             ))}
-        </ScrollArea>
-      </div>
+        </div>
+      </ScrollArea>
     </div>
   );
 };

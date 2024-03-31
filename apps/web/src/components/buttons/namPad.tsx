@@ -11,20 +11,7 @@ import {
   useStore,
 } from "@/store";
 
-const NamPadButtons = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  ".",
-  "0",
-  "X",
-];
+const NamPadButtons = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "X"];
 function NamPad() {
   const qty = useStore((state) => state.qty);
   const namPad = useStore((state) => state.namPad);
@@ -56,8 +43,8 @@ function NamPad() {
               setNamPad(button);
             }
           }}
-          className={` text-gray-50 font-semibold rounded-md
-            ${button === "X" ? "bg-red-400 " : "bg-primary "}`}
+          className={` text-gray-950 font-semibold rounded-md
+            ${button === "X" ? "bg-red-400 " : "bg-gradient-to-br to-cyan-100 from-cyan-700 to-80%"}`}
         >
           {button}
         </Button>

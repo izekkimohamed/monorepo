@@ -6,6 +6,7 @@ import { format } from "date-fns";
 export default function PrintSpecific({ data }: { data: SpecificTicket }) {
   const specificTicket = data;
   const products = specificTicket?.products;
+
   const tva_2 = products
     ?.filter((item) => item.tva_code === 2)
     .map((item) => {
@@ -13,6 +14,7 @@ export default function PrintSpecific({ data }: { data: SpecificTicket }) {
       return totalPvht * (20 / 100);
     })
     .reduce((acc, curr) => Number(acc + +curr), 0);
+
   const tva_1 = products
     ?.filter((item) => item.tva_code === 1)
     .map((item) => {
@@ -21,12 +23,14 @@ export default function PrintSpecific({ data }: { data: SpecificTicket }) {
       return totalPvht * (5.5 / 100);
     })
     .reduce((acc, curr) => Number(acc + +curr), 0);
+
   return (
     <div className="">
       <div className="text-lg font-bold text-center">
         <p>Ticket: {specificTicket?.number}</p>
         <p>
-          {specificTicket && format(new Date(specificTicket.date), "dd/MM/yyyy HH:mm:ss")}
+          {specificTicket &&
+            format(new Date(specificTicket.createdAt), "dd/MM/yyyy HH:mm:ss")}
         </p>
       </div>
       {specificTicket && (
@@ -65,19 +69,23 @@ export default function PrintSpecific({ data }: { data: SpecificTicket }) {
               )}
             </div>
             <div className="flex items-center justify-between gap-2">
-              {tva_2 && tva_2 > 0 && (
+              {tva_2 ? (
                 <>
                   <span className="">TVA 20% :</span>
                   <span className="">{formatCurrency(tva_2)}</span>
                 </>
+              ) : (
+                <></>
               )}
             </div>
             <div className="flex items-center justify-between gap-2">
-              {tva_1 && tva_1 > 0 && (
+              {tva_1 ? (
                 <>
                   <span className="">TVA 5.5% :</span>
                   <span className="">{formatCurrency(tva_1)}</span>
                 </>
+              ) : (
+                <></>
               )}
             </div>
           </div>

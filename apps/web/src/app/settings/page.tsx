@@ -16,7 +16,7 @@ import {
   TabsTrigger,
 } from "@repo/ui/src/components/ui/tabs";
 
-const TabsDemo = () => {
+const TabsDemo = async () => {
   return (
     <Tabs defaultValue="account" className="h-screen ">
       <TabsList className="grid grid-cols-2">

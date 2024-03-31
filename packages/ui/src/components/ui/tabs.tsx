@@ -14,7 +14,7 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "flex overflow-x-auto  max-w-full h-10 items-center justify-center bg-gray-300  text-muted-foreground",
+      "flex overflow-x-auto  max-w-full h-10 items-center justify-center text-muted-foreground",
       className,
     )}
     {...props}
@@ -29,7 +29,7 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-full w-full  items-center justify-center whitespace-nowrap border-r-2 border-r-primary px-3 py-2 text-sm font-medium ring-offset-background transition-all bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow-sm ",
+      "flex h-full w-full  items-center justify-center  bg-gray-300 whitespace-nowrap border-r-2 border-r-primary px-3 py-2 text-sm font-medium ring-offset-background transition-all  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow-sm ",
       "active",
       className,
     )}
@@ -45,7 +45,7 @@ const TabsContent = React.forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     className={cn(
-      "ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 gap-2 grid grid-cols-4 text-clip px-1 absolute data-state=[inactive]:relative  ",
+      "ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2  text-clip px-1 absolute data-state=[inactive]:relative w-full ",
       className,
     )}
     {...props}

@@ -11,6 +11,8 @@
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
     "prisma:migrate-dev": "prisma migrate dev",
+    "prisma:reset": "prisma migrate reset",
+    "prisma:push": "prisma db push",
     "prisma:migrate-deploy": "prisma migrate deploy",
     "prisma:seed": "prisma db seed"
   },
@@ -20,11 +22,13 @@
   "dependencies": {
     "@prisma/client": "5.8.0",
     "dotenv": "^16.3.1",
-    "dotenv-cli": "^7.3.0"
+    "dotenv-cli": "^7.3.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "prisma": "^5.8.0",
     "ts-node": "^10.9.2",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "zod-prisma": "^0.5.4"
   }
 }

@@ -1,11 +1,11 @@
-import { Data, Products } from "@repo/prisma/client";
+import { Product } from "@repo/prisma/client";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 export type Tabs = {
   id: number;
   name: string;
-  products: Products[];
+  products: Product[];
 };
 
 export type TabsStore = {
@@ -14,7 +14,7 @@ export type TabsStore = {
   removeTab: (id: number) => void;
   // updateTabProducts: (id: number, products: Data[]) => void;
   removeFromTab: (id: number, productId: number) => void;
-  addToTabProducts: (id: number, newProducts: Products[]) => void;
+  addToTabProducts: (id: number, newProducts: Product[]) => void;
 };
 
 // Define the Zustand store
@@ -27,18 +27,13 @@ export const useTabsStore = create<TabsStore>()(
           // check if alredy exist
           tabs: state.tabs.find((tab) => tab.name === name)
             ? state.tabs
-            : [
-                ...state.tabs,
-                { id: state.tabs.length + 1, name, products: [] },
-              ],
+            : [...state.tabs, { id: state.tabs.length + 1, name, products: [] }],
         })),
       removeTab: (id: number) =>
         set((state) => ({ tabs: state.tabs.filter((tab) => tab.id !== id) })),
-      updateTabProducts: (id: number, products: Products[]) =>
+      updateTabProducts: (id: number, products: Product[]) =>
         set((state) => ({
-          tabs: state.tabs.map((tab) =>
-            tab.id === id ? { ...tab, products } : tab,
-          ),
+          tabs: state.tabs.map((tab) => (tab.id === id ? { ...tab, products } : tab)),
         })),
       removeFromTab: (id: number, productId: number) =>
         set((state) => ({
@@ -51,12 +46,10 @@ export const useTabsStore = create<TabsStore>()(
               : tab,
           ),
         })),
-      addToTabProducts: (id: number, newProducts: Products[]) =>
+      addToTabProducts: (id: number, newProducts: Product[]) =>
         set((state) => ({
           tabs: state.tabs.map((tab) =>
-            tab.id === id
-              ? { ...tab, products: [...tab.products, ...newProducts] }
-              : tab,
+            tab.id === id ? { ...tab, products: [...tab.products, ...newProducts] } : tab,
           ),
         })),
     }),

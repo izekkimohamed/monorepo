@@ -4,11 +4,11 @@ import { PaymentEnum } from "@repo/prisma/client";
 import { format } from "date-fns";
 interface LastTicket {
   number: number;
-  date: string;
+  createdAt: string;
   total: number;
   products: {
     code: string;
-    date: string;
+    createdAt: string;
     ticketNumber: number | null;
     total: number;
     libelle: string;
@@ -53,7 +53,8 @@ export default function PrintLast({ data }: { data: LastTicket }) {
       <div className="text-lg font-bold text-center">
         <p>Ticket: {getLastTicket?.number}</p>
         <p>
-          {getLastTicket && format(new Date(getLastTicket.date), "dd/MM/yyyy HH:mm:ss")}
+          {getLastTicket &&
+            format(new Date(getLastTicket.createdAt), "dd/MM/yyyy HH:mm:ss")}
         </p>
       </div>
       {getLastTicket && (
@@ -92,19 +93,23 @@ export default function PrintLast({ data }: { data: LastTicket }) {
               )}
             </div>
             <div className="flex items-center justify-between gap-2">
-              {tva_2 && tva_2 > 0 && (
+              {tva_2 ? (
                 <>
                   <span className="">TVA 20% :</span>
                   <span className="">{formatCurrency(tva_2)}</span>
                 </>
+              ) : (
+                <></>
               )}
             </div>
             <div className="flex items-center justify-between gap-2">
-              {tva_1 && tva_1 > 0 && (
+              {tva_1 ? (
                 <>
                   <span className="">TVA 5.5% :</span>
                   <span className="">{formatCurrency(tva_1)}</span>
                 </>
+              ) : (
+                <></>
               )}
             </div>
           </div>

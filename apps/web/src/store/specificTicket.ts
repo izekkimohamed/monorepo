@@ -3,11 +3,11 @@ import { create } from "zustand";
 
 export type SpecificTicket = {
   number: number | null;
-  date: string;
+  createdAt: string;
   total: number | null;
   products: {
     code: string;
-    date: string;
+    createdAt: string;
     ticketNumber: number | null;
     total: number;
     libelle: string;
@@ -30,7 +30,7 @@ export type SpecificTicket = {
 
 export const useSpecificTicket = create<SpecificTicket>((set) => ({
   clientId: null,
-  date: "",
+  createdAt: "",
   number: null,
   products: [],
   paymentModes: [],
@@ -43,7 +43,7 @@ export const createSpecificTicket = (data: SpecificTicket) => {
 export const deleteSpecificTicket = () => {
   useSpecificTicket.setState({
     clientId: null,
-    date: "",
+    createdAt: "",
     number: null,
     products: [],
     paymentModes: [],

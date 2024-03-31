@@ -1,5 +1,11 @@
 "use client";
+import { getstats } from "@/actions/getStats";
+import { useSettingsStore } from "@/store/settings";
+import { cn } from "@repo/libs/utils";
+import { PaymentEnum } from "@repo/prisma/client";
+import { DateRange } from "@repo/ui/src/components/text";
 import { Button } from "@repo/ui/src/components/ui/button";
+import { Calendar } from "@repo/ui/src/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +26,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@repo/ui/src/components/ui/select";
-import { Calendar } from "@repo/ui/src/components/ui/calendar";
 import {
   addDays,
   endOfMonth,
@@ -30,18 +35,11 @@ import {
   startOfYear,
   subDays,
   subMonths,
-  addHours,
   subYears,
-  add,
 } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
-import { DateRange } from "@repo/ui/src/components/text";
-import { PaymentEnum } from "@repo/prisma/client";
-import { cn } from "@repo/libs/utils";
-import { getstats } from "@/actions/getStats";
 import { getModes } from "./getModes";
-import { useSettingsStore } from "@/store/settings";
 
 export type PaymentMethods = {
   id: number;
@@ -137,7 +135,7 @@ const Stats = () => {
     <div className="col-span-1 border-l-2 border-gray-800">
       <Dialog onOpenChange={setActive}>
         <DialogTrigger className="" asChild>
-          <Button variant={"action"} size={"full"}>
+          <Button variant={"custome"} size={"full"}>
             Status
           </Button>
         </DialogTrigger>
@@ -169,10 +167,7 @@ const Stats = () => {
                     )}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent
-                  align="start"
-                  className="flex flex-col p-2 space-y-2"
-                >
+                <PopoverContent align="center" className="flex p-2 space-y-2">
                   <Calendar
                     initialFocus
                     mode="range"
@@ -180,14 +175,11 @@ const Stats = () => {
                     selected={date}
                     onSelect={setDate}
                     numberOfMonths={2}
-                    className="bg-white absolute -left-[15%] rounded-md"
+                    className="bg-gray-100 font-bold absolute -left-[5%] rounded-md -mt-3 "
                   />
                 </PopoverContent>
               </Popover>
-              <Select
-                defaultValue="today"
-                onValueChange={(value) => setValue(value)}
-              >
+              <Select defaultValue="today" onValueChange={(value) => setValue(value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>

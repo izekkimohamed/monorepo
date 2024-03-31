@@ -17,15 +17,12 @@ import { Trash2 } from "lucide-react";
 function ScannedList() {
   const { paymentMethods, setPaymentMethods } = usePaymentStore();
   // const remaining = useStore((state) => state.remaining);
-  const { mutate: deleteProduct } = trpc.deleteData.useMutation();
-  const { mutate: deletewaittingTicket } =
-    trpc.deleteWaittingTickets.useMutation();
+  const { mutate: deleteProduct } = trpc.api.data.delete.useMutation();
+  const { mutate: deletewaittingTicket } = trpc.api.waitting.delete.useMutation();
   const products = useStore((state) => state.products);
   const selectedProduct = useStore((state) => state.selectedProduct);
 
-  const wattingTickets = products.filter(
-    (p) => p.waittingTicketsNumber !== undefined,
-  );
+  const wattingTickets = products.filter((p) => p.waittingTicketsNumber !== undefined);
   const deleteFromList = (mode: PaymentEnum) => {
     setPaymentMethods(paymentMethods.filter((item) => item.mode !== mode));
   };
@@ -97,8 +94,7 @@ function ScannedList() {
             className={cn(
               i % 2 === 0 ? "bg-gray-300" : "bg-gray-100",
               "font-bold  grid  grid-cols-8 hover:bg-blue-200",
-              selectedProduct?.code === item.code &&
-                "bg-blue-200 hover:bg-blue-200",
+              selectedProduct?.code === item.code && "bg-blue-200 hover:bg-blue-200",
             )}
           >
             <TableCell className="col-span-1 text-center">
@@ -123,11 +119,9 @@ function ScannedList() {
               {item.libelle}
             </TableCell>
             <TableCell className="col-span-1 text-center">
-              {formatCurrency(item.price)}
+              {formatCurrency(item.price!)}
             </TableCell>
-            <TableCell className="col-span-1 text-center">
-              {item.quantity}
-            </TableCell>
+            <TableCell className="col-span-1 text-center">{item.quantity}</TableCell>
             <TableCell className="col-span-1 text-center">
               {formatCurrency(item.total)}
             </TableCell>

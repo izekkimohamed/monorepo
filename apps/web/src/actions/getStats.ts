@@ -10,7 +10,7 @@ export const getstats = async (date: DateRange) => {
 
   const tickets = await prisma.ticket.findMany({
     where: {
-      date: {
+      createdAt: {
         gte: startDate!,
         lte: endDate!,
       },
