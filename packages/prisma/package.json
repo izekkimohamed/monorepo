@@ -1,6 +1,7 @@
 {
   "name": "@repo/prisma",
   "version": "0.0.0",
+  "main": "./index.ts",
   "exports": {
     ".": "./src/client.ts"
   },
