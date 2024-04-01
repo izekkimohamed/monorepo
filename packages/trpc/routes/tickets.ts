@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { prisma } from "@repo/prisma/db";
+import { prisma } from "@repo/prisma";
 import { DataSchema, PaymentModeSchema } from "../schema";
 import { publicProcedure, router } from "../trpc";
 

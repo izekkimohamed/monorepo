@@ -1,14 +1,16 @@
-"use client";
-
-import { trpc } from "@repo/trpc/client";
-
+import Buttons from "@/components/buttons";
+import ListTable from "@/components/list-table";
+import Tabs from "@/components/tabs";
+import { Toaster } from "@ui/components/ui/toaster";
 export default function Page() {
-  const data = trpc.api.ticket.list.useQuery();
   return (
-    <>
-      <div className="col-span-1 ">dashboard</div>
-      <div className="col-span-1 "> table</div>
-      {JSON.stringify(data, null, 2)}
-    </>
+    <div className="h-screen max-h-screen bg-primary">
+      <Toaster />
+      <div className="w-full h-full grid grid-cols-8 grid-rows-[65vh,auto] ">
+        <ListTable />
+        <Buttons />
+        <Tabs />
+      </div>
+    </div>
   );
 }
