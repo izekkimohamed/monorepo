@@ -1,0 +1,8 @@
+
+> @repo/ui@0.0.0 build C:\Users\med_i\OneDrive\Bureau\turbo\packages\ui
+> tailwindcss -i ./styles/globals.css -o dist/index.css
+
+
+Rebuilding...
+
+Done in 1133ms.
