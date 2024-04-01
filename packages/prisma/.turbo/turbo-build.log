@@ -4,7 +4,7 @@
 
 Prisma schema loaded from schema.prisma
 
-✔ Generated Prisma Client (v5.8.0) to .\..\..\node_modules\.pnpm\@prisma+client@5.8.0_prisma@5.8.0\node_modules\@prisma\client in 350ms
+✔ Generated Prisma Client (v5.8.0) to .\..\..\node_modules\.pnpm\@prisma+client@5.8.0_prisma@5.8.0\node_modules\@prisma\client in 324ms
 
 Start using Prisma Client in Node.js (See: https://pris.ly/d/client)
 ```

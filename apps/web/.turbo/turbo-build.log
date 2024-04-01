@@ -15,6 +15,7 @@ Invalid `prisma.ticket.findFirst()` invocation:
 
 
 error: Environment variable not found: DATABASE_URL.
+   Generating static pages (1/6) 
   -->  schema.prisma:7
    | 
  6 |   provider = "postgresql"
@@ -23,8 +24,9 @@ error: Environment variable not found: DATABASE_URL.
 
 Validation Error Count: 1
     at si.handleRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:125:7009)
+   Generating static pages (2/6) 
     ... 7 lines matching cause stack trace ...
-    at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55535) {
+    at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55487) {
   code: 'INTERNAL_SERVER_ERROR',
   name: 'TRPCError',
   [cause]: PrismaClientInitializationError: 
@@ -43,11 +45,11 @@ Validation Error Count: 1
       at si.handleAndLogRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:125:6059)
       at si.request (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:125:5767)
       at async d (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:130:9661)
-      at async C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:147243
+      at async C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:147195
       at async X.middlewares (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:131:9734)
       at async l (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:134:167)
       at async o (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:134:497)
-      at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55535) {
+      at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55487) {
     clientVersion: '5.8.0',
     errorCode: undefined
   }
@@ -66,7 +68,7 @@ error: Environment variable not found: DATABASE_URL.
 Validation Error Count: 1
     at si.handleRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:125:7009)
     ... 7 lines matching cause stack trace ...
-    at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55535) {
+    at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55487) {
   code: 'INTERNAL_SERVER_ERROR',
   name: 'TRPCError',
   [cause]: PrismaClientInitializationError: 
@@ -85,11 +87,11 @@ Validation Error Count: 1
       at si.handleAndLogRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:125:6059)
       at si.request (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:125:5767)
       at async d (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:130:9661)
-      at async C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:147243
+      at async C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:147195
       at async X.middlewares (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:131:9734)
       at async l (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:134:167)
       at async o (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:134:497)
-      at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55535) {
+      at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55487) {
     clientVersion: '5.8.0',
     errorCode: undefined
   }
@@ -112,13 +114,12 @@ Validation Error Count: 1
     at si.handleAndLogRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:125:6059)
     at si.request (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:125:5767)
     at async d (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:130:9661)
-    at async C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:147243
+    at async C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:147195
     at async X.middlewares (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:131:9734)
     at async l (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:134:167)
     at async o (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\823.js:134:497)
-    at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55535)
-   Generating static pages (1/6) 
-   Generating static pages (2/6) 
+    at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:55487)
+undefined
    Generating static pages (4/6) 
  ✓ Generating static pages (6/6) 
 
