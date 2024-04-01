@@ -3,7 +3,7 @@ import { createTrpcContext } from "@repo/trpc/context";
 import * as trpcNext from "@trpc/server/adapters/next";
 
 export const config = {
-  maxDuration: 60,
+  maxDuration: 10,
   api: {
     bodyParser: {
       sizeLimit: "50mb",
