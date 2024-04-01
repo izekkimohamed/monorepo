@@ -15,7 +15,7 @@ module.exports = {
 
     return config;
   },
-  plugins: [PrismaPlugin()],
+  plugins: [new PrismaPlugin()],
   reactStrictMode: true,
 
   output: "standalone",
