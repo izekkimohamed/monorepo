@@ -1,4 +1,3 @@
-// @ts-ignore
 const { PrismaPlugin } = require("experimental-prisma-webpack-plugin");
 
 module.exports = {
