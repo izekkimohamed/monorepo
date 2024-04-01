@@ -1,6 +1,8 @@
-import React from "react";
+import { getProduct } from "../actions/getProduct";
 
-function Products(): JSX.Element {
+async function Products() {
+  const data = await getProduct("30040892");
+  console.log(data.product);
   return <div>Products</div>;
 }
 
