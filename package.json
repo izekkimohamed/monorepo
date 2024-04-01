@@ -1,7 +1,6 @@
 {
   "private": true,
   "scripts": {
-    "postinstall": "prisma generate --schema=./packages/prisma/schema.prisma",
     "build": "turbo build",
     "start": "turbo start",
     "dev": "dotenv -- turbo dev",
@@ -21,8 +20,7 @@
     "eslint": "^8.56.0",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "turbo": "^1.11.3",
-    "prisma": "^5.8.0"
+    "turbo": "^1.11.3"
   },
   "packageManager": "pnpm@8.9.0",
   "workspaces": [

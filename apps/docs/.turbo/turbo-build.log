@@ -34,7 +34,7 @@ Route (app)                              Size     First Load JS
   ├ chunks/0d9284fb-ca2bf7fb0e9ef515.js  53.3 kB
   ├ chunks/275-835a8060fd145d0c.js       26.7 kB
   ├ chunks/main-app-5afdbc8da9f27e8a.js  221 B
-  └ chunks/webpack-54276f28e62f5dfb.js   1.74 kB
+  └ chunks/webpack-065eb127c7ff1a3d.js   1.74 kB
 
 
 ○  (Static)   prerendered as static content

@@ -1,4 +1,4 @@
-const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
+const { PrismaPlugin } = require("experimental-prisma-webpack-plugin");
 
 module.exports = {
   transpilePackages: [
@@ -9,7 +9,11 @@ module.exports = {
     "@repo/ui",
   ],
 
-  reactStrictMode: true,
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.plugins = [...config.plugins, new PrismaPlugin()];
+    }
 
-  output: "standalone",
+    return config;
+  },
 };
