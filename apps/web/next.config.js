@@ -8,13 +8,7 @@ module.exports = {
     "@repo/trpc",
     "@repo/ui",
   ],
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.plugins = [...config.plugins, new PrismaPlugin()];
-    }
 
-    return config;
-  },
   reactStrictMode: true,
 
   output: "standalone",
