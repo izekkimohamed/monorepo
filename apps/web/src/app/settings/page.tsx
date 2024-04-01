@@ -1,3 +1,5 @@
+"use client";
+import { trpc } from "@repo/trpc/client";
 import { Button } from "@repo/ui/src/components/ui/button";
 import {
   Card,
@@ -17,6 +19,8 @@ import {
 } from "@repo/ui/src/components/ui/tabs";
 
 const TabsDemo = async () => {
+  const { data } = trpc.api.ticket.list.useQuery();
+  console.log(data);
   return (
     <Tabs defaultValue="account" className="h-screen ">
       <TabsList className="grid grid-cols-2">
