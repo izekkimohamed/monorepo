@@ -1,9 +1,8 @@
 import { initTRPC } from "@trpc/server";
 import SuperJSON from "superjson";
-import { TrpcContext } from "./context";
 
 // const t = initTRPC.create();
-const t = initTRPC.context<TrpcContext>().create({
+const t = initTRPC.create({
   transformer: SuperJSON,
 });
 
