@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 
-import { getProduct } from "@/actions/getProduct";
+// import { getProduct } from "@/actions/getProduct";
 import {
   Product,
   addProduct,
@@ -12,10 +12,12 @@ import {
 } from "@/store";
 import { useSettingsStore } from "@/store/settings";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { trpc } from "@repo/trpc/client";
 import { Input } from "@ui/components/ui/input";
 
 function TotalDiplay() {
   const { products, scannedCode, qty, inputRef } = useStore();
+  const { data: getProduct } = trpc.api.product.scan.useQuery({ code: scannedCode });
   const settingsActive = useSettingsStore((state) => state.active);
   const tva_2 = products
     .filter((item) => item.tva_code === 2)
@@ -33,9 +35,8 @@ function TotalDiplay() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (scannedCode === "") return;
-    const data = await getProduct(scannedCode);
-    if (!data.success) return;
-    const { product } = data;
+    const product = getProduct;
+    if (!product) return;
     if (products.find((p) => +p.code! === +product.code!)) {
       updateProduct(product.code!);
     } else {

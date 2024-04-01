@@ -1,5 +1,4 @@
 "use client";
-import { addToWaittingList } from "@/actions/addToWaittingList";
 import { resetList, useStore } from "@/store";
 import { trpc } from "@repo/trpc/client";
 import { Button } from "@repo/ui/src/components/ui/button";
@@ -19,6 +18,8 @@ import ReprandeDialog from "./ReprandeDialog";
 
 function ActionButtons() {
   const { mutate: deleteTicket } = trpc.api.waitting.delete.useMutation();
+  const { mutate: createTicket } = trpc.api.waitting.create.useMutation();
+  const { mutate: updateTicket } = trpc.api.waitting.update.useMutation();
   const products = useStore((state) => state.products);
 
   const total = products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2);
@@ -61,7 +62,12 @@ function ActionButtons() {
 
       return;
     } else {
-      addToWaittingList(Number(total), products);
+      if (!products[0].waittingTicketsNumber) {
+        createTicket({ products, total: Number(total) });
+      } else {
+        updateTicket({ products, total: Number(total) });
+      }
+
       resetList();
     }
   };
