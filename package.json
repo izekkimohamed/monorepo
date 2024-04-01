@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "postinstall": "prisma generate --schema=./packages/prisma/schema.prisma",
     "build": "turbo build",
     "start": "turbo start",
     "dev": "dotenv -- turbo dev",
