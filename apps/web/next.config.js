@@ -2,10 +2,7 @@ const { PrismaPlugin } = require("experimental-prisma-webpack-plugin");
 
 module.exports = {
   experimental: {
-    outputFileTracingRoot: path.join(__dirname, "../../"),
-    serverActions: {
-      bodySizeLimit: "50mb",
-    },
+    serverActions: true,
   },
   transpilePackages: [
     "@repo/libs",
