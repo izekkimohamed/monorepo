@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@repo/libs": "*",
     "@repo/prisma": "*",
     "@repo/trpc": "*",
@@ -19,12 +20,19 @@
     "@trpc/next": "^10.45.0",
     "@trpc/react-query": "^10.45.0",
     "@trpc/server": "^10.45.0",
+    "date-fns": "^3.2.0",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.3.0",
+    "experimental-prisma-webpack-plugin": "^0.0.5",
+    "localforage": "^1.10.0",
+    "lucide-react": "^0.309.0",
     "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zod": "^3.22.4"
+    "react-hook-form": "^7.49.3",
+    "react-to-print": "^2.14.15",
+    "zod": "^3.22.4",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",

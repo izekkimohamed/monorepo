@@ -1,10 +1,19 @@
-/** @type {import('next').NextConfig} */
+const { PrismaPlugin } = require("experimental-prisma-webpack-plugin");
+
 module.exports = {
-  reactStrictMode: true,
-  transpilePackages: ["@repo/ui", "@repo/prisma"],
-  // webpack: (config, { isServer }) => {
-  //   if (isServer)
-  //     config.plugins = [...config.plugins, new PrismaPlugin(process.env.DATABASE_URL)];
-  //   return config;
-  // },
+  transpilePackages: [
+    "@repo/libs",
+    "@repo/prisma",
+    "@repo/tailwind-config",
+    "@repo/trpc",
+    "@repo/ui",
+  ],
+
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.plugins = [...config.plugins, new PrismaPlugin()];
+    }
+
+    return config;
+  },
 };
