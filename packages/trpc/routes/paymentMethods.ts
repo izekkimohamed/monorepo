@@ -1,9 +1,9 @@
 import { prisma } from "@repo/prisma";
 import { z } from "zod";
 import { PaymentModeSchema } from "../schema";
-import { publicProcedure, router } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const paymentMethods = router({
+export const paymentMethods = createTRPCRouter({
   create: publicProcedure
     .input(z.array(PaymentModeSchema))
     .mutation(async ({ input }) => {

@@ -2,9 +2,9 @@ import { z } from "zod";
 
 import { prisma } from "@repo/prisma";
 import { DataSchema } from "../schema";
-import { publicProcedure, router } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const waittingTicketsRouter = router({
+export const waittingTicketsRouter = createTRPCRouter({
   create: publicProcedure
     .input(z.object({ products: z.array(DataSchema), total: z.number() }))
     .mutation(async ({ input, ctx }) => {

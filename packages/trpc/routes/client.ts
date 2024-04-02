@@ -1,8 +1,8 @@
 import { prisma } from "@repo/prisma";
 import { ClientSchema } from "../schema";
-import { publicProcedure, router } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const clientsRouter = router({
+export const clientsRouter = createTRPCRouter({
   list: publicProcedure.query(async () => {
     return prisma.client.findMany({
       include: {

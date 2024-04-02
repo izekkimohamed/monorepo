@@ -2,9 +2,9 @@ import { z } from "zod";
 
 import { prisma } from "@repo/prisma";
 import { ProductSchema } from "../schema";
-import { publicProcedure, router } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const productsRouter = router({
+export const productsRouter = createTRPCRouter({
   list: publicProcedure.query(async () => {
     return await prisma.product.findMany();
   }),

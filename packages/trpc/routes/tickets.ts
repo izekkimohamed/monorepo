@@ -2,9 +2,9 @@ import { z } from "zod";
 
 import { prisma } from "@repo/prisma";
 import { DataSchema, PaymentModeSchema } from "../schema";
-import { publicProcedure, router } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const ticketsRouter = router({
+export const ticketsRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({

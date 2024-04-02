@@ -4,9 +4,9 @@ import { paymentMethods } from "./routes/paymentMethods";
 import { productsRouter } from "./routes/products";
 import { ticketsRouter } from "./routes/tickets";
 import { waittingTicketsRouter } from "./routes/waittingTickets";
-import { router } from "./trpc";
-export const appRouter = router({
-  api: router({
+import { createTRPCRouter } from "./trpc";
+export const appRouter = createTRPCRouter({
+  api: createTRPCRouter({
     product: productsRouter,
     payment: paymentMethods,
     waitting: waittingTicketsRouter,

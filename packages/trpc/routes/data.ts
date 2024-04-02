@@ -2,9 +2,9 @@ import { z } from "zod";
 
 import { prisma } from "@repo/prisma";
 import { DataSchema } from "../schema";
-import { publicProcedure, router } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const dataRouter = router({
+export const dataRouter = createTRPCRouter({
   create: publicProcedure.input(z.array(DataSchema)).mutation(async ({ input }) => {
     return await prisma.data.createMany({
       data: input,
