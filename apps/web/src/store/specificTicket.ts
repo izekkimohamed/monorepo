@@ -30,7 +30,7 @@ export type SpecificTicket = {
 
 export const useSpecificTicket = create<SpecificTicket>((set) => ({
   clientId: null,
-  createdAt: "",
+  createdAt: new Date(),
   number: null,
   products: [],
   paymentModes: [],
@@ -43,7 +43,7 @@ export const createSpecificTicket = (data: SpecificTicket) => {
 export const deleteSpecificTicket = () => {
   useSpecificTicket.setState({
     clientId: null,
-    createdAt: "",
+    createdAt: new Date(),
     number: null,
     products: [],
     paymentModes: [],
