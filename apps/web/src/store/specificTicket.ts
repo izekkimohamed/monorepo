@@ -3,11 +3,11 @@ import { create } from "zustand";
 
 export type SpecificTicket = {
   number: number | null;
-  createdAt: string;
+  createdAt: Date;
   total: number | null;
   products: {
     code: string;
-    createdAt: string;
+    createdAt: Date;
     ticketNumber: number | null;
     total: number;
     libelle: string;
