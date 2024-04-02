@@ -1,23 +1,26 @@
 {
   "name": "@repo/prisma",
   "version": "0.0.0",
-  "exports": {
-    ".": "./client.ts"
-  },
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
+    "build": "tsup",
+    "clean": "rimraf .turbo node_modules dist",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "dev": "tsup --watch",
     "format": "prisma format",
-    "clean": "rimraf node_modules",
-    "post-install": "prisma generate",
-    "prisma:generate": "prisma generate",
-    "prisma:studio": "prisma studio",
-    "prisma:migrate-dev": "prisma migrate dev",
-    "prisma:reset": "prisma migrate reset",
-    "prisma:push": "prisma db push",
-    "prisma:migrate-deploy": "prisma migrate deploy",
-    "prisma:seed": "prisma db seed"
-  },
-  "prisma": {
-    "seed": "ts-node --transpileOnly --project ./tsconfig.seed.json ./seed-database.ts"
+    "generate": "prisma generate --schema=./src/schema.prisma",
+    "lint": "eslint ./src --fix",
+    "prebuild": "npm run generate",
+    "predev": "npm run generate",
+    "studio": "prisma studio"
   },
   "dependencies": {
     "@prisma/client": "5.8.0",
@@ -29,6 +32,8 @@
   "devDependencies": {
     "prisma": "^5.8.0",
     "ts-node": "^10.9.2",
+    "tsup": "^8.0.1",
+    "tsx": "^4.7.1",
     "typescript": "5.2.2",
     "zod-prisma": "^0.5.4"
   }

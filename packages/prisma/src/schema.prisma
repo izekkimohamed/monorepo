@@ -1,0 +1,113 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma-client"
+}
+
+model Product {
+  id           Int      @id @default(autoincrement())
+  code         String
+  code_interne String
+  libelle      String
+  price        Float
+  pvht         Float
+  rayon_code   Int?
+  rayon        Rayon?   @relation(fields: [rayon_code], references: [code])
+  famille_code Int?
+  famille      Famille? @relation(fields: [famille_code], references: [code])
+  tva_code     Int?
+  tva          Tva?     @relation(fields: [tva_code], references: [code])
+}
+
+model Data {
+  id                    Int              @id @default(autoincrement())
+  code                  String
+  code_interne          String
+  libelle               String
+  price                 Float
+  quantity              Int
+  pvht                  Float
+  total_pvht            Float
+  total                 Float
+  ticketNumber          Int?
+  ticket                Ticket?          @relation(fields: [ticketNumber], references: [number])
+  waittingTicketsNumber Int?
+  WaittingTickets       WaittingTickets? @relation(fields: [waittingTicketsNumber], references: [number], onDelete: Cascade)
+  famille_code          Int?
+  famille               Famille?         @relation(fields: [famille_code], references: [code])
+  tva_code              Int?
+  tva                   Tva?             @relation(fields: [tva_code], references: [code])
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @default(now()) @updatedAt
+}
+
+model WaittingTickets {
+  number    Int      @id @default(autoincrement())
+  total     Float
+  products  Data[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Ticket {
+  number       Int           @id @default(autoincrement())
+  total        Float
+  products     Data[]
+  paymentModes PaymentMode[]
+  clientId     Int?
+  client       Client?       @relation(fields: [clientId], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+}
+
+model Client {
+  id           Int      @id @default(autoincrement())
+  name         String
+  address      String
+  phone_number String
+  tickets      Ticket[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+}
+
+enum PaymentEnum {
+  Cash
+  Card
+  Cheque
+}
+
+model PaymentMode {
+  id           Int         @id @default(autoincrement())
+  mode         PaymentEnum
+  amount       Float
+  ticketNumber Int?
+  ticket       Ticket?     @relation(fields: [ticketNumber], references: [number])
+}
+
+model Famille {
+  code       Int       @id
+  libelle    String?
+  rayon_code Int?
+  rayon      Rayon?    @relation(fields: [rayon_code], references: [code])
+  products   Product[]
+  Data       Data[]
+}
+
+model Rayon {
+  code     Int       @id
+  libelle  String?
+  famille  Famille[]
+  products Product[]
+}
+
+model Tva {
+  libelle  String?
+  taux     Float?
+  code     Int       @id
+  products Product[]
+  Data     Data[]
+}

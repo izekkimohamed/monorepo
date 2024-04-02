@@ -7,7 +7,7 @@
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "prisma:studio": "pnpm --filter prisma run prisma:studio",
-    "prisma:generate": "pnpm --filter prisma run prisma:generate",
+    "generate": "turbo run generate",
     "prisma:reset": "pnpm --filter prisma run prisma:reset",
     "prisma:push": "pnpm --filter prisma run prisma:push",
     "clean": "turbo clean",
@@ -21,6 +21,9 @@
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "turbo": "^1.11.3"
+  },
+  "prisma": {
+    "schema": "packages/prisma/src/schema.prisma"
   },
   "packageManager": "pnpm@8.9.0",
   "workspaces": [
