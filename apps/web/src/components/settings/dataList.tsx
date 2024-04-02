@@ -5,7 +5,7 @@ import * as React from "react";
 import { Search } from "lucide-react";
 
 import { getAllProducts } from "@/actions/getProduct";
-import { Product } from "@repo/prisma";
+import { Product } from "@repo/prisma/generated/prisma-client";
 import { Checkbox } from "@repo/ui/src/components/ui/checkbox";
 import { ScrollArea } from "@repo/ui/src/components/ui/scroll-area";
 import { Input } from "@ui/components/ui/input";

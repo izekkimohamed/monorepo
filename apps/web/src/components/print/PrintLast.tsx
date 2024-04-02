@@ -1,6 +1,6 @@
 import { formatCurrency } from "@/utils/formatCurrency";
 import { cn } from "@repo/libs/utils";
-import { PaymentEnum } from "@repo/prisma";
+import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
 import { format } from "date-fns";
 interface LastTicket {
   number: number;

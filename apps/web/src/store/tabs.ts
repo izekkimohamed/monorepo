@@ -1,4 +1,4 @@
-import { Product } from "@repo/prisma";
+import { Product } from "@repo/prisma/generated/prisma-client";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 

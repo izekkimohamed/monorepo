@@ -1,4 +1,4 @@
-import { PaymentEnum } from "@repo/prisma";
+import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
 import { useToast } from "@repo/ui/src/components/ui/use-toast";
 
 import { resetNamPad, useStore } from "@/store";

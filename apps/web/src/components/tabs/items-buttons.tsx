@@ -1,7 +1,7 @@
 "use client";
 
 import { Product, addProduct, resetQty, updateProduct, useStore } from "@/store";
-import { Product as Products } from "@repo/prisma";
+import { Product as Products } from "@repo/prisma/generated/prisma-client";
 import { Button } from "@repo/ui/src/components/ui/button";
 
 const ItemButton = ({ item }: { item: Products }) => {

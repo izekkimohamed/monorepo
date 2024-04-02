@@ -2,7 +2,8 @@
 import { useTotal } from "@/hooks/useTotal";
 import { resetList, useStore } from "@/store";
 import usePaymentStore from "@/store/paymentsMethods";
-import { PaymentEnum } from "@repo/prisma";
+import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
+// import { PaymentEnum } from "@repo/prisma";
 import { trpc } from "@repo/trpc/client";
 import { Button } from "@repo/ui/src/components/ui/button";
 import { useRouter } from "next/navigation";

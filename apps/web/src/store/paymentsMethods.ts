@@ -1,4 +1,4 @@
-import { PaymentEnum } from "@repo/prisma";
+import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
 import { create } from "zustand";
 
 export type TPayment = {

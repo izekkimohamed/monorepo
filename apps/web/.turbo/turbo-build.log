@@ -5,23 +5,123 @@
    ▲ Next.js 14.0.4
 
    Creating an optimized production build ...
-request to https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa2pL7W0Q5n-wU.woff2 failed, reason: socket hang up
-
-Retrying 1/3...
  ✓ Compiled successfully
    Linting and checking validity of types ...
  ⨯ ESLint: .eslintrc.js: 	Configuration for rule "@typescript-eslint/no-unsafe-assignment" is invalid: 	Severity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '"false"'). 
-Failed to compile.
+   Collecting page data ...
+   Generating static pages (0/5) ...
+   Generating static pages (1/5) 
+   Generating static pages (2/5) 
+PrismaClientInitializationError: 
+Invalid `prisma.ticket.findFirst()` invocation:
 
-./src/actions/addToWaittingList.ts:8:60
-Type error: Type 'Product[]' is not assignable to type '{ code: string; quantity: number; price: number; total: number; pvht: number; total_pvht: number; code_interne: string; libelle: string; famille_code: number | null; tva_code: number | null; ... 4 more ...; updatedAt?: Date | undefined; }[]'.
-  Type 'Product' is missing the following properties from type '{ code: string; quantity: number; price: number; total: number; pvht: number; total_pvht: number; code_interne: string; libelle: string; famille_code: number | null; tva_code: number | null; ... 4 more ...; updatedAt?: Date | undefined; }': code, quantity, price, total, and 7 more.
+   Generating static pages (3/5) 
+ ✓ Generating static pages (5/5) 
 
-[0m [90m  6 |[39m [36mexport[39m [36masync[39m [36mfunction[39m addToWaittingList(total[33m:[39m number[33m,[39m products[33m:[39m [33mProduct[39m[]) {[0m
-[0m [90m  7 |[39m   [36mif[39m ([33m![39mproducts[[35m0[39m][33m.[39mwaittingTicketsNumber) {[0m
-[0m[31m[1m>[22m[39m[90m  8 |[39m     [36mreturn[39m [36mawait[39m serverClient[33m.[39mapi[33m.[39mwaitting[33m.[39mcreate({ total[33m,[39m products })[33m;[39m[0m
-[0m [90m    |[39m                                                            [31m[1m^[22m[39m[0m
-[0m [90m  9 |[39m   } [36melse[39m {[0m
-[0m [90m 10 |[39m     [36mreturn[39m [36mawait[39m serverClient[33m.[39mapi[33m.[39mwaitting[33m.[39mupdate({ total[33m,[39m products })[33m;[39m[0m
-[0m [90m 11 |[39m   }[0m
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:3
+   | 
+ 2 |   provider = "postgresql"
+ 3 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at si.handleRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:7009)
+    ... 7 lines matching cause stack trace ...
+    at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:82084) {
+  code: 'INTERNAL_SERVER_ERROR',
+  name: 'TRPCError',
+  [cause]: PrismaClientInitializationError: 
+  Invalid `prisma.ticket.findFirst()` invocation:
+  
+  
+  error: Environment variable not found: DATABASE_URL.
+    -->  schema.prisma:3
+     | 
+   2 |   provider = "postgresql"
+   3 |   url      = env("DATABASE_URL")
+     | 
+  
+  Validation Error Count: 1
+      at si.handleRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:7009)
+      at si.handleAndLogRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:6059)
+      at si.request (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:5767)
+      at async l (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:130:9661)
+      at async C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:131:4992
+      at async y.middlewares (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\494.js:1:9011)
+      at async r (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\494.js:1:8416)
+      at async t (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\494.js:1:8730)
+      at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:82084) {
+    clientVersion: '5.8.0',
+    errorCode: undefined
+  }
+}
+PrismaClientInitializationError: 
+Invalid `prisma.ticket.findFirst()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:3
+   | 
+ 2 |   provider = "postgresql"
+ 3 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at si.handleRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:7009)
+    ... 7 lines matching cause stack trace ...
+    at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:82084) {
+  code: 'INTERNAL_SERVER_ERROR',
+  name: 'TRPCError',
+  [cause]: PrismaClientInitializationError: 
+  Invalid `prisma.ticket.findFirst()` invocation:
+  
+  
+  error: Environment variable not found: DATABASE_URL.
+    -->  schema.prisma:3
+     | 
+   2 |   provider = "postgresql"
+   3 |   url      = env("DATABASE_URL")
+     | 
+  
+  Validation Error Count: 1
+      at si.handleRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:7009)
+      at si.handleAndLogRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:6059)
+      at si.request (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:5767)
+      at async l (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:130:9661)
+      at async C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:131:4992
+      at async y.middlewares (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\494.js:1:9011)
+      at async r (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\494.js:1:8416)
+      at async t (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\494.js:1:8730)
+      at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:82084) {
+    clientVersion: '5.8.0',
+    errorCode: undefined
+  }
+}
+
+Error occurred prerendering page "/". Read more: https://nextjs.org/docs/messages/prerender-error
+PrismaClientInitializationError: 
+Invalid `prisma.ticket.findFirst()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:3
+   | 
+ 2 |   provider = "postgresql"
+ 3 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at si.handleRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:7009)
+    at si.handleAndLogRequestError (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:6059)
+    at si.request (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:125:5767)
+    at async l (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:130:9661)
+    at async C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\940.js:131:4992
+    at async y.middlewares (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\494.js:1:9011)
+    at async r (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\494.js:1:8416)
+    at async t (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\chunks\494.js:1:8730)
+    at async r9 (C:\Users\med_i\OneDrive\Bureau\turbo\apps\web\.next\server\app\page.js:50:82084)
+
+> Export encountered errors on following paths:
+	/page: /
  ELIFECYCLE  Command failed with exit code 1.

@@ -1,5 +1,5 @@
 import { Product } from "@/store";
-import { PaymentEnum } from "@repo/prisma";
+import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
 import { trpc } from "@repo/trpc/client";
 
 export type TPayment = {

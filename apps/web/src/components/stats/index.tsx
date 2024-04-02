@@ -2,7 +2,7 @@
 import { getstats } from "@/actions/getStats";
 import { useSettingsStore } from "@/store/settings";
 import { cn } from "@repo/libs/utils";
-import { PaymentEnum } from "@repo/prisma";
+import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
 import { DateRange } from "@repo/ui/src/components/text";
 import { Button } from "@repo/ui/src/components/ui/button";
 import { Calendar } from "@repo/ui/src/components/ui/calendar";

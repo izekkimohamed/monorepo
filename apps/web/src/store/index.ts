@@ -1,4 +1,4 @@
-import type { Data } from "@repo/prisma";
+import { Data } from "@repo/prisma/generated/prisma-client";
 import { RefObject, createRef } from "react";
 import { create } from "zustand";
 
