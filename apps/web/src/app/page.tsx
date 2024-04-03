@@ -2,6 +2,7 @@ import Buttons from "@/components/buttons";
 import ListTable from "@/components/list-table";
 import Tabs from "@/components/tabs";
 import { Toaster } from "@ui/components/ui/toaster";
+export const dynamic = "force-dynamic";
 export default function Page() {
   return (
     <div className="h-screen max-h-screen bg-primary">
