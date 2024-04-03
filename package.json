@@ -11,8 +11,7 @@
     "prisma:reset": "pnpm --filter prisma run prisma:reset",
     "prisma:push": "pnpm --filter prisma run prisma:push",
     "clean": "turbo clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "postinstall": "turbo run generate"
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
