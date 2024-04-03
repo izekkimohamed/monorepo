@@ -9,7 +9,7 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "pnpm run generate & tsup",
     "clean": "rimraf .turbo node_modules dist",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
@@ -18,7 +18,6 @@
     "format": "prisma format",
     "generate": "prisma generate --schema=./prisma/schema.prisma",
     "lint": "eslint ./src --fix",
-    "prebuild": "pnpm run generate",
     "predev": "pnpm run generate",
     "studio": "prisma studio"
   },
