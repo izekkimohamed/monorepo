@@ -34,4 +34,5 @@ yarn-error.log*
 .turbo
 
 # ui
-dist/
+dist
+generated

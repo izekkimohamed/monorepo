@@ -16,10 +16,10 @@
     "db:push": "prisma db push",
     "dev": "tsup --watch",
     "format": "prisma format",
-    "generate": "prisma generate --schema=./src/schema.prisma",
+    "generate": "prisma generate --schema=./prisma/schema.prisma",
     "lint": "eslint ./src --fix",
-    "prebuild": "npm run generate",
-    "predev": "npm run generate",
+    "prebuild": "pnpm run generate",
+    "predev": "pnpm run generate",
     "studio": "prisma studio"
   },
   "dependencies": {

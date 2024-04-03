@@ -24,7 +24,7 @@
     "turbo": "^1.11.3"
   },
   "prisma": {
-    "schema": "packages/prisma/src/schema.prisma"
+    "schema": "packages/prisma/prisma/schema.prisma"
   },
   "packageManager": "pnpm@8.9.0",
   "workspaces": [
