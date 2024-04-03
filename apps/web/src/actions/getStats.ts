@@ -1,28 +1,16 @@
 "use server";
 
-import { prisma } from "@repo/prisma";
+import { serverClient } from "@repo/trpc/server";
 import { DateRange } from "@ui/components/text";
 
 export const getstats = async (date: DateRange) => {
   //return tickets within a range of dates
-  const startDate = date.from;
-  const endDate = date.to;
+  const from = date.from;
+  const to = date.to;
 
-  const tickets = await prisma.ticket.findMany({
-    where: {
-      createdAt: {
-        gte: startDate!,
-        lte: endDate!,
-      },
-      clientId: null,
-      total: {
-        gt: 0,
-      },
-    },
-    select: {
-      total: true,
-      paymentModes: true,
-    },
+  const tickets = await serverClient.api.stats.get({
+    from,
+    to,
   });
   return tickets;
 };
