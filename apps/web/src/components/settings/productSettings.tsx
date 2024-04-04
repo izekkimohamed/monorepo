@@ -21,7 +21,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { getProduct } from "@/actions/getProduct";
+import { setScannedCode, useStore } from "@/store";
 import { trpc } from "@repo/trpc/client";
 import { useToast } from "@repo/ui/src/components/ui/use-toast";
 
@@ -48,22 +48,26 @@ const ProductForm = () => {
       });
     },
   });
+  const { scannedCode } = useStore();
+  const { data: getProduct } = trpc.api.product.scan.useQuery({ code: scannedCode });
   const [productId, setProductId] = useState<number | undefined>();
   const [codeBar, setCodeBar] = useState("");
   const { toast } = useToast();
+
   const handleCodeSubmite = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newProduct = await getProduct(codeBar);
-    if (newProduct.success) {
-      setProductId(newProduct.product?.id);
-      form.setValue("code", newProduct.product?.code!);
-      form.setValue("code_interne", newProduct.product?.code_interne!);
-      form.setValue("libelle", newProduct.product?.libelle!);
-      form.setValue("price", newProduct.product?.price!.toString());
-      form.setValue("pvht", newProduct.product?.pvht!.toString());
-      form.setValue("tva_code", newProduct.product?.tva_code!.toString());
-      form.setValue("rayon_code", newProduct.product?.rayon_code!.toString());
-      form.setValue("famille_code", newProduct.product?.famille_code!.toString());
+    const newProduct = getProduct;
+    if (!newProduct) return;
+    if (newProduct) {
+      setProductId(newProduct.id);
+      form.setValue("code", newProduct.code!);
+      form.setValue("code_interne", newProduct.code_interne!);
+      form.setValue("libelle", newProduct.libelle!);
+      form.setValue("price", newProduct.price!.toString());
+      form.setValue("pvht", newProduct.pvht!.toString());
+      form.setValue("tva_code", newProduct.tva_code!.toString());
+      form.setValue("rayon_code", newProduct.rayon_code!.toString());
+      form.setValue("famille_code", newProduct.famille_code!.toString());
     } else {
       toast({
         title: "Product not found",
@@ -95,7 +99,7 @@ const ProductForm = () => {
     updateProduct(newValues);
     form.reset();
     setProductId(undefined);
-    setCodeBar("");
+    setScannedCode("");
   }
 
   return (
@@ -105,8 +109,8 @@ const ProductForm = () => {
         <Input
           placeholder="Enter a product codeBar"
           className="h-16 mb-3 font-sans text-2xl font-semibold border-2 border-gray-300 bg-muted"
-          value={codeBar}
-          onChange={(e) => setCodeBar(e.target.value)}
+          value={scannedCode}
+          onChange={(e) => setScannedCode(e.target.value)}
         />
         <Button className="h-16 px-4" type="submit">
           Search

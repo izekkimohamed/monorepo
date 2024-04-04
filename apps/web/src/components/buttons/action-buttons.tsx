@@ -72,7 +72,7 @@ function ActionButtons() {
     }
   };
   return (
-    <div className="grid grid-cols-2 col-span-2 row-span-5 gap-1 ">
+    <div className="grid w-1/2 grid-cols-2 col-span-2 row-span-5 gap-1 ">
       <div
         style={{
           display: "none",

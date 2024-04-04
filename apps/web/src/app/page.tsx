@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <div className="h-screen max-h-screen bg-primary">
       <Toaster />
-      <div className="w-full h-full grid grid-cols-8 grid-rows-[65vh,auto] ">
+      <div className="w-full h-full grid grid-cols-10 grid-rows-[65vh,auto] ">
         <ListTable />
         <Buttons />
         <Tabs />

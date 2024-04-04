@@ -94,11 +94,11 @@ function ScannedList() {
             }}
             className={cn(
               i % 2 === 0 ? "bg-gray-300" : "bg-gray-100",
-              "font-bold  grid  grid-cols-8 hover:bg-blue-200",
+              "font-bold  grid  grid-cols-12 place-content-center hover:bg-blue-200",
               selectedProduct?.code === item.code && "bg-blue-200 hover:bg-blue-200",
             )}
           >
-            <TableCell className="col-span-1 text-center">
+            <TableCell className="col-span-1 justify-self-center">
               <Trash2
                 onClick={() => {
                   if (item.id) {
@@ -112,18 +112,18 @@ function ScannedList() {
                     removeProduct(item);
                   }
                 }}
-                className="text-red-700 cursor-pointer hover:text-red-500 "
+                className="text-red-700 cursor-pointer hover:text-red-500"
                 size={20}
               />
             </TableCell>
-            <TableCell className="col-span-4 truncate text-start ">
+            <TableCell className="col-span-6 truncate text-start ">
               {item.libelle}
             </TableCell>
-            <TableCell className="col-span-1 text-center">
+            <TableCell className="col-span-2 text-center">
               {formatCurrency(item.price!)}
             </TableCell>
             <TableCell className="col-span-1 text-center">{item.quantity}</TableCell>
-            <TableCell className="col-span-1 text-center">
+            <TableCell className="col-span-2 text-center">
               {formatCurrency(item.total)}
             </TableCell>
           </TableRow>

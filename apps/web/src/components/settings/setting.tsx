@@ -2,6 +2,7 @@
 import { Button } from "@repo/ui/src/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@repo/ui/src/components/ui/sheet";
 
+import { setScannedCode } from "@/store";
 import { useSettingsStore } from "@/store/settings";
 import {
   Tabs,
@@ -17,7 +18,12 @@ function Setting() {
   const setActive = useSettingsStore((state) => state.toggle);
 
   return (
-    <Sheet onOpenChange={setActive}>
+    <Sheet
+      onOpenChange={() => {
+        setActive();
+        setScannedCode("");
+      }}
+    >
       <SheetTrigger asChild>
         <Button variant={"custome"} size={"full"}>
           Settings

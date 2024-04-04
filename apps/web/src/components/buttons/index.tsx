@@ -4,10 +4,12 @@ import SubmitButtons from "./submit-buttons";
 
 function Buttons() {
   return (
-    <div className="grid justify-between grid-cols-4 col-span-5 gap-1 p-1 pt-0 bg-gray-950 border-b-gray-950">
-      <NamPad />
+    <div className="flex col-span-6 gap-1 p-1 pt-0 bg-gray-950 border-b-gray-950">
+      <div className="grid w-1/2 gap-1">
+        <NamPad />
+        <SubmitButtons />
+      </div>
       <ActionButtons />
-      <SubmitButtons />
       {/* <SubmitButtons /> */}
     </div>
   );
