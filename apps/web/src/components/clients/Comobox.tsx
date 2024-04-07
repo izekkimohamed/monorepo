@@ -12,11 +12,11 @@ type TClient = {
     name: string;
     tickets: {
       number: number;
-      createdAt: Date;
+      createdAt: string;
       total: number;
       products?: {
         code: string;
-        createdAt: Date;
+        createdAt: string;
         ticketNumber: number | null;
         total: number;
         id: number;
