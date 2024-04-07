@@ -2,10 +2,10 @@
 
 import * as React from "react";
 
-import { Search } from "lucide-react";
+import { Loader, Search } from "lucide-react";
 
-import { getAllProducts } from "@/actions/getProduct";
 import { Product } from "@repo/prisma/generated/prisma-client";
+import { trpc } from "@repo/trpc/client";
 import { Checkbox } from "@repo/ui/src/components/ui/checkbox";
 import { ScrollArea } from "@repo/ui/src/components/ui/scroll-area";
 import { Input } from "@ui/components/ui/input";
@@ -19,32 +19,25 @@ const DataList = ({
   setItems: React.Dispatch<React.SetStateAction<Product[]>>;
   items: Product[];
 }) => {
-  const [products, setProducts] = React.useState<Product[]>([]);
+  const { data: products, isLoading } = trpc.api.product.list.useQuery();
   const [filteredProducts, setFilteredProducts] = React.useState<Product[]>([]);
   const [search, setSearch] = React.useState("");
-  async function getData() {
-    const data = await getAllProducts();
-    setProducts(data);
-  }
+
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (search === "") {
       return;
     }
-    const filtered = products.filter(
+    const filtered = products?.filter(
       (product) =>
         product.libelle?.toLowerCase().includes(search) ||
         product.code?.toLowerCase().includes(search),
     );
 
-    setFilteredProducts(filtered);
+    setFilteredProducts(filtered!);
 
     setSearch("");
   }
-
-  React.useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <div className="col-span-1">
@@ -55,16 +48,18 @@ const DataList = ({
             placeholder="Search Product..."
             className="text-gray-700 border-none"
             value={search}
+            disabled={isLoading}
             onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
           />
         </Label>
       </form>
 
       <ScrollArea className="relative h-[400px]">
-        <div>
+        <div className="grid h-full place-items-center">
+          {isLoading && <Loader className="w-5 h-5 mt-10 text-center animate-spin" />}
           {filteredProducts &&
             filteredProducts.map((p) => (
-              <div className="flex items-center gap-2 " key={p.id}>
+              <div className="flex items-center gap-2 place-self-start" key={p.id}>
                 <Checkbox
                   checked={items?.find((value) => value.id === p.id)?.id ? true : false}
                   onCheckedChange={(checked) => {
@@ -74,7 +69,7 @@ const DataList = ({
                   }}
                   id={p.libelle!}
                 />
-                <label className="font-bold truncate" htmlFor={p.libelle!}>
+                <label className="font-bold truncate cursor-pointer" htmlFor={p.libelle!}>
                   {p.libelle}
                 </label>
               </div>

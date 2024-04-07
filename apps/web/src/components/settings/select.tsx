@@ -18,10 +18,14 @@ import { XCircle } from "lucide-react";
 import DataList from "./dataList";
 
 export function CategorySettings() {
-  const { tabs, addTab, addToTabProducts } = useTabsStore();
+  const { tabs, addTab, addToTabProducts, removeFromTab } = useTabsStore();
   const [input, setInput] = React.useState("");
   const [items, setItems] = React.useState<Product[]>([]);
   const [valueId, setValueId] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    setItems(tabs?.find((tab) => tab.id.toString() === valueId)?.products || []);
+  }, [tabs, valueId]);
 
   return (
     <div className="w-full space-y-3">
@@ -42,7 +46,9 @@ export function CategorySettings() {
             className="w-full border-2 border-primary"
             autoFocus
           />
-          <Button type="submit">Add Tab</Button>
+          <Button size={"lg"} className="whitespace-nowrap" type="submit">
+            Add Tab
+          </Button>
         </form>
       </div>
       <div className="flex gap-2">
@@ -85,6 +91,7 @@ export function CategorySettings() {
                 <XCircle
                   className="transition-all w-7 h-7 hover:text-red-500 "
                   onClick={() => {
+                    removeFromTab(+valueId!, item.id);
                     setItems((prev) => {
                       return prev.filter((p) => p !== item);
                     });
@@ -100,7 +107,14 @@ export function CategorySettings() {
           className="float-right"
           size={"lg"}
           onClick={() => {
-            addToTabProducts(+valueId, items);
+            // filter the products that already exist in tabs
+            const newProducts = items.filter(
+              (item) =>
+                !tabs
+                  ?.find((tab) => tab.id.toString() === valueId)
+                  ?.products?.includes(item),
+            );
+            addToTabProducts(+valueId, newProducts);
             setItems([]);
           }}
         >

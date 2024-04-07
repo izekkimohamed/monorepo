@@ -1,8 +1,8 @@
 "use client";
-import { getstats } from "@/actions/getStats";
 import { useSettingsStore } from "@/store/settings";
 import { cn } from "@repo/libs/utils";
 import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
+import { serverClient } from "@repo/trpc/server";
 import { DateRange } from "@repo/ui/src/components/text";
 import { Button } from "@repo/ui/src/components/ui/button";
 import { Calendar } from "@repo/ui/src/components/ui/calendar";
@@ -119,7 +119,10 @@ const Stats = () => {
   }
 
   async function getSatus() {
-    const status = await getstats(date!);
+    const status = await serverClient.api.stats.get.query({
+      from: date?.from?.toISOString(),
+      to: date?.to?.toString(),
+    });
     setData(status);
   }
   const modes = getModes(data);

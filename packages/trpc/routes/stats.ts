@@ -7,16 +7,16 @@ export const statsRouter = createTRPCRouter({
   get: publicProcedure
     .input(
       z.object({
-        from: z.date().optional(),
-        to: z.date().optional(),
+        from: z.string().optional(),
+        to: z.string().optional(),
       }),
     )
     .query(async ({ input }) => {
       const tickets = await prisma.ticket.findMany({
         where: {
           createdAt: {
-            gte: input.from!,
-            lte: input.to!,
+            gte: new Date(input.from!),
+            lte: new Date(input.to!),
           },
           clientId: null,
           total: {

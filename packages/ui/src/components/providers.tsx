@@ -13,7 +13,6 @@ export const Providers = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      transformer: SuperJSON,
       links: [
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
