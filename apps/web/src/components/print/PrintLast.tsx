@@ -4,11 +4,11 @@ import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
 import { format } from "date-fns";
 interface LastTicket {
   number: number;
-  createdAt: Date;
+  createdAt: string;
   total: number;
   products: {
     code: string;
-    createdAt: Date;
+    createdAt: string;
     ticketNumber: number | null;
     total: number;
     libelle: string;
