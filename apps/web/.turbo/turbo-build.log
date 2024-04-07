@@ -1,34 +1,0 @@
-
-> web@1.0.0 build C:\Users\med_i\OneDrive\Bureau\turbo\apps\web
-> next build
-
-   ▲ Next.js 14.0.4
-   - Environments: .env
-
-   Creating an optimized production build ...
- ✓ Compiled successfully
-   Linting and checking validity of types ...
- ⨯ ESLint: .eslintrc.js: 	Configuration for rule "@typescript-eslint/no-unsafe-assignment" is invalid: 	Severity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '"false"'). 
-   Collecting page data ...
-   Generating static pages (0/5) ...
-   Generating static pages (1/5) 
-   Generating static pages (2/5) 
-   Generating static pages (3/5) 
- ✓ Generating static pages (5/5) 
-   Finalizing page optimization ...
-   Collecting build traces ...
-
-Route (app)                              Size     First Load JS
-┌ λ /                                    103 kB          201 kB
-├ ○ /_not-found                          874 B          82.8 kB
-└ λ /api/trpc/[trpc]                     0 B                0 B
-+ First Load JS shared by all            81.9 kB
-  ├ chunks/0d9284fb-c6cd2c71ffb85094.js  53.3 kB
-  ├ chunks/275-85bdad2e5a94b4b9.js       26.7 kB
-  ├ chunks/main-app-5afdbc8da9f27e8a.js  221 B
-  └ chunks/webpack-4ae7c9f38fe6b4a4.js   1.71 kB
-
-
-○  (Static)   prerendered as static content
-λ  (Dynamic)  server-rendered on demand using Node.js
-

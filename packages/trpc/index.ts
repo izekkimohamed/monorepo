@@ -1,14 +1,21 @@
-import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+import { clientsRouter } from "./routes/client";
+import { dataRouter } from "./routes/data";
+import { paymentMethods } from "./routes/paymentMethods";
+import { productsRouter } from "./routes/products";
+import { statsRouter } from "./routes/stats";
+import { ticketsRouter } from "./routes/tickets";
+import { waittingTicketsRouter } from "./routes/waittingTickets";
+import { createTRPCRouter as router } from "./trpc";
+export const appRouter = router({
+  api: router({
+    product: productsRouter,
+    payment: paymentMethods,
+    waitting: waittingTicketsRouter,
+    data: dataRouter,
+    ticket: ticketsRouter,
+    client: clientsRouter,
+    stats: statsRouter,
+  }),
+});
 
-import type { AppRouter } from "./app";
-import { appRouter } from "./app";
-import { createCallerFactory, createTRPCContext } from "./trpc";
-
-const createCaller = createCallerFactory(appRouter);
-
-type RouterInputs = inferRouterInputs<AppRouter>;
-
-type RouterOutputs = inferRouterOutputs<AppRouter>;
-
-export { appRouter, createCaller, createTRPCContext };
-export type { AppRouter, RouterInputs, RouterOutputs };
+export type AppRouter = typeof appRouter;

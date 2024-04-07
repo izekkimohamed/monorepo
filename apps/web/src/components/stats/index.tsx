@@ -54,7 +54,7 @@ export type StatusProps = {
 
 const Stats = () => {
   const setActive = useSettingsStore((state) => state.toggle);
-
+  //TODO: set useState fro from and to date
   let currentDate = new Date(new Date().toLocaleDateString("en-US"));
 
   const [date, setDate] = useState<DateRange | undefined>({

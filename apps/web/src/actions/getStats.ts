@@ -8,7 +8,7 @@ export const getstats = async (date: DateRange) => {
   const from = date.from;
   const to = date.to;
 
-  const tickets = await serverClient.api.stats.get({
+  const tickets = await serverClient.api.stats.get.query({
     from,
     to,
   });
