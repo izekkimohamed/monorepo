@@ -11,10 +11,12 @@ import { useState } from "react";
 
 const SubmitButtons = () => {
   const router = useRouter();
+  const utils = trpc.useUtils();
 
   const { mutate: createTicket } = trpc.api.ticket.create.useMutation({
     onSuccess: () => {
-      router.refresh();
+      // router.refresh();
+      utils.api.ticket.list.invalidate();
       resetPaymentMethods();
       resetList();
     },
