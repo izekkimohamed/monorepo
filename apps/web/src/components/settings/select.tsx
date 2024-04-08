@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
 
-import { useTabsStore } from "@/store/tabs";
 import { Product } from "@repo/prisma/generated/prisma-client";
+import { trpc } from "@repo/trpc/client";
 import {
   Select,
   SelectContent,
@@ -18,14 +18,17 @@ import { XCircle } from "lucide-react";
 import DataList from "./dataList";
 
 export function CategorySettings() {
-  const { tabs, addTab, addToTabProducts, removeFromTab } = useTabsStore();
+  const { mutate: createTabs } = trpc.api.tabs.create.useMutation();
+  const { mutate: addToTab } = trpc.api.tabs.addToTab.useMutation();
+  const { data: listTabs } = trpc.api.tabs.list.useQuery();
+  // const { tabs, addTab, addToTabProducts, removeFromTab } = useTabsStore();
   const [input, setInput] = React.useState("");
   const [items, setItems] = React.useState<Product[]>([]);
   const [valueId, setValueId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    setItems(tabs?.find((tab) => tab.id.toString() === valueId)?.products || []);
-  }, [tabs, valueId]);
+    setItems(listTabs?.find((tab) => tab.id.toString() === valueId)?.products || []);
+  }, [listTabs, valueId]);
 
   return (
     <div className="w-full space-y-3">
@@ -35,7 +38,10 @@ export function CategorySettings() {
           className="flex w-full gap-2"
           onSubmit={(e) => {
             e.preventDefault();
-            addTab(input.toUpperCase());
+            // addTab(input.toUpperCase());
+            createTabs({
+              name: input.toUpperCase(),
+            });
             setInput("");
           }}
         >
@@ -65,7 +71,7 @@ export function CategorySettings() {
             </SelectTrigger>
             <SelectContent className="font-bold ">
               <SelectGroup>
-                {tabs?.map((tab) => (
+                {listTabs?.map((tab) => (
                   <SelectItem
                     key={tab.id}
                     value={tab.id.toLocaleString()}
@@ -77,7 +83,6 @@ export function CategorySettings() {
               </SelectGroup>
             </SelectContent>
           </Select>
-
           {valueId && <DataList setItems={setItems} items={items} />}
         </div>
         <ScrollArea className="relative w-1/2 h-auto border-2 border-gray-300 rounded-md bg-muted">
@@ -91,7 +96,7 @@ export function CategorySettings() {
                 <XCircle
                   className="transition-all w-7 h-7 hover:text-red-500 "
                   onClick={() => {
-                    removeFromTab(+valueId!, item.id);
+                    // removeFromTab(+valueId!, item.id);
                     setItems((prev) => {
                       return prev.filter((p) => p !== item);
                     });
@@ -109,11 +114,16 @@ export function CategorySettings() {
           onClick={() => {
             const newProducts = items.filter(
               (item) =>
-                !tabs
+                !listTabs
                   ?.find((tab) => tab.id.toString() === valueId)
                   ?.products?.includes(item),
             );
-            addToTabProducts(+valueId, newProducts);
+            // addToTabProducts(+valueId, newProducts);
+            addToTab({
+              id: +valueId,
+              products: newProducts,
+            });
+            console.log(newProducts);
             setItems([]);
           }}
         >

@@ -1,5 +1,6 @@
 "use client";
 import { useTabsStore } from "@/store/tabs";
+import { trpc } from "@repo/trpc/client";
 import {
   Tabs,
   TabsContent,
@@ -10,7 +11,8 @@ import { useEffect, useState } from "react";
 import ItemButton from "./items-buttons";
 
 const Categories = () => {
-  const { tabs } = useTabsStore();
+  const { data: tabs } = trpc.api.tabs.list.useQuery();
+  console.log(tabs);
   const [mount, setMount] = useState(false);
 
   useEffect(() => {
@@ -20,8 +22,8 @@ const Categories = () => {
 
   return (
     <div className="relative h-full">
-      {mount && (
-        <Tabs defaultValue={tabs[1]?.name} className="w-full h-full">
+      {mount && tabs && (
+        <Tabs defaultValue={tabs[0].name || ""} className="w-full h-full">
           <TabsList className="sticky top-0 z-20 flex justify-between w-full h-16 mb-1 border-b-2 border-primary bg-primary ">
             {tabs &&
               tabs?.map((category, i) => (

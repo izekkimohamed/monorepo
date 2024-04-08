@@ -61,3 +61,9 @@ export const PaymentModeSchema = z.object({
   amount: z.number(),
   ticketNumber: z.number().optional(),
 });
+
+export const TabsSchema = z.object({
+  id: z.number().optional(),
+  name: z.string(),
+  products: z.array(ProductSchema).optional(),
+});

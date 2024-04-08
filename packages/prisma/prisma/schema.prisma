@@ -21,6 +21,8 @@ model Product {
   famille      Famille? @relation(fields: [famille_code], references: [code])
   tva_code     Int?
   tva          Tva?     @relation(fields: [tva_code], references: [code])
+  tabs         Tabs?    @relation(fields: [tabsId], references: [id])
+  tabsId       Int?
 }
 
 model Data {
@@ -51,6 +53,12 @@ model WaittingTickets {
   products  Data[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Tabs {
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
 }
 
 model Ticket {
