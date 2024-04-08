@@ -27,8 +27,8 @@ const DataList = ({
     if (search === "") {
       return;
     }
-    const filtered: Product[] = products?.filter(
-      (product: Product) =>
+    const filtered: Product[] | undefined = products?.filter(
+      (product) =>
         product.libelle?.toLowerCase().includes(search) ||
         product.code?.toLowerCase().includes(search),
     );
