@@ -140,14 +140,14 @@ const Stats = () => {
         </DialogTrigger>
         <DialogContent className="">
           <DialogHeader>
-            <div className="flex gap-2 mt-3">
+            <div className="flex flex-1 gap-2 mt-3">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     id="date"
                     variant={"outline"}
                     className={cn(
-                      "w-[300px] justify-start text-left font-normal border-2 border-gray-400",
+                      "w-[300px] justify-center flex-none font-normal border-2 border-gray-400",
                       !date && "text-muted-foreground",
                     )}
                   >
@@ -174,7 +174,7 @@ const Stats = () => {
                     selected={date}
                     onSelect={setDate}
                     numberOfMonths={2}
-                    className="bg-gray-100 font-bold absolute -left-[5%] rounded-md -mt-3 "
+                    className="bg-gray-100 font-bold absolute -left-[5%] rounded-md -mt-3"
                   />
                 </PopoverContent>
               </Popover>
