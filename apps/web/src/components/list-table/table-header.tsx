@@ -1,8 +1,9 @@
-import { serverClient as trpc } from "@repo/trpc/server";
+"use client"
+import { trpc } from "@repo/trpc/client";
 import { format } from "date-fns";
 
-async function TableHeader() {
-  const ticketNumber = await trpc.api.ticket.getTicket.query();
+function TableHeader() {
+  const {data:ticketNumber} =  trpc.api.ticket.getTicket.useQuery();
   return (
     <div className="flex justify-center gap-5 py-3 text-2xl font-semibold border-b-2 border-gray-100 text-gray-50 ">
       <h2 className="flex items-center gap-2 ">
