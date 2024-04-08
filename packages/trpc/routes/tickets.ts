@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { prisma } from "@repo/prisma";
+import { prisma } from "@repo/prisma/src";
 import { DataSchema, PaymentModeSchema } from "../schema";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
@@ -13,7 +13,7 @@ export const ticketsRouter = createTRPCRouter({
         paymentModes: z.array(PaymentModeSchema).optional(),
       }),
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
       const total = Number(
         input.products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2),
       );

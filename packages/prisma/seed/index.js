@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 const results = [];
 
-// Products
 const createProducts = async () => {
   return fs
     .createReadStream("./products.csv", "latin1")
@@ -34,7 +33,6 @@ const createProducts = async () => {
     });
 };
 
-// tva;
 const createTva = async () => {
   return fs
     .createReadStream("./tva.csv", "latin1")

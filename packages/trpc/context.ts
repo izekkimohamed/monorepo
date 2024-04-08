@@ -1,4 +1,4 @@
-import { prisma } from "@repo/prisma";
+import { prisma } from "@repo/prisma/src";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 export const createTrpcContext = async ({ req, res }: CreateNextContextOptions) => {

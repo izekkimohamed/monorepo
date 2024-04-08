@@ -17,7 +17,7 @@ import { Trash2 } from "lucide-react";
 
 function ScannedList() {
   const { paymentMethods, setPaymentMethods } = usePaymentStore();
-  // const remaining = useStore((state) => state.remaining);
+
   const { mutate: deleteProduct } = trpc.api.data.delete.useMutation();
   const { mutate: deletewaittingTicket } = trpc.api.waitting.delete.useMutation();
   const products = useStore((state) => state.products);
@@ -52,7 +52,6 @@ function ScannedList() {
               <Trash2
                 onClick={() => {
                   deleteFromList(item.mode);
-                  // setQty(1);
                 }}
                 className="text-red-500 cursor-pointer"
                 size={20}
@@ -107,7 +106,6 @@ function ScannedList() {
                     }
                     deleteProduct(item.id);
                     removeProduct(item);
-                    // setQty(1);}
                   } else {
                     removeProduct(item);
                   }

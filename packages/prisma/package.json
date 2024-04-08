@@ -19,7 +19,6 @@
     "generate": "prisma generate --schema=./prisma/schema.prisma",
     "lint": "eslint ./src --fix",
     "prebuild": "pnpm run generate",
-    "predev": "pnpm run generate",
     "studio": "prisma studio"
   },
   "dependencies": {

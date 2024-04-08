@@ -1,4 +1,4 @@
-import { prisma } from "@repo/prisma";
+import { prisma } from "@repo/prisma/src";
 import { ClientSchema } from "../schema";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 

@@ -54,7 +54,7 @@ export type StatusProps = {
 
 const Stats = () => {
   const setActive = useSettingsStore((state) => state.toggle);
-  //TODO: set useState fro from and to date
+
   let currentDate = new Date(new Date().toLocaleDateString("en-US"));
 
   const [date, setDate] = useState<DateRange | undefined>({
@@ -64,12 +64,9 @@ const Stats = () => {
   const [data, setData] = useState<StatusProps[]>([]);
 
   function setValue(value: string) {
-    // currentDate = addHours(currentDate, 1);
     const lastWeek = {
-      // last week : last seven days
-
       start: subDays(currentDate, 7),
-      end: currentDate, // Today
+      end: currentDate,
     };
     const lastMonth = {
       start: startOfMonth(subMonths(new Date(), 1)),
@@ -83,36 +80,36 @@ const Stats = () => {
       case "today":
         setDate({
           from: currentDate,
-          to: addDays(currentDate, 1), // Tomorrow
-        }); // Today
+          to: addDays(currentDate, 1),
+        });
         break;
       case "yesterday":
         setDate({
-          from: subDays(currentDate, 1), // Yesterday
+          from: subDays(currentDate, 1),
           to: currentDate,
-        }); // Yesterday
+        });
         break;
       case "lastWeek":
         setDate({
-          from: lastWeek.start, // Last Week
+          from: lastWeek.start,
           to: lastWeek.end,
-        }); // Last Week
+        });
         break;
       case "lastMonth":
         setDate({
-          from: lastMonth.start, // Last Month
+          from: lastMonth.start,
           to: lastMonth.end,
         });
         break;
       case "lastYear":
         setDate({
-          from: lastYear.start, // Last Year
+          from: lastYear.start,
           to: lastYear.end,
-        }); // Last Year
+        });
         break;
       default:
         setDate({
-          from: addDays(currentDate, 1), // Tomorrow
+          from: addDays(currentDate, 1),
           to: currentDate,
         });
     }
@@ -126,7 +123,6 @@ const Stats = () => {
     setData(status);
   }
   const modes = getModes(data);
-  // function to reduce on data.paymentModes return total of each mode
   function totalPayment() {
     const total = data.reduce((acc, curr) => {
       return acc + curr.total;

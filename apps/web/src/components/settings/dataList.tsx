@@ -10,7 +10,6 @@ import { Checkbox } from "@repo/ui/src/components/ui/checkbox";
 import { ScrollArea } from "@repo/ui/src/components/ui/scroll-area";
 import { Input } from "@ui/components/ui/input";
 import { Label } from "@ui/components/ui/label";
-// import { Product } from "@/store";
 
 const DataList = ({
   setItems,
@@ -28,8 +27,8 @@ const DataList = ({
     if (search === "") {
       return;
     }
-    const filtered = products?.filter(
-      (product) =>
+    const filtered: Product[] = products?.filter(
+      (product: Product) =>
         product.libelle?.toLowerCase().includes(search) ||
         product.code?.toLowerCase().includes(search),
     );

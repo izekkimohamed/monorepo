@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { prisma } from "@repo/prisma";
+import { prisma } from "@repo/prisma/src";
 import { DataSchema } from "../schema";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
@@ -12,13 +12,11 @@ export const dataRouter = createTRPCRouter({
   }),
   update: publicProcedure.input(DataSchema).mutation(async ({ input }) => {
     if (input.id !== undefined) {
-      // Update operation
       return await prisma.data.update({
         where: { id: input.id },
         data: input,
       });
     } else {
-      // Create operation
       return await prisma.data.create({
         data: input,
       });

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { prisma } from "@repo/prisma";
+import { prisma } from "@repo/prisma/src";
 import { ProductSchema } from "../schema";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 

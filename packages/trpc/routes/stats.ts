@@ -1,4 +1,4 @@
-import { prisma } from "@repo/prisma";
+import { prisma } from "@repo/prisma/src";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";

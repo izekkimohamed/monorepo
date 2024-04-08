@@ -34,7 +34,6 @@ function NamPad() {
                 return;
               } else {
                 updateProduct(selectedProduct.code, parseInt(namPad));
-                //
                 resetNamPad();
               }
 

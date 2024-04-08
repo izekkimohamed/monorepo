@@ -12,19 +12,16 @@ export type TabsStore = {
   tabs: Tabs[];
   addTab: (name: string) => void;
   removeTab: (id: number) => void;
-  // updateTabProducts: (id: number, products: Data[]) => void;
   removeFromTab: (id: number, productId: number) => void;
   addToTabProducts: (id: number, newProducts: Product[]) => void;
 };
 
-// Define the Zustand store
 export const useTabsStore = create<TabsStore>()(
   persist(
     (set) => ({
       tabs: [],
       addTab: (name: string) =>
         set((state) => ({
-          // check if alredy exist
           tabs: state.tabs.find((tab) => tab.name === name)
             ? state.tabs
             : [...state.tabs, { id: state.tabs.length + 1, name, products: [] }],
@@ -54,7 +51,7 @@ export const useTabsStore = create<TabsStore>()(
         })),
     }),
     {
-      name: "tabs-store", // Key for localforage
+      name: "tabs-store",
       storage: createJSONStorage(() => localStorage),
     },
   ),

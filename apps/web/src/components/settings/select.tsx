@@ -107,7 +107,6 @@ export function CategorySettings() {
           className="float-right"
           size={"lg"}
           onClick={() => {
-            // filter the products that already exist in tabs
             const newProducts = items.filter(
               (item) =>
                 !tabs
