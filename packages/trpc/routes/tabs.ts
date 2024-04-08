@@ -38,4 +38,20 @@ export const tabsRoutes = createTRPCRouter({
         },
       });
     }),
+  removeFromTab: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.product.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          tabsId: null,
+        },
+      });
+    }),
 });

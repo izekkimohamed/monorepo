@@ -20,6 +20,7 @@ import DataList from "./dataList";
 export function CategorySettings() {
   const { mutate: createTabs } = trpc.api.tabs.create.useMutation();
   const { mutate: addToTab } = trpc.api.tabs.addToTab.useMutation();
+  const { mutate: removeFromTab } = trpc.api.tabs.removeFromTab.useMutation();
   const { data: listTabs } = trpc.api.tabs.list.useQuery();
   // const { tabs, addTab, addToTabProducts, removeFromTab } = useTabsStore();
   const [input, setInput] = React.useState("");
@@ -96,7 +97,7 @@ export function CategorySettings() {
                 <XCircle
                   className="transition-all w-7 h-7 hover:text-red-500 "
                   onClick={() => {
-                    // removeFromTab(+valueId!, item.id);
+                    removeFromTab({ id: item.id });
                     setItems((prev) => {
                       return prev.filter((p) => p !== item);
                     });
