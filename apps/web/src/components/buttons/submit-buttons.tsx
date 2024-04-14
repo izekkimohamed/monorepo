@@ -3,7 +3,6 @@ import { useTotal } from "@/hooks/useTotal";
 import { resetList, useStore } from "@/store";
 import usePaymentStore from "@/store/paymentsMethods";
 import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
-
 import { trpc } from "@repo/trpc/client";
 import { Button } from "@repo/ui/src/components/ui/button";
 import { useState } from "react";
@@ -27,7 +26,6 @@ const SubmitButtons = () => {
   function submitTotal(mode: PaymentEnum) {
     handleTotal(setIsTotal, mode);
   }
-
   if (isTotal) {
     const waitedTicket = products.some((product) => product.waittingTicketsNumber);
     try {

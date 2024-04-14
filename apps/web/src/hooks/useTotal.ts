@@ -2,15 +2,13 @@ import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
 import { useToast } from "@repo/ui/src/components/ui/use-toast";
 
 import { resetNamPad, totalProducts, useStore } from "@/store";
-import usePaymentStore, { totalPayments } from "@/store/paymentsMethods";
+import usePaymentStore from "@/store/paymentsMethods";
 
 export const useTotal = () => {
   const products = useStore.getState().products;
   const { namPad } = useStore((state) => state);
-  const { handlePaymentMethods } = usePaymentStore();
+  const { handlePaymentMethods, totalPayments } = usePaymentStore();
   const { toast } = useToast();
-
-  const remaining = totalProducts() - totalPayments();
 
   return async (setIsTotal: (isTotal: boolean) => void, mode: PaymentEnum) => {
     if (products.length < 1) {
@@ -23,65 +21,52 @@ export const useTotal = () => {
       return;
     }
 
-    const total = products.reduce((acc, curr) => acc + +curr.total, 0);
-    if (namPad === "0" || namPad === ".") {
-      resetNamPad();
-      return;
-    }
+    const total = totalProducts();
     const amount = Number(namPad);
+    const remaining = Number((totalProducts() - totalPayments()).toFixed(2));
 
-    if (amount === 0 && !remaining) {
-      let t = products.reduce((acc, curr) => acc + +curr.total, 0);
-      handlePaymentMethods(mode, t);
-
+    if (!amount && !remaining) {
+      handlePaymentMethods(mode, total);
       toast({
         title: "Change",
-        description: `${total.toFixed(2)} $`,
+        description: `amount === 0 && !remaining`,
         variant: "default",
         duration: 1000,
       });
-
       setIsTotal(true);
       resetNamPad();
-
       return;
     }
+    if (amount >= total) {
+      handlePaymentMethods(mode, total);
+      setIsTotal(true);
+      resetNamPad();
+      toast({
+        title: "Change",
+        description: `${(amount - total).toFixed(2)}€`,
+        variant: "default",
+        duration: 1000,
+      });
+      return;
+    }
+
     if (remaining > 0) {
       if (remaining > amount && amount > 0) {
         handlePaymentMethods(mode, amount);
         resetNamPad();
         return;
       } else {
-        handlePaymentMethods(mode, Number(remaining.toFixed(2)));
+        handlePaymentMethods(mode, remaining);
         resetNamPad();
         toast({
           title: "Total",
-          description: `Ticket completed `,
+          description: `Transaction Completed`,
           variant: "default",
           duration: 1000,
         });
-
         setIsTotal(true);
         return;
       }
     }
-
-    if (amount < total) {
-      handlePaymentMethods(mode, amount);
-      resetNamPad();
-      return;
-    }
-    if (amount >= total) {
-      toast({
-        title: "Change",
-        description: `${(amount - total).toFixed(2)} $`,
-        variant: "default",
-        duration: 1000,
-      });
-      resetNamPad();
-      setIsTotal(true);
-      return;
-    }
   };
 };
-//

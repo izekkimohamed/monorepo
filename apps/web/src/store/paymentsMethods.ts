@@ -11,9 +11,10 @@ interface PaymentStore {
   setPaymentMethods: (paymentMethods: TPayment[]) => void;
   resetPaymentMethods: () => void;
   handlePaymentMethods: (mode: PaymentEnum, amount: number) => void;
+  totalPayments: () => number;
 }
 
-const usePaymentStore = create<PaymentStore>((set) => ({
+const usePaymentStore = create<PaymentStore>((set, get) => ({
   paymentMethods: [],
   setPaymentMethods: (paymentMethods) => set({ paymentMethods }),
   resetPaymentMethods: () => set({ paymentMethods: [] }),
@@ -43,11 +44,7 @@ const usePaymentStore = create<PaymentStore>((set) => ({
       }
     });
   },
+  totalPayments: () => get().paymentMethods.reduce((acc, curr) => acc + curr.amount, 0),
 }));
-
-export const totalPayments = () => {
-  const products = usePaymentStore.getState().paymentMethods;
-  return Number(products.reduce((acc, curr) => acc + +curr.amount, 0).toFixed(2));
-};
 
 export default usePaymentStore;
