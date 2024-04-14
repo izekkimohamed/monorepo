@@ -105,3 +105,8 @@ export const resetNamPad = () => {
     namPad: "",
   }));
 };
+
+export const totalProducts = () => {
+  const products = useStore.getState().products;
+  return Number(products.reduce((acc, curr) => acc + +curr.total, 0).toFixed(2));
+};

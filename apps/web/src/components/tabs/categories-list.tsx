@@ -12,7 +12,6 @@ import ItemButton from "./items-buttons";
 
 const Categories = () => {
   const { data: tabs } = trpc.api.tabs.list.useQuery();
-  console.log(tabs);
   const [mount, setMount] = useState(false);
 
   useEffect(() => {

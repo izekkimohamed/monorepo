@@ -129,7 +129,6 @@ const Stats = () => {
     }, 0);
     return total;
   }
-
   return (
     <div className="col-span-1 border-l-2 border-gray-800">
       <Dialog onOpenChange={setActive}>

@@ -1,20 +1,18 @@
 import { PaymentEnum } from "@repo/prisma/generated/prisma-client";
 import { useToast } from "@repo/ui/src/components/ui/use-toast";
 
-import { resetNamPad, useStore } from "@/store";
-import usePaymentStore from "@/store/paymentsMethods";
+import { resetNamPad, totalProducts, useStore } from "@/store";
+import usePaymentStore, { totalPayments } from "@/store/paymentsMethods";
 
 export const useTotal = () => {
   const products = useStore.getState().products;
-  const namPad = useStore.getState().namPad;
+  const { namPad } = useStore((state) => state);
   const { handlePaymentMethods } = usePaymentStore();
   const { toast } = useToast();
 
-  return async (
-    remaining: number,
-    setIsTotal: (isTotal: boolean) => void,
-    mode: PaymentEnum,
-  ) => {
+  const remaining = totalProducts() - totalPayments();
+
+  return async (setIsTotal: (isTotal: boolean) => void, mode: PaymentEnum) => {
     if (products.length < 1) {
       toast({
         title: "Error",
@@ -86,3 +84,4 @@ export const useTotal = () => {
     }
   };
 };
+//

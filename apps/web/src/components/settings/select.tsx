@@ -124,7 +124,6 @@ export function CategorySettings() {
               id: +valueId,
               products: newProducts,
             });
-            console.log(newProducts);
             setItems([]);
           }}
         >

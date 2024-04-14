@@ -24,22 +24,12 @@ const SubmitButtons = () => {
   const handleTotal = useTotal();
   const [isTotal, setIsTotal] = useState<boolean>(false);
 
-  const t = products.reduce((acc, curr) => {
-    return acc + curr.total;
-  }, 0);
-  const r = paymentMethods.reduce((acc, curr) => {
-    return acc + curr.amount;
-  }, 0);
-
-  const remaining = t - r;
-
   function submitTotal(mode: PaymentEnum) {
-    handleTotal(remaining, setIsTotal, mode);
+    handleTotal(setIsTotal, mode);
   }
 
   if (isTotal) {
     const waitedTicket = products.some((product) => product.waittingTicketsNumber);
-
     try {
       if (waitedTicket) {
         deleteWaittingTicket(products[0].waittingTicketsNumber!);

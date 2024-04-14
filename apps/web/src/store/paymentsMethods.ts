@@ -17,7 +17,6 @@ const usePaymentStore = create<PaymentStore>((set) => ({
   paymentMethods: [],
   setPaymentMethods: (paymentMethods) => set({ paymentMethods }),
   resetPaymentMethods: () => set({ paymentMethods: [] }),
-
   handlePaymentMethods: (mode, amount) => {
     set((state) => {
       const modeExist = state.paymentMethods.some((item) => item.mode === mode);
@@ -45,5 +44,10 @@ const usePaymentStore = create<PaymentStore>((set) => ({
     });
   },
 }));
+
+export const totalPayments = () => {
+  const products = usePaymentStore.getState().paymentMethods;
+  return Number(products.reduce((acc, curr) => acc + +curr.amount, 0).toFixed(2));
+};
 
 export default usePaymentStore;

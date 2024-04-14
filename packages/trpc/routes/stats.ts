@@ -28,6 +28,7 @@ export const statsRouter = createTRPCRouter({
           paymentModes: true,
         },
       });
+
       return tickets;
     }),
 });
