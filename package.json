@@ -3,7 +3,7 @@
   "scripts": {
     "build": "turbo build",
     "start": "turbo start",
-    "dev": "dotenv -- turbo dev",
+    "dev": "turbo dev",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "prisma:studio": "pnpm --filter prisma run prisma:studio",
@@ -25,12 +25,13 @@
   "prisma": {
     "schema": "packages/prisma/prisma/schema.prisma"
   },
-  "packageManager": "pnpm@9.3.0",
+  "packageManager": "pnpm@9.4.0",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "engines": {
     "node": ">=18"
-  }
+  },
+  "name": "turbo"
 }
