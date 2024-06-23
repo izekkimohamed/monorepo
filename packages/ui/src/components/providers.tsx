@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 
 import { getBaseUrl } from "@repo/libs/getBaseUrl";
-import SuperJSON from "superjson";
 
 export const Providers = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(() => new QueryClient());
@@ -22,6 +21,7 @@ export const Providers = ({ children }: PropsWithChildren) => {
   );
 
   return (
+    //@ts-expect-error
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </trpc.Provider>

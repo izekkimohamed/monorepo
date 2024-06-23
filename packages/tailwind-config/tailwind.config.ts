@@ -16,6 +16,8 @@ const config: Omit<Config, "content"> = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
+        brandGreen: "hsl(var(--brand-green))",
+        brandBackground: "hsl(var(--brand-background))",
         header: "hsl(var(--header))",
         foreground: "hsl(var(--foreground))",
         primary: {
