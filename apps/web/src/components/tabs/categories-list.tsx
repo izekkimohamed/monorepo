@@ -1,27 +1,24 @@
-"use client";
-import { useTabsStore } from "@/store/tabs";
-import { trpc } from "@repo/trpc/client";
+import { serverClient as trpc } from "@repo/trpc/server";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@repo/ui/src/components/ui/tabs";
-import { useEffect, useState } from "react";
 import ItemButton from "./items-buttons";
 
-const Categories = () => {
-  const { data: tabs } = trpc.api.tabs.list.useQuery();
-  const [mount, setMount] = useState(false);
+const Categories = async () => {
+  const tabs = await trpc.api.tabs.list.query();
+  // const [mount, setMount] = useState(false);
 
-  useEffect(() => {
-    useTabsStore.persist.rehydrate();
-    setMount(true);
-  }, []);
+  // useEffect(() => {
+  //   useTabsStore.persist.rehydrate();
+  //   setMount(true);
+  // }, []);
 
   return (
     <div className="relative h-full">
-      {mount && tabs && (
+      {tabs && (
         <Tabs defaultValue={tabs[0].name || ""} className="w-full h-full">
           <TabsList className="sticky top-0 z-20 flex justify-between w-full h-16 mb-1 border-b-2 border-primary ">
             {tabs &&

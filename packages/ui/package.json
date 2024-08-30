@@ -8,7 +8,7 @@
     "lint": "eslint src/",
     "dev": "tailwindcss -i ./styles/globals.css -o ./dist/index.css --watch",
     "type-check": "tsc --noEmit",
-    "clean" : "rimraf .turbo node_modules"
+    "clean": "rimraf .turbo node_modules"
   },
   "peerDependencies": {
     "react": "^18.2.0"
@@ -36,9 +36,9 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
-    "@repo/libs": "*",
-    "@repo/prisma": "*",
-    "@repo/trpc": "*",
+    "@repo/libs": "workspace:*",
+    "@repo/prisma": "workspace:*",
+    "@repo/trpc": "workspace:*",
     "@tanstack/react-query": "^4.36.1",
     "@trpc/client": "^10.45.0",
     "@trpc/next": "^10.45.0",

@@ -1,13 +1,13 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": [
-    "**/.env.*local",
+    "**/.env",
     ".env"
   ],
   "globalEnv": [
     "DATABASE_URL"
   ],
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": [
         "^build"
