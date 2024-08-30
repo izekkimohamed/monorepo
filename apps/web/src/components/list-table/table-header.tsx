@@ -1,5 +1,4 @@
 import { serverClient as trpc } from "@repo/trpc/server";
-import { format } from "date-fns";
 
 async function TableHeader() {
   const ticketNumber = await trpc.api.ticket.getTicket.query();
@@ -10,7 +9,7 @@ async function TableHeader() {
         <span>{ticketNumber?.number! + 1}</span>
       </h2>
       <div className="w-1 bg-gray-500" />
-      <p>{format(new Date(), "dd/MM/yyyy")}</p>
+      {/* <p>{format(new Date(), "dd/MM/yyyy")}</p> */}
     </div>
   );
 }
