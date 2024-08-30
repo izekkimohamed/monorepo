@@ -1,7 +1,11 @@
-import { serverClient as trpc } from "@repo/trpc/server";
+import { prisma } from "@repo/prisma/src";
 
 async function TableHeader() {
-  const ticketNumber = await trpc.api.ticket.getTicket.query();
+  const ticketNumber = await prisma.ticket.findFirst({
+    orderBy: {
+      number: "desc",
+    },
+  });
   return (
     <div className="flex justify-center gap-5 py-3 text-2xl font-semibold border-b-2 border-gray-100 text-gray-50 ">
       <h2 className="flex items-center gap-2 ">

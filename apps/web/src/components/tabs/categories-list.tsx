@@ -1,4 +1,5 @@
-import { serverClient as trpc } from "@repo/trpc/server";
+import { prisma } from "@repo/prisma/src";
+
 import {
   Tabs,
   TabsContent,
@@ -8,7 +9,11 @@ import {
 import ItemButton from "./items-buttons";
 
 const Categories = async () => {
-  const tabs = await trpc.api.tabs.list.query();
+  const tabs = await prisma.tabs.findMany({
+    include: {
+      products: true,
+    },
+  });
   // const [mount, setMount] = useState(false);
 
   // useEffect(() => {
