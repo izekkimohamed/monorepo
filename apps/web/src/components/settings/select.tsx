@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 
+import { useSettingsStore } from "@/store/settings";
 import { Product } from "@repo/prisma/generated/prisma-client";
 import { trpc } from "@repo/trpc/client";
 import {
@@ -14,7 +15,9 @@ import {
 import { Button } from "@ui/components/ui/button";
 import { Input } from "@ui/components/ui/input";
 import { ScrollArea } from "@ui/components/ui/scroll-area";
+import { SheetClose } from "@ui/components/ui/sheet";
 import { XCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import DataList from "./dataList";
 
 export function CategorySettings() {
@@ -26,6 +29,8 @@ export function CategorySettings() {
   const [input, setInput] = React.useState("");
   const [items, setItems] = React.useState<Product[]>([]);
   const [valueId, setValueId] = React.useState<string | null>(null);
+  const toggle = useSettingsStore((state) => state.toggle);
+  const router = useRouter();
 
   React.useEffect(() => {
     setItems(listTabs?.find((tab) => tab.id.toString() === valueId)?.products || []);
@@ -86,7 +91,7 @@ export function CategorySettings() {
           </Select>
           {valueId && <DataList setItems={setItems} items={items} />}
         </div>
-        <ScrollArea className="relative w-1/2 h-auto border-2 border-gray-300 rounded-md bg-muted">
+        <ScrollArea className="relative w-1/2 h-[500px] border-2 border-gray-300 rounded-md bg-muted">
           <div className="p-3">
             {items.map((item, i) => (
               <div
@@ -108,28 +113,30 @@ export function CategorySettings() {
           </div>
         </ScrollArea>
       </div>
-      {items && valueId && (
-        <Button
-          className="float-right"
-          size={"lg"}
-          onClick={() => {
-            const newProducts = items.filter(
-              (item) =>
-                !listTabs
-                  ?.find((tab) => tab.id.toString() === valueId)
-                  ?.products?.includes(item),
-            );
-            // addToTabProducts(+valueId, newProducts);
-            addToTab({
-              id: +valueId,
-              products: newProducts,
-            });
-            setItems([]);
-          }}
-        >
-          Add
-        </Button>
-      )}
+      <SheetClose className="float-right">
+        {items && valueId && (
+          <Button
+            size={"lg"}
+            onClick={() => {
+              const newProducts = items.filter(
+                (item) =>
+                  !listTabs
+                    ?.find((tab) => tab.id.toString() === valueId)
+                    ?.products?.includes(item),
+              );
+
+              addToTab({
+                id: +valueId,
+                products: newProducts,
+              });
+              setItems([]);
+              router.refresh();
+            }}
+          >
+            Add
+          </Button>
+        )}
+      </SheetClose>
     </div>
   );
 }

@@ -53,27 +53,25 @@ const DataList = ({
         </Label>
       </form>
 
-      <ScrollArea className="relative h-[400px]">
-        <div className="grid h-full place-items-center">
-          {isLoading && <Loader className="w-5 h-5 mt-10 text-center animate-spin" />}
-          {filteredProducts &&
-            filteredProducts.map((p) => (
-              <div className="flex items-center gap-2 place-self-start" key={p.id}>
-                <Checkbox
-                  checked={items?.find((value) => value.id === p.id)?.id ? true : false}
-                  onCheckedChange={(checked) => {
-                    return checked
-                      ? setItems([...items!, p!])
-                      : setItems(items?.filter((value) => value.code !== p.code));
-                  }}
-                  id={p.libelle!}
-                />
-                <label className="font-bold truncate cursor-pointer" htmlFor={p.libelle!}>
-                  {p.libelle}
-                </label>
-              </div>
-            ))}
-        </div>
+      <ScrollArea className="relative h-[350px] ">
+        {isLoading && <Loader className="w-5 h-5 mt-10 text-center animate-spin" />}
+        {filteredProducts &&
+          filteredProducts.map((p) => (
+            <div className="flex items-center gap-2 place-self-start" key={p.id}>
+              <Checkbox
+                checked={items?.find((value) => value.id === p.id)?.id ? true : false}
+                onCheckedChange={(checked) => {
+                  return checked
+                    ? setItems([...items!, p!])
+                    : setItems(items?.filter((value) => value.code !== p.code));
+                }}
+                id={p.libelle!}
+              />
+              <label className="font-bold truncate cursor-pointer" htmlFor={p.libelle!}>
+                {p.libelle}
+              </label>
+            </div>
+          ))}
       </ScrollArea>
     </div>
   );
