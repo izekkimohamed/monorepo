@@ -1,5 +1,5 @@
-// components/ScannerIntegration.js
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+"use client";
+import { Alert, AlertDescription, AlertTitle } from "@ui/components/ui/alert";
 import { useEffect, useState } from "react";
 import { scannerConnection } from "../utils/scannerConnection";
 

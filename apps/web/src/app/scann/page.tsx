@@ -1,4 +1,5 @@
 //@ts-nocheck
+"use client";
 import ScannerIntegration from "@/components/ScannerIntegration";
 
 export default function POSPage() {
